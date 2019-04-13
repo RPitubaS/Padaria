@@ -500,7 +500,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 clientepagamento = movdao.selecionaclientepagamento(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
                 JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clientepagamento,"Bragança", JOptionPane.INFORMATION_MESSAGE);
-                //tblMovimento.clearSelection();
+                tblMovimento.clearSelection();
             }
         }
     }//GEN-LAST:event_tblMovimentodiaMouseClicked

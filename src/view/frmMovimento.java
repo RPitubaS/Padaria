@@ -1150,6 +1150,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(evt.getKeyCode()== evt.VK_ENTER){
                 ftxtValor.setEnabled(true);
                 ftxtValor.requestFocus(true);
+        }else{
+              if(evt.getKeyCode() == evt.VK_SPACE){
+                 rbEntrega.requestFocus(true);
+                 rbEntrega.setSelected(true);   
+              }
         }
     }//GEN-LAST:event_rbAvistaKeyPressed
 
@@ -1157,6 +1162,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(evt.getKeyCode()== evt.VK_ENTER){
                 ftxtValor.setEnabled(true);
                 ftxtValor.requestFocus(true);
+        }else{
+              if(evt.getKeyCode() == evt.VK_SPACE){
+                 rbVale.requestFocus(true);
+                 rbVale.setSelected(true);   
+              }
         }
     }//GEN-LAST:event_rbAprazoKeyPressed
 
@@ -1164,6 +1174,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(evt.getKeyCode()== evt.VK_ENTER){
                 ftxtValor.setEnabled(true);
                 ftxtValor.requestFocus(true);
+        }else{
+              if(evt.getKeyCode() == evt.VK_SPACE){
+                 rbAvista.requestFocus(true);
+                 rbAvista.setSelected(true);   
+              }
         }
     }//GEN-LAST:event_rbCartaoKeyPressed
 
@@ -1171,6 +1186,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(evt.getKeyCode()== evt.VK_ENTER){
                 ftxtValor.setEnabled(true);
                 ftxtValor.requestFocus(true);
+        }else{
+              if(evt.getKeyCode() == evt.VK_SPACE){
+                 rbCartao.requestFocus(true);
+                 rbCartao.setSelected(true);   
+              }
         }
     }//GEN-LAST:event_rbPagamentosKeyPressed
 
@@ -1367,6 +1387,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(evt.getKeyCode()== evt.VK_ENTER){
                 ftxtValor.setEnabled(true);
                 ftxtValor.requestFocus(true);
+        }else{
+              if(evt.getKeyCode() == evt.VK_SPACE){
+                 rbAprazo.requestFocus(true);
+                 rbAprazo.setSelected(true);   
+              }
         }
     }//GEN-LAST:event_rbEntregaKeyPressed
 
@@ -1374,6 +1399,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(evt.getKeyCode()== evt.VK_ENTER){
                 ftxtValor.setEnabled(true);
                 ftxtValor.requestFocus(true);
+        }else{
+              if(evt.getKeyCode() == evt.VK_SPACE){
+                 rbSaque.requestFocus(true);
+                 rbSaque.setSelected(true);   
+              }
         }
     }//GEN-LAST:event_rbValeKeyPressed
 
@@ -1381,6 +1411,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(evt.getKeyCode()== evt.VK_ENTER){
                 ftxtValor.setEnabled(true);
                 ftxtValor.requestFocus(true);
+        }else{
+              if(evt.getKeyCode() == evt.VK_SPACE){
+                 rbPagamentos.requestFocus(true);
+                 rbPagamentos.setSelected(true);   
+              }
         }
     }//GEN-LAST:event_rbSaqueKeyPressed
 

@@ -864,8 +864,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         lblValor.setEnabled(true);
         lblFormadepagamento.setEnabled(true);
         ftxtValor.setEnabled(true);
-        ftxtValor.requestFocus(true);
+        rbAvista.requestFocus(true);
         ftxtValor.setText("");
+        btnFecharcaixa.setEnabled(false);
         tblMovimento.clearSelection();
     
     }
@@ -1075,6 +1076,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 lblFormadepagamento.setEnabled(false);
                 btnNovo.setEnabled(true);
                 rbAvista.setSelected(true);
+                btnFecharcaixa.setEnabled(true);
                 btnNovo.requestFocus();
         //if(!ftxtValor.getText().equals("") && !ftxtValor.getText().equals("0,00") && !ftxtValor.getText().equals("0")){
            //JOptionPane.showMessageDialog(null, "Correto " + ftxtValor.getText());

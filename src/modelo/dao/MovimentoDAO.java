@@ -184,16 +184,17 @@ public class MovimentoDAO {
         
     }
      
-    public void atualizar_ponto(int idponto, Time horasaida, float caixasaida){
+    public void atualizar_ponto(int idponto, String horasaida, float caixasaida){
         
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         try{
             //SimpleDateFormat formatbr = new SimpleDateFormat("HH:mm:ss");
             //java.sql.Time sdf = new java.sql.Time(formatbr.parse(horasaida).getTime());
+             java.sql.Time sdf = new java.sql.Time(formatbrh.parse(horasaida).getTime());
             stmt = con.prepareStatement("UPDATE CARTAO_PONTO a SET a.HORA_SAIDA = ?, a.CAIXA_SAIDA = ?" +
                                         "WHERE a.ID_PONTO = ?");
-            stmt.setTime(1, horasaida);
+            stmt.setTime(1, sdf);
             stmt.setFloat(2, caixasaida);
             stmt.setInt(3, idponto);
             stmt.executeUpdate();
@@ -203,6 +204,8 @@ public class MovimentoDAO {
         //} catch (ParseException ex) {
              //JOptionPane.showMessageDialog(null, "Erro ao tentar fechar o movimento! " + ex,
                     //"Bragança", JOptionPane.ERROR_MESSAGE);
+        } catch (ParseException ex) {
+            Logger.getLogger(MovimentoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             ConexaoFirebird.closeConnection(con, stmt);
         }
@@ -325,7 +328,7 @@ public class MovimentoDAO {
         try{
             //SimpleDateFormat formatbr = new SimpleDateFormat("dd.MM.yyyy");
             java.sql.Date sdf = new java.sql.Date(formatbr.parse(agora).getTime());
-            stmt = con.prepareStatement("SELECT CP.CAIXA_ENTRADA_NOTAS,\n" + 
+            stmt = con.prepareStatement("SELECT CP.ID_PONTO, CP.CAIXA_ENTRADA_NOTAS,\n" + 
                                         "CP.CAIXA_ENTRADA_MOEDAS, US.USUARIO FROM DATA DT JOIN CARTAO_PONTO CP\n" + 
                                         "ON CP.PT_DATA = DT.ID_DATA JOIN USUARIOS US ON US.ID = CP.PT_USUARIO\n" +
                                         "WHERE DT.DATA = ? AND US.ID = ? AND CP.HORA_SAIDA is null");
@@ -334,6 +337,7 @@ public class MovimentoDAO {
             rs = stmt.executeQuery();
             Entradas entradas = new Entradas();
               while(rs.next()){
+                    entradas.setIdponto(rs.getInt("ID_PONTO"));
                     entradas.setUsuario(rs.getString("USUARIO"));
                     entradas.setValorinicialcedula(rs.getFloat("CAIXA_ENTRADA_NOTAS"));
                     entradas.setValorinicialmoedas(rs.getFloat("CAIXA_ENTRADA_MOEDAS"));
@@ -368,6 +372,27 @@ public class MovimentoDAO {
                ConexaoFirebird.closeConnection(con, stmt, rs);
         }
         return selecionamaxmovimento;
+    }
+    
+    public Time selecionarmaxhoramovimento(int movidponto){
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Time selecionamaxhoramovimento = null;
+        try{
+        stmt = con.prepareStatement("select max(HORA) AS ULTIMA_HORA from MOVIMENTO \n" +
+                             "where MOV_ID_PONTO = ?");
+        stmt.setInt(1, movidponto);
+        rs = stmt.executeQuery();
+        while(rs.next()){
+          selecionamaxhoramovimento = rs.getTime("ULTIMA_HORA");
+        }
+        }catch(SQLException ex){
+               JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao selecionar a última hora!");
+        }finally{
+               ConexaoFirebird.closeConnection(con, stmt, rs);
+        }
+        return selecionamaxhoramovimento;
     }
     
     public List<Entradas> selecionarsaida(int idponto){

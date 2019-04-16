@@ -79,6 +79,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                this.toFront();
                
     }
+    
     public frmMovimento() {
         initComponents();
         //txtTeste.setDocument(new SoNumeros());
@@ -98,6 +99,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         lblValor.setEnabled(false);
         lblFormadepagamento.setEnabled(false);
         btnNovo.requestFocus();
+        btnFecharMovimento.setVisible(false);
         JTableHeader tabela = tblMovimento.getTableHeader();
         tabela.setFont(new Font("Tahoma", Font.BOLD,12)); 
         ((DefaultTableCellRenderer)tabela.getDefaultRenderer()).setHorizontalAlignment(JLabel.RIGHT);
@@ -289,7 +291,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(tblMovimento.getSelectedRow()!= -1 && tblMovimento.getSelectedRow()!= tblMovimento.getRowCount() - 2){
            if(tblMovimento.getSelectedRow()!= -1 && tblMovimento.getSelectedRow()!= (tblMovimento.getRowCount() - 1)){
             int resultconfirm = JOptionPane.showConfirmDialog(null, "Confirma a exclusão de R$ "
-                + (String) tblMovimento.getValueAt(tblMovimento.getSelectedRow(), 8) + 
+                + (String) tblMovimento.getValueAt(tblMovimento.getSelectedRow(), 7) + 
                 " do seu arguivo de origem?",
                 "Bragança", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if(resultconfirm == 0){              
@@ -322,6 +324,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                     int hour = cal.get(Calendar.HOUR_OF_DAY);
                     txtData.setText(String.format("Data: %02d/%02d/%02d", day, month, year));
                     txtRelogio.setText(String.format("%02d:%02d:%02d hs", hour, minute, second));
+                    horaagora = String.format("%02d:%02d:%02d", hour, minute, second);
                     datahoje = String.format("%02d.%02d.%02d", day, month, year);
                     try {
                         sleep(1000);
@@ -383,6 +386,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         rbVale = new javax.swing.JRadioButton();
         rbSaque = new javax.swing.JRadioButton();
         btnFecharcaixa = new javax.swing.JButton();
+        btnFecharMovimento = new javax.swing.JButton();
 
         setClosable(true);
         setPreferredSize(new java.awt.Dimension(1340, 793));
@@ -706,6 +710,13 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             }
         });
 
+        btnFecharMovimento.setText("jButton1");
+        btnFecharMovimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharMovimentoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -723,7 +734,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                     .addComponent(rbAprazo)
                     .addComponent(rbAvista))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rbSaque)
@@ -735,7 +746,10 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ftxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(rbPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(rbPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFecharMovimento)))
                 .addGap(33, 33, 33))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -778,6 +792,10 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                     .addComponent(rbAprazo)
                     .addComponent(rbPagamentos))
                 .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnFecharMovimento)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -911,7 +929,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
        
         switch(Integer.parseInt(buttonGroup2.getSelection().getActionCommand())){
             case 1:
-                horaagora = txtRelogio.getText();
+                //horaagora = txtRelogio.getText();
                 vendaavista = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                 entrega = 0;
                 recebimentoprazo = 0;
@@ -922,7 +940,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                 break;
             case 2:
-                horaagora = txtRelogio.getText();
+                //horaagora = txtRelogio.getText();
                 vendaavista = 0;
                 entrega = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                 recebimentoprazo = 0;
@@ -933,7 +951,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                 break;
             case 3:
-                horaagora = txtRelogio.getText();
+                //horaagora = txtRelogio.getText();
                 vendaavista = 0;
                 entrega = 0;
                 recebimentoprazo = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
@@ -947,7 +965,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 }while("".equals(clienterecebprazo));
                 break;
             case 4:
-                horaagora = txtRelogio.getText();
+                //horaagora = txtRelogio.getText();
                 vendaavista = 0;
                 entrega = 0;
                 recebimentoprazo = 0;
@@ -958,7 +976,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 movimento = 0;
                 break;
             case 5:
-                horaagora = txtRelogio.getText();
+                //horaagora = txtRelogio.getText();
                 vendaavista = 0;
                 entrega = 0;
                 recebimentoprazo = 0;
@@ -972,7 +990,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 }while("".equals(funcionariovale));
                 break;
             case 6:
-                horaagora = txtRelogio.getText();
+                //horaagora = txtRelogio.getText();
                 vendaavista = 0;
                 entrega = 0;
                 recebimentoprazo = 0;
@@ -986,7 +1004,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 }while("".equals(motivosaque));
                 break;
             case 7:
-                horaagora = txtRelogio.getText();
+                //horaagora = txtRelogio.getText();
                 vendaavista = 0;
                 entrega = 0;
                 recebimentoprazo = 0;
@@ -1225,13 +1243,32 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void btnFecharcaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharcaixaActionPerformed
+        SimpleDateFormat formatbr = new SimpleDateFormat("HH:mm:ss");
         RefazerConexao rfc = new RefazerConexao();
         rfc.refazerconexao();
         lertabela();
         FecharCaixa fecharcaixa = new FecharCaixa();
-        fecharcaixa.FecharCaixa(datahoje, movidponto, horasaida, encerrarmovimento);
-        btnExcluir.setEnabled(false);
-        tblMovimento.clearSelection();
+        if(fecharcaixa.FecharCaixa(datahoje, movidponto, horaagora, encerrarmovimento) == true){
+            mnCaixa.setEnabled(false);
+            mnFecharcaixa.setEnabled(false);
+            btnCaixa.setEnabled(false);
+            mnNovousuario.setEnabled(true);
+            mnFecharNovousuario.setEnabled(false);
+            mnEntrar.setEnabled(true);
+            mnFecharEntrar.setEnabled(false);
+            btnEntrar.setEnabled(true);
+            btnLogin.setEnabled(true);
+            this.setVisible(false);
+            dtpDescktop.remove(this);
+            this.dispose();
+        }else{
+            btnNovo.requestFocus();
+        }
+        
+           btnExcluir.setEnabled(false);
+           tblMovimento.clearSelection();
+        
+
         //java.sql.Date sdf;
         //java.sql.Date data;
         //df.applyPattern("R$ ##,##0.00");
@@ -1420,12 +1457,19 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbSaqueKeyPressed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        dtpDescktop.remove(this);
+        
     }//GEN-LAST:event_formInternalFrameClosed
+
+    private void btnFecharMovimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharMovimentoActionPerformed
+        this.setVisible(false);
+        dtpDescktop.remove(this);
+        this.dispose();
+    }//GEN-LAST:event_btnFecharMovimentoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnExcluir;
+    public static javax.swing.JButton btnFecharMovimento;
     public static javax.swing.JButton btnFecharcaixa;
     public static javax.swing.JButton btnNovo;
     private javax.swing.ButtonGroup buttonGroup2;

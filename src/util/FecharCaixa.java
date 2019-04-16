@@ -37,14 +37,16 @@ import static view.frmMovimento.btnExcluir;
  */
 public class FecharCaixa {
     String horadasaida;
-    java.sql.Time horasaidanull;
+    Time horasaidanull = null;
     frmMovimento frmmovimento;
+    GerenciadordeJanelas gerenciadordejanelas = new GerenciadordeJanelas(dtpDescktop);
     DecimalFormat df = new DecimalFormat();
     DefaultTableModel modelo = (DefaultTableModel) tblMovimento.getModel();
-    public void FecharCaixa(String datahoje, int movidponto, Time horasaida, float caixasaida){
+    public boolean FecharCaixa(String datahoje, int movidponto, String horasaida, float caixasaida){
         java.sql.Date sdf;
         java.sql.Date data;
         df.applyPattern("R$ ##,##0.00");
+        boolean fechandocaixa = true;
         //String encerrarmovimentos = df.format(encerrarmovimento);
         
         SimpleDateFormat formatbr = new SimpleDateFormat("dd.MM.yyyy");
@@ -55,7 +57,7 @@ public class FecharCaixa {
                                                        , JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
         switch(fechacaixa){
                        case 0:
-                           
+                           fechandocaixa = true;
         try {
             data = new java.sql.Date(formatbr.parse("27.03.2019").getTime());
             sdf = new java.sql.Date(formatbr.parse(datahoje).getTime());
@@ -68,30 +70,38 @@ public class FecharCaixa {
                                  data = entradas.getData();
                              }
 
-                java.sql.Time sdfhorasaida = new java.sql.Time(formathr.parse(txtRelogio.getText().substring
-                                                                              (0, 8)).getTime());
+                //java.sql.Time sdfhorasaida = new java.sql.Time(formathr.parse(txtRelogio.getText().substring
+                                                                              //(0, 8)).getTime());
+                     
+                 if(data.before(sdf)){
+                     RefazerConexao rfc2 = new RefazerConexao();
+                     rfc2.refazerconexao();
+                     MovimentoDAO movimdao2 = new MovimentoDAO();
+                     horasaidanull = movimdao2.selecionarmaxhoramovimento(movidponto);
+                     if(horasaidanull == null){
+                     horadasaida = JOptionPane.showInputDialog(null, "Por favor informe a hora de sua\n"
+                                                                   + "saida. Somente números e dois\n"
+                                                                   + "pontos no formato 'hh:mm:ss'\n"
+                                                                   + "são aceitos!");
+                     //horasaidanull = new java.sql.Time(formathr.parse(horadasaida).getTime());
                      RefazerConexao rfc1 = new RefazerConexao();
                      rfc1.refazerconexao();
                      MovimentoDAO movimdao = new MovimentoDAO();
-                 if(data.before(sdf)){
-                     
-                     if(horasaida == null){
-                     horadasaida = JOptionPane.showInputDialog(null, "Por favor informe a hora de sua saida. Somente números e dois ponto no formato 'hh:mm:ss' são aceitos!");
-                         try {
-                             horasaidanull = new java.sql.Time(formathr.parse(horadasaida).getTime());
-                             movimdao.atualizar_ponto(movidponto, horasaidanull, caixasaida);
-                         } catch (ParseException ex) {
-                             JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao informar a hora de saida!",
-                                     "Bragança",JOptionPane.ERROR_MESSAGE);
-                         }
+                     movimdao.atualizar_ponto(movidponto, horadasaida, caixasaida);
                      }else{
+                     RefazerConexao rfc1 = new RefazerConexao();
+                     rfc1.refazerconexao();
+                     MovimentoDAO movimdao = new MovimentoDAO();
                      movimdao.atualizar_ponto(movidponto, horasaida, caixasaida);
                      }
                  }else{
-                     movimdao.atualizar_ponto(movidponto, sdfhorasaida, caixasaida);
+                     RefazerConexao rfc1 = new RefazerConexao();
+                     rfc1.refazerconexao();
+                     MovimentoDAO movimdao = new MovimentoDAO();
+                     movimdao.atualizar_ponto(movidponto, horasaida.toString(), caixasaida);
                  }            
-                 modelo.setNumRows(0);
-                 txtAtendentecaixa.setText("Caixa: ");
+                      modelo.setNumRows(0);
+                      txtAtendentecaixa.setText("Caixa: ");
                       txtNotasinicio.setText("Notas: ");
                       txtMoedasinicio.setText("Moedas: ");
                       txtCaixainicial.setText("Início: ");
@@ -99,11 +109,14 @@ public class FecharCaixa {
                       btnExcluir.setEnabled(false);
                       btnFecharcaixa.setEnabled(false);
                       ftxtValor.setEnabled(false);
+                      //gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
+
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Erro: " + ex);
         }
                            break;
                        case 1:
+                           fechandocaixa = false;
                            btnNovo.setEnabled(true);                          
         try {
             data = new java.sql.Date(formatbr.parse("27.03.2019").getTime());
@@ -128,6 +141,7 @@ public class FecharCaixa {
         }
                           break;
         }
+        return fechandocaixa;
     }
     
 }

@@ -35,12 +35,15 @@ import util.GerenciadordeJanelas;
 import util.GuardarUrl;
 import static view.frmEntrar.txtLognickentrar;
 import static view.frmLogin.btnCadastro;
+import static view.frmLogin.btnNovoEntrar;
 import static view.frmLogin.cbxAdministrador;
 import static view.frmLogin.txtConfsenha;
 import static view.frmLogin.txtLognick;
 import static view.frmLogin.txtNome;
 import static view.frmLogin.txtSenha;
 import static view.frmLogin.txtLogsenha;
+import static view.frmMovimento.btnFecharMovimento;
+
 
 /**
  *
@@ -96,6 +99,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             txtLognick.requestFocus();
             cbxAdministrador.setSelected(false);
             txtNome.setEnabled(true);
+            txtNome.requestFocus();
             txtSenha.setEnabled(true);
             txtConfsenha.setEnabled(true);
             cbxAdministrador.setEnabled(true);
@@ -109,6 +113,16 @@ public class frmPrincipal extends javax.swing.JFrame {
             mnFecharEntrar.setEnabled(false);
             btnEntrar.setEnabled(false);
             btnLogin.setEnabled(false);
+            
+            RefazerConexao rfcinicio = new RefazerConexao();
+            rfcinicio.refazerconexao();
+            List<Usuario> selecionandoadministrador = new ArrayList<>();
+            UsuariosDAO admindao = new UsuariosDAO();
+            selecionandoadministrador = admindao.selecionaradmin();
+            if(selecionandoadministrador.isEmpty()){
+              cbxAdministrador.setSelected(true);
+              cbxAdministrador.setEnabled(false);
+            }
             if(frmEntrar.getInstancia().isSelected()){
                gerenciadordejanelas.fecharjanelas(frmEntrar.getInstancia());
             }
@@ -376,10 +390,12 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnMovimentoActionPerformed
 
     private void btnCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaixaActionPerformed
+        //frmusuario.setVisible(false);
         //dtpDescktop.remove(frmusuario);
         //frmusuario.dispose();
         //gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
         //frmmovimentodia.setPosicaodia();
+        btnFecharMovimento.doClick();
         frmmovimentodia = new frmMovimentodia();
         dtpDescktop.add(frmmovimentodia);
         frmmovimentodia.setVisible(true);
@@ -482,11 +498,23 @@ public class frmPrincipal extends javax.swing.JFrame {
                mnEntrar.setEnabled(true);
                mnFecharEntrar.setEnabled(false);
             }
+            txtNome.setText("");
+            txtNome.setEnabled(false);
+            txtSenha.setText("");
+            txtSenha.setEnabled(false);
+            txtConfsenha.setText("");
+            txtConfsenha.setEnabled(false);
+            cbxAdministrador.setSelected(false);
+            cbxAdministrador.setEnabled(false);
+            btnCadastro.setEnabled(false);
             gerenciadordejanelas.abrirlogin(frmLogin.getInstancia());
+            frmlogin.toFront();
+            frmlogin.setSelected(true);
             mnNovousuario.setEnabled(false);
             mnFecharNovousuario.setEnabled(true);
             btnLogin.setEnabled(false);
             btnEntrar.setEnabled(true);
+            btnNovoEntrar.setEnabled(true);
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog( null,"Erro: " + ex + " ao abrir a janela de login.");
         }

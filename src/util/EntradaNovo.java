@@ -17,11 +17,21 @@ import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import view.frmEntrar;
 import view.frmMovimento;
+import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
+import static view.frmPrincipal.btnCaixa;
+import static view.frmPrincipal.btnEntrar;
+import static view.frmPrincipal.btnLogin;
 import static view.frmPrincipal.dtpDescktop;
+import static view.frmPrincipal.mnCaixa;
+import static view.frmPrincipal.mnEntrar;
+import static view.frmPrincipal.mnFecharEntrar;
+import static view.frmPrincipal.mnFecharNovousuario;
+import static view.frmPrincipal.mnFecharcaixa;
+import static view.frmPrincipal.mnNovousuario;
 
 /**
  *
@@ -81,10 +91,29 @@ public class EntradaNovo {
                             txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));  
                             frmmovimento.recebemovidponto(entradas.getIdponto());
                         }
-                        gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
+                        btnNovo.requestFocus();
+                        //mnCaixa.setEnabled(true);
+                        //mnFecharcaixa.setEnabled(true);
+                        //btnCaixa.setEnabled(true);
+                        mnEntrar.setEnabled(false);
+                        mnFecharEntrar.setEnabled(false);
+                        mnNovousuario.setEnabled(false);
+                        mnFecharNovousuario.setEnabled(false);
+                        btnEntrar.setEnabled(false);
+                        btnLogin.setEnabled(false);
+                        //gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
                  }catch(Exception ex){
                      
                      JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula no formato '00.000,00' são aceitos!");
+                     mnCaixa.setEnabled(false);
+                     mnFecharcaixa.setEnabled(false);
+                     btnCaixa.setEnabled(false);
+                     mnEntrar.setEnabled(true);
+                     mnFecharEntrar.setEnabled(false);
+                     mnNovousuario.setEnabled(true);
+                     mnFecharNovousuario.setEnabled(false);
+                     btnEntrar.setEnabled(true);
+                     btnLogin.setEnabled(true);
                      gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
                      frmmovimento.dispose(); 
                  }

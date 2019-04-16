@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.beans.PropertyVetoException;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,11 +26,17 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import modelo.bean.Entradas;
 import modelo.bean.Movimento;
 import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import util.GerenciadordeJanelas;
+import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.tblMovimento;
+import static view.frmMovimento.txtAtendentecaixa;
+import static view.frmMovimento.txtCaixainicial;
+import static view.frmMovimento.txtMoedasinicio;
+import static view.frmMovimento.txtNotasinicio;
 import static view.frmPrincipal.dtpDescktop;
 import static view.frmPrincipal.mnCaixa;
 import static view.frmPrincipal.mnFecharcaixa;
@@ -44,6 +51,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     Time horasaida;
     float encerrarmovimento;
     private static frmMovimentodia frmmovimentodia;
+    frmMovimento frmmovimento = new frmMovimento();
     GerenciadordeJanelas gerenciadordejanelas;
     DecimalFormat df = new DecimalFormat();
     List<Movimento> selecionamovimentodia = new ArrayList<>();
@@ -85,7 +93,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                     int minute = cal.get(Calendar.MINUTE);
                     int hour = cal.get(Calendar.HOUR_OF_DAY);
                     agora = String.format("%02d.%02d.%02d", day, month, year);
-                    txtDatadia.setText(String.format("Data: %02d/%02d/%02d", day, month, year));
                     horaagora = String.format("%02d:%02d:%02d", hour, minute, second);
                     txtRelogiodia.setText(String.format("%02d:%02d:%02d hs", hour, minute, second));
                     try {
@@ -103,13 +110,12 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         //lertabela();
     }
     
-    void lertabeladia() {
-        
-        
-        
+    void lertabeladia() {       
         int contador = 0;
+        String diaformatado;
         DefaultTableModel modelo = (DefaultTableModel) tblMovimentodia.getModel();
         SimpleDateFormat formatbr = new SimpleDateFormat("HH:mm.ss");
+        SimpleDateFormat formatdia = new SimpleDateFormat("dd.MM.yyyy");
         DecimalFormat dfa = new DecimalFormat();
         DecimalFormat dfc = new DecimalFormat();
         df.applyPattern("##,##0.00");
@@ -119,7 +125,8 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         RefazerConexao rfc = new RefazerConexao();
         rfc.refazerconexao();
         MovimentoDAO movdao = new MovimentoDAO();
-        selecionamovimentodia = movdao.selecionarmovimentodia(agora);
+        diaformatado = formatdia.format(dtcMovimentodia.getDate());
+        selecionamovimentodia = movdao.selecionarmovimentodia(diaformatado);
         for (Movimento m : selecionamovimentodia) {
             if(m.getMovimento() < 0){
                 float absoluto;
@@ -209,7 +216,11 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                 //encerrarmovimento = movimento;
                                //}
                             }
-                            
+                                  if(selecionamovimentodia.isEmpty()){
+                                      modelo.setNumRows(0);
+                                      JOptionPane.showMessageDialog(null, "Relatório vazio para:\n"
+                                                                    + diaformatado);
+                                  }
                        }
     
     public void cornalinha(){
@@ -288,12 +299,12 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtDatadia = new javax.swing.JTextField();
         txtRelogiodia = new javax.swing.JTextField();
         txtAtendentecaixadia = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMovimentodia = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        dtcMovimentodia = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -316,17 +327,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 204));
-
-        txtDatadia.setEditable(false);
-        txtDatadia.setBackground(new java.awt.Color(255, 153, 0));
-        txtDatadia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtDatadia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtDatadia.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtDatadia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDatadiaActionPerformed(evt);
-            }
-        });
 
         txtRelogiodia.setEditable(false);
         txtRelogiodia.setBackground(new java.awt.Color(255, 153, 0));
@@ -405,14 +405,17 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
             }
         });
 
+        dtcMovimentodia.setBackground(new java.awt.Color(255, 153, 0));
+        dtcMovimentodia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1091, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(txtDatadia, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(dtcMovimentodia, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtRelogiodia, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(txtAtendentecaixadia)
@@ -425,14 +428,17 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                        .addComponent(txtRelogiodia)
-                        .addComponent(txtAtendentecaixadia))
-                    .addComponent(txtDatadia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                            .addComponent(txtRelogiodia)
+                            .addComponent(txtAtendentecaixadia)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(dtcMovimentodia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(8, 8, 8)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addGap(6, 6, 6))
@@ -451,10 +457,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtDatadiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDatadiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDatadiaActionPerformed
 
     private void tblMovimentodiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovimentodiaMouseClicked
         String motivopagamento = null, saquefuncionario = null, valefuncionario = null, clientepagamento = null;
@@ -529,8 +531,43 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
               
        DefaultTableModel modelo = (DefaultTableModel) tblMovimentodia.getModel();
        modelo.setNumRows(0);
-              mnCaixa.setEnabled(true);
-              mnFecharcaixa.setEnabled(false);
+              //mnCaixa.setEnabled(true);
+              //mnFecharcaixa.setEnabled(false);
+              //frmmovimento = new frmMovimento();
+              //dtpDescktop.add(frmmovimento);
+              //frmmovimento.setPosicao();
+              
+           RefazerConexao refc10 = new RefazerConexao();
+           refc10.refazerconexao();
+           List<Entradas> selecionasaidanula1 = new ArrayList<>();
+           MovimentoDAO movdao30 = new MovimentoDAO();
+           selecionasaidanula1 = movdao30.selecionarsaidanull();
+           if(!selecionasaidanula1.isEmpty()){
+               java.sql.Date sdf;
+               
+                   int idpontoentrada = 0;
+                   
+                     frmmovimento = new frmMovimento();
+                     dtpDescktop.add(frmmovimento);
+                     frmmovimento.setVisible(true);
+                     frmmovimento.setPosicao();
+                     btnNovo.requestFocus();
+                   for(Entradas entradas : selecionasaidanula1){
+                       //if(entradas.getIdusuario() == idusuario){
+                           txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
+                           txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
+                           txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
+                           txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
+                           frmmovimento.recebemovidponto(entradas.getIdponto());
+                           idpontoentrada = entradas.getIdusuario();
+                           //data = formatbr.format(entradas.getData());
+                           //String[] agoradiv = agora.split("\\.");
+                           //agora = String.format("%02d/%02d/%02d", Integer.parseInt(agoradiv[0])
+                                                                // , Integer.parseInt(agoradiv[1])
+                                                                // , Integer.parseInt(agoradiv[2]));
+                      //}
+            }
+        }
               
     }//GEN-LAST:event_formInternalFrameClosing
 
@@ -541,12 +578,12 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser dtcMovimentodia;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable tblMovimentodia;
     public static javax.swing.JTextField txtAtendentecaixadia;
-    private javax.swing.JTextField txtDatadia;
     public static javax.swing.JTextField txtRelogiodia;
     // End of variables declaration//GEN-END:variables
 }

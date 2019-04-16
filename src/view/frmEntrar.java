@@ -29,6 +29,7 @@ import util.EntradaNovo;
 import util.GerenciadordeJanelas;
 import util.GuardarUrl;
 import static view.frmMovimento.btnExcluir;
+import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
@@ -300,37 +301,6 @@ public class frmEntrar extends javax.swing.JInternalFrame {
            MovimentoDAO movdao30 = new MovimentoDAO();
            selecionasaidanula1 = movdao30.selecionarsaidanull();
            if(!selecionasaidanula1.isEmpty()){
-               ///frmmovimento = new frmMovimento();
-               ///dtpDescktop.add(frmmovimento);
-               ///frmmovimento.setVisible(true);
-               ///frmmovimento.setPosicao();    
-               ///for(Entradas entradas : selecionasaidanula1){
-                           ///iddousuario = entradas.getIdusuario();
-                           ///data = formatbr.format(entradas.getData());                    
-                           ///usuario = entradas.getUsuario();
-                           
-                     ///JOptionPane.showMessageDialog(null, "Existe um caixa aberto para: '" + usuario + " na data: "
-                               ///+ data + "' é necessário fechamento!");
-                   ///if(iddousuario == idusuario){
-                      ///txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
-                      ///txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
-                      ///txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
-                      ///txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
-                      ///frmmovimento.recebemovidponto(entradas.getIdponto());
-                      ///btnNovo.setEnabled(false);
-                      ///btnFecharcaixa.setEnabled(true);
-                      ///this.dispose();
-                   ///}else{
-                       ///frmmovimento.dispose();
-                      //JOptionPane.showMessageDialog(null, "Existe um caixa aberto para: '" + usuario + " na data: "
-                               //+ data + "' é necessário fechamento!");
-                      ///this.setVisible(false);
-                      ///dtpDescktop.remove(this);                     
-                      //this.dispose();
-                   ///}
-               ///}  
-               
-               
                java.sql.Date sdf;
                
                    int idpontoentrada = 0;
@@ -339,6 +309,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      dtpDescktop.add(frmmovimento);
                      frmmovimento.setVisible(true);
                      frmmovimento.setPosicao();
+                     btnNovo.requestFocus();
                    for(Entradas entradas : selecionasaidanula1){
                        if(entradas.getIdusuario() == idusuario){
                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
@@ -357,12 +328,12 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                                       + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
                               frmmovimento.btnNovo.setEnabled(false);
                            }
-                            mnNovousuario.setEnabled(false);
-                            mnFecharNovousuario.setEnabled(false);
-                            mnEntrar.setEnabled(false);
-                            mnFecharEntrar.setEnabled(false);
-                            btnEntrar.setEnabled(false);
-                            btnLogin.setEnabled(false);
+                            //mnNovousuario.setEnabled(false);
+                            //mnFecharNovousuario.setEnabled(false);
+                            //mnEntrar.setEnabled(false);
+                            //mnFecharEntrar.setEnabled(false);
+                            //btnEntrar.setEnabled(false);
+                            //btnLogin.setEnabled(false);
                        }else{
                            usuario = entradas.getUsuario();
                            idpontoentrada = entradas.getIdponto();
@@ -385,8 +356,9 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                    mnFecharEntrar.setEnabled(false);
                    btnEntrar.setEnabled(true);
                    btnLogin.setEnabled(true);
+                   btnCaixa.setEnabled(false);
                    dtpDescktop.remove(frmMovimento.getInstancia());
-                       frmmovimento.dispose();
+                   frmmovimento.dispose();
                    } 
                    dtpDescktop.remove(this);
                    this.dispose();                       
@@ -414,7 +386,8 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      frmmovimento = new frmMovimento();
                      dtpDescktop.add(frmmovimento);
                      frmmovimento.setVisible(true);
-                     frmmovimento.setPosicao();                  
+                     frmmovimento.setPosicao();   
+                     btnNovo.requestFocus();
                      valorinicialn = Float.parseFloat(valorinicialmoedas.replaceAll("\\.", "").replaceAll(",","."));
                      valorinicialmoedas = obj_formato.format(valorinicialn);
                      RefazerConexao refc1 = new RefazerConexao();
@@ -460,6 +433,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      btnLogin.setEnabled(true);
                      
                  }   
+                  this.setVisible(false);
                   dtpDescktop.remove(this);
                   this.dispose();
            }else{
@@ -504,44 +478,64 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            MovimentoDAO movdao5 = new MovimentoDAO();
                            selecionaentradahoje = movdao5.selecionarentrada(agora, idusuario);
                            
-                           try {
-                               gerenciadordejanelas.abrirjanelas(frmMovimento.getInstancia());
-                               for(Entradas entradas : selecionaentradahoje){
-                                   txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
-                                   txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
-                                   txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
-                                   txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
-                                   frmmovimento.recebemovidponto(entradas.getIdponto());
-                               }
-                           } catch (PropertyVetoException ex) {
-                               JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar abrir "
-                                       + "janela de movimento!");
-                           }                           
+                           frmmovimento = new frmMovimento();
+                           dtpDescktop.add(frmmovimento);
+                           frmmovimento.setVisible(true);
+                           frmmovimento.setPosicao();
+                           
+                           for(Entradas entradas : selecionaentradahoje){
+                               txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
+                               txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
+                               txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
+                               txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
+                               frmmovimento.recebemovidponto(entradas.getIdponto());
+                           }
+                           btnNovo.requestFocus();
+                           //mnCaixa.setEnabled(true);
+                           //mnFecharcaixa.setEnabled(true);
+                           //btnCaixa.setEnabled(true);
+                           mnEntrar.setEnabled(false);
+                           mnFecharEntrar.setEnabled(false);
+                           mnNovousuario.setEnabled(false);
+                           mnFecharNovousuario.setEnabled(false);
+                           btnEntrar.setEnabled(false);
+                           btnLogin.setEnabled(false);                           
                            break;
                        case 1:
                            EntradaNovo entradanovo = new EntradaNovo();
                            entradanovo.EntradaNovo(agora, horaagora, iddata, idusuario);                           
                            break;
                        case 2:
+                           mnCaixa.setEnabled(false);
+                           mnFecharcaixa.setEnabled(false);
+                           btnCaixa.setEnabled(false);
+                           mnEntrar.setEnabled(true);
+                           mnFecharEntrar.setEnabled(false);
+                           mnNovousuario.setEnabled(true);
+                           mnFecharNovousuario.setEnabled(false);
+                           btnEntrar.setEnabled(true);
+                           btnLogin.setEnabled(true);
+                           this.setVisible(false);
                            dtpDescktop.remove(this);
                            this.dispose();
                            break;
                    }
-                   dtpDescktop.remove(this);
+                   //mnCaixa.setEnabled(false);
+                   //mnFecharcaixa.setEnabled(false);
+                   //btnCaixa.setEnabled(false);
+                  // mnEntrar.setEnabled(true);
+                  // mnFecharEntrar.setEnabled(false);
+                  // mnNovousuario.setEnabled(true);
+                  // mnFecharNovousuario.setEnabled(false);
+                  // btnEntrar.setEnabled(true);
+                  // btnLogin.setEnabled(true);
+                  // dtpDescktop.remove(this);
                    this.dispose();
                }
                 dtpDescktop.remove(this);
                 this.dispose();                    
            }
-                     //mnCaixa.setEnabled(false);
-                     //mnFecharcaixa.setEnabled(false);
-                     btnCaixa.setEnabled(false);
-                     mnEntrar.setEnabled(true);
-                     mnFecharEntrar.setEnabled(false);
-                     mnNovousuario.setEnabled(true);
-                     mnFecharNovousuario.setEnabled(false);
-                     btnEntrar.setEnabled(true);
-                     btnLogin.setEnabled(true);
+                     
         }
            
         }else{

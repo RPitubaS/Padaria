@@ -459,7 +459,8 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblMovimentodiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovimentodiaMouseClicked
-        String motivopagamento = null, saquefuncionario = null, valefuncionario = null, clientepagamento = null;
+        String motivopagamento = null, saquefuncionario = null, valefuncionario = null,
+               clientepagamento = null, clienteentrega = null;
         //btnExcluir.setEnabled(true);
         //btnNovo.setEnabled(false);
         if(tblMovimentodia.getSelectedRow() != -1 && tblMovimentodia.getSelectedRow() != 
@@ -503,6 +504,16 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
                 JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clientepagamento,"Bragança", JOptionPane.INFORMATION_MESSAGE);
                 //tblMovimento.clearSelection();
+            }
+            if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() > 0
+               && selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getEntrega() > 0){
+               RefazerConexao rfc = new RefazerConexao();
+               rfc.refazerconexao();
+               MovimentoDAO movdao = new MovimentoDAO();
+               clienteentrega = movdao.selecionaclienteentrega(selecionamovimentodia.get
+                                                            (tblMovimentodia.getSelectedRow()).getIdmovimento());
+               JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+               //tblMovimento.clearSelection();
             }
         }
     }//GEN-LAST:event_tblMovimentodiaMouseClicked

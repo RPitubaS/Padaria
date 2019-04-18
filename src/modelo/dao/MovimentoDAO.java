@@ -184,6 +184,23 @@ public class MovimentoDAO {
         
     }
      
+      public void salvar_entrega(int pgtomovi, String fregues){
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        try{
+        stmt = con.prepareStatement("insert into ENTREGA(ET_ID_MOVIMENTO, FREGUES) values(?, ?)");
+        stmt.setInt(1, pgtomovi);
+        stmt.setString(2, fregues);
+        stmt.executeUpdate();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar salvar entrega!","Bragança",
+                    JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConexaoFirebird.closeConnection(con, stmt);
+        }
+        
+    }
+     
     public void atualizar_ponto(int idponto, String horasaida, float caixasaida){
         
         Connection con = ConexaoFirebird.getConnection();
@@ -317,6 +334,26 @@ public class MovimentoDAO {
                     JOptionPane.ERROR_MESSAGE);
         }finally{
             return clientepagamento;
+        }
+    }
+    
+    public String selecionaclienteentrega(int pgidmovimento){
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String clienteentrega = null;
+        try{
+            stmt = con.prepareStatement("select FREGUES from ENTREGA where ET_ID_MOVIMENTO = ?");
+            stmt.setInt(1, pgidmovimento);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                  clienteentrega = rs.getString("FREGUES");
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao buscar o nome do cliente!", "Bragança",
+                    JOptionPane.ERROR_MESSAGE);
+        }finally{
+            return clienteentrega;
         }
     }
     

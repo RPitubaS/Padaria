@@ -216,11 +216,17 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                 //encerrarmovimento = movimento;
                                //}
                             }
+                            
+                                  RefazerConexao refc11 = new RefazerConexao();
+                                  refc11.refazerconexao();
+                                  MovimentoDAO movdao31 = new MovimentoDAO();
+                                  txtVendasdia.setText("Vendas:  " + movdao31.selecionacontagem(diaformatado));
                                   if(selecionamovimentodia.isEmpty()){
                                       modelo.setNumRows(0);
                                       JOptionPane.showMessageDialog(null, "Relatório vazio para:\n"
                                                                     + diaformatado);
                                   }
+                                  
                        }
     
     public void cornalinha(){
@@ -305,6 +311,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         tblMovimentodia = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         dtcMovimentodia = new com.toedter.calendar.JDateChooser();
+        txtVendasdia = new javax.swing.JTextField();
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -408,6 +415,16 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         dtcMovimentodia.setBackground(new java.awt.Color(255, 153, 0));
         dtcMovimentodia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
+        txtVendasdia.setBackground(new java.awt.Color(255, 153, 0));
+        txtVendasdia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtVendasdia.setText("Vendas:");
+        txtVendasdia.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtVendasdia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVendasdiaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -417,8 +434,10 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 .addComponent(dtcMovimentodia, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtRelogiodia, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtAtendentecaixadia)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtVendasdia, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -428,17 +447,15 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                            .addComponent(txtRelogiodia)
-                            .addComponent(txtAtendentecaixadia)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(dtcMovimentodia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(txtRelogiodia)
+                        .addComponent(txtAtendentecaixadia)
+                        .addComponent(txtVendasdia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dtcMovimentodia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addGap(6, 6, 6))
@@ -587,6 +604,10 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         dtpDescktop.remove(this);
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void txtVendasdiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVendasdiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtVendasdiaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser dtcMovimentodia;
@@ -596,5 +617,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     public static javax.swing.JTable tblMovimentodia;
     public static javax.swing.JTextField txtAtendentecaixadia;
     public static javax.swing.JTextField txtRelogiodia;
+    private javax.swing.JTextField txtVendasdia;
     // End of variables declaration//GEN-END:variables
 }

@@ -34,6 +34,7 @@ import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
+import static view.frmMovimento.txtVendas;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
 import static view.frmPrincipal.btnLogin;
@@ -310,6 +311,10 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      frmmovimento.setVisible(true);
                      frmmovimento.setPosicao();
                      btnNovo.requestFocus();
+                     RefazerConexao refc11 = new RefazerConexao();
+                     refc11.refazerconexao();
+                     MovimentoDAO movdao31 = new MovimentoDAO();
+                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
                    for(Entradas entradas : selecionasaidanula1){
                        if(entradas.getIdusuario() == idusuario){
                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
@@ -323,6 +328,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            agora = String.format("%02d/%02d/%02d", Integer.parseInt(agoradiv[0])
                                                                  , Integer.parseInt(agoradiv[1])
                                                                  , Integer.parseInt(agoradiv[2]));
+                           
                            if(!data.equals(agora)){
                               JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ", por favor efetue"
                                       + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
@@ -419,6 +425,10 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                             txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));     
                             frmmovimento.recebemovidponto(entradas.getIdponto());
                         }
+                     RefazerConexao refc11 = new RefazerConexao();
+                     refc11.refazerconexao();
+                     MovimentoDAO movdao31 = new MovimentoDAO();
+                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
                  }catch(Exception ex){
                      JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula no formato '00.000,00' são aceitos!");                    
                      frmmovimento.dispose();
@@ -490,6 +500,10 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                                txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
                                frmmovimento.recebemovidponto(entradas.getIdponto());
                            }
+                           RefazerConexao refc11 = new RefazerConexao();
+                           refc11.refazerconexao();
+                           MovimentoDAO movdao31 = new MovimentoDAO();
+                           txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
                            btnNovo.requestFocus();
                            //mnCaixa.setEnabled(true);
                            //mnFecharcaixa.setEnabled(true);

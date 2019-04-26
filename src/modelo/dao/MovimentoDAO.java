@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import modelo.bean.Datas;
 import modelo.bean.Entradas;
 import modelo.bean.Movimento;
+import modelo.bean.ReservaDeCaixa;
 import produzconexao.ConexaoFirebird;
 
 /**
@@ -200,7 +201,59 @@ public class MovimentoDAO {
         }
         
     }
+      
+      public void salvar_contagem(int iddata, int quantidadefregues){
+      
+          Connection con = ConexaoFirebird.getConnection();
+          PreparedStatement stmt = null;
+          try{
+              stmt = con.prepareStatement("insert into CONTA_FREGUES(CONTFREGUES_ID_DATA, CONTAGEM)"
+                                         + "values(?, ?)");
+              stmt.setInt(1, iddata);
+              stmt.setInt(2, quantidadefregues);
+              stmt.executeUpdate();
+          }catch(SQLException ex){
+              JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar salvar\n"
+                                            + " a quantidade de Clientes!");
+          }finally{
+              ConexaoFirebird.closeConnection(con, stmt);
+          }
+      }
+      
+      public void salvar_reservadecaixa(int reseridmovimento, float notas, float moedas){
+      
+          Connection con = ConexaoFirebird.getConnection();
+          PreparedStatement stmt = null;
+          try{
+              stmt = con.prepareStatement("insert into RESERVADECAIXA(RESER_ID_MOVIMENTO, NOTAS, MOEDAS)"
+                                          + "values(?, ?, ?)");
+              stmt.setInt(1, reseridmovimento);
+              stmt.setFloat(2, notas);
+              stmt.setFloat(3, moedas);
+              stmt.executeUpdate();
+          }catch(SQLException ex){
+              JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao salvar reserva de caixa!");
+          }finally{
+              ConexaoFirebird.closeConnection(con, stmt);
+          }
+      }
      
+      public void atualizar_contagem(int iddata, int quantidadedefregues){
+      
+           Connection con = ConexaoFirebird.getConnection();
+           PreparedStatement stmt = null;
+           try{
+               stmt = con.prepareStatement("update CONTA_FREGUES cf set cf.CONTAGEM = ?"
+                                           + "where cf.CONTFREGUES_ID_DATA = ?");
+               stmt.setInt(1, quantidadedefregues);
+               stmt.setInt(2, iddata);
+               stmt.executeUpdate();
+           }catch(SQLException ex){
+               JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar\n"
+                                             + " atualizar contagem de clientes!");
+           }finally{
+           }
+      }
     public void atualizar_ponto(int idponto, String horasaida, float caixasaida){
         
         Connection con = ConexaoFirebird.getConnection();
@@ -222,11 +275,32 @@ public class MovimentoDAO {
              //JOptionPane.showMessageDialog(null, "Erro ao tentar fechar o movimento! " + ex,
                     //"Bragança", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException ex) {
-            Logger.getLogger(MovimentoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + " no fechamento de ponto!");
         }finally{
             ConexaoFirebird.closeConnection(con, stmt);
         }
     }
+    
+    public void atualizar_reservadecaixa(int reseridmovimento, float notas, float moedas ){
+     
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        try{
+            stmt = con.prepareStatement("update RESERVADECAIXA rc SET rc.NOTAS = ?, rc.MOEDAS = ? "
+                                        + "where rc.RESER_ID_MOVIMENTO = ?");
+            stmt.setFloat(1, notas);
+            stmt.setFloat(2, moedas);
+            stmt.setInt(3, reseridmovimento);
+            stmt.executeUpdate();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao\n"
+                                          + "atualizar reserva de caixa\n"
+                                          + "para o dia seguinte!");
+        }finally{
+            ConexaoFirebird.closeConnection(con, stmt);
+        }
+    }
+    
     public List<Datas> selecionardata(String agora){
     
         Connection con = ConexaoFirebird.getConnection();
@@ -595,12 +669,13 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<Entradas> selecionaultimoponto = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select ID_PONTO from CARTAO_PONTO where ID_PONTO = (select max(ID_PONTO)"
+            stmt = con.prepareStatement("select ID_PONTO, PT_DATA from CARTAO_PONTO where ID_PONTO = (select max(ID_PONTO)"
                                         + "FROM CARTAO_PONTO)");
             rs = stmt.executeQuery();
             Entradas entradas = new Entradas();
             while(rs.next()){
             entradas.setIdusuario(rs.getInt("ID_PONTO"));
+            entradas.setIddata(rs.getInt("PT_DATA"));
             selecionaultimoponto.add(entradas);
             }
         }catch(SQLException ex){
@@ -611,6 +686,58 @@ public class MovimentoDAO {
         return selecionaultimoponto;
     }
     
+    public int selecionacontagem(String agora){
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int selecionacontfregues = 0;
+         
+        try{
+            java.sql.Date diadata = new java.sql.Date(formatbr.parse(agora).getTime());
+            stmt = con.prepareStatement("select ctf.CONTAGEM from CONTA_FREGUES ctf join DATA dt on"
+                                       + " ctf.CONTFREGUES_ID_DATA = dt.ID_DATA where dt.DATA"
+                                       + " = ?");
+            stmt.setDate(1, diadata);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+               selecionacontfregues = rs.getInt("CONTAGEM");
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar a contagem do dia!");
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar data para contagem do dia!");
+        }finally{
+            ConexaoFirebird.closeConnection(con, stmt, rs);
+        }
+        return selecionacontfregues;
+    }
+    
+    public List<ReservaDeCaixa> selecionarultimoreservadecaixa(){
+    
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<ReservaDeCaixa> selecionaultimoreservadecaixa = new ArrayList<>();
+        try{
+            stmt = con.prepareStatement("select * from RESERVADECAIXA where ID_RESERVA = (select "
+                                        + "max(ID_RESERVA) from RESERVADECAIXA)");
+            rs = stmt.executeQuery();
+            ReservaDeCaixa reservadecaixa = new ReservaDeCaixa();
+            while(rs.next()){
+                  reservadecaixa.setIdreserva(rs.getInt("ID_RESERVA"));
+                  reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_MOVIMENTO"));
+                  reservadecaixa.setNotas(rs.getFloat("NOTAS"));
+                  reservadecaixa.setMoedas(rs.getFloat("MOEDAS"));
+                  selecionaultimoreservadecaixa.add(reservadecaixa);
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar última reserva de caixa!");
+        }finally{
+            ConexaoFirebird.closeConnection(con, stmt, rs);
+        }
+        return selecionaultimoreservadecaixa;
+    }
+    
     public void salvar_ponto(int iddata, int idusuario, float valorinicialnotas, float valorinicialmoedas){
     
         Connection con = ConexaoFirebird.getConnection();
@@ -618,7 +745,7 @@ public class MovimentoDAO {
         
         try{
             stmt = con.prepareStatement("INSERT INTO CARTAO_PONTO(PT_DATA, PT_USUARIO,HORA_ENTRADA, CAIXA_ENTRADA)" +
-                                        "VALUES(?, ?, 'time', ?,?");
+                                        "VALUES(?, ?, 'time', ?, ?");
             stmt.setInt(1, iddata);
             stmt.setInt(2, idusuario);
             stmt.setFloat(4, valorinicialmoedas);
@@ -644,9 +771,25 @@ public class MovimentoDAO {
               stmt.setInt(1, idmovimento);
               stmt.executeUpdate();
           }catch(SQLException ex){
-              JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentr deletar!");
+              JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar deletar movimento!");
           }finally{
               ConexaoFirebird.closeConnection(con, stmt);
           }
+    }
+    
+    public void excluir_reservadecaixa(int idreserva){
+    
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        
+        try{
+            stmt = con.prepareStatement("delete from RESERVADECAIXA where ID_RESERVA = ?");
+            stmt.setInt(1, idreserva);
+            stmt.executeUpdate();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro :" + ex + "\n ao tentar deletar reserva de caixa!");
+        }finally{
+            ConexaoFirebird.closeConnection(con, stmt);
+        }
     }
 }

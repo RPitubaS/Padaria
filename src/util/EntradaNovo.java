@@ -22,6 +22,7 @@ import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
+import static view.frmMovimento.txtVendas;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
 import static view.frmPrincipal.btnLogin;
@@ -91,6 +92,10 @@ public class EntradaNovo {
                             txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));  
                             frmmovimento.recebemovidponto(entradas.getIdponto());
                         }
+                        RefazerConexao refc11 = new RefazerConexao();
+                        refc11.refazerconexao();
+                        MovimentoDAO movdao31 = new MovimentoDAO();
+                        txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
                         btnNovo.requestFocus();
                         //mnCaixa.setEnabled(true);
                         //mnFecharcaixa.setEnabled(true);

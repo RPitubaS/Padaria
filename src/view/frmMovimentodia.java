@@ -31,7 +31,8 @@ import modelo.bean.Movimento;
 import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import util.GerenciadordeJanelas;
-import static view.frmMovimento.btnNovo;
+import static view.frmMovimento.ftxtValor;
+//import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.tblMovimento;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
@@ -579,7 +580,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                      dtpDescktop.add(frmmovimento);
                      frmmovimento.setVisible(true);
                      frmmovimento.setPosicao();
-                     btnNovo.requestFocus();
+                     ftxtValor.requestFocus();
                    for(Entradas entradas : selecionasaidanula1){
                        //if(entradas.getIdusuario() == idusuario){
                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());

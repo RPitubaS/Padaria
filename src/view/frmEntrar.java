@@ -29,7 +29,8 @@ import util.EntradaNovo;
 import util.GerenciadordeJanelas;
 import util.GuardarUrl;
 import static view.frmMovimento.btnExcluir;
-import static view.frmMovimento.btnNovo;
+import static view.frmMovimento.ftxtValor;
+//import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
@@ -310,7 +311,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      dtpDescktop.add(frmmovimento);
                      frmmovimento.setVisible(true);
                      frmmovimento.setPosicao();
-                     btnNovo.requestFocus();
+                     ftxtValor.requestFocus();
                      RefazerConexao refc11 = new RefazerConexao();
                      refc11.refazerconexao();
                      MovimentoDAO movdao31 = new MovimentoDAO();
@@ -332,7 +333,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            if(!data.equals(agora)){
                               JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ", por favor efetue"
                                       + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
-                              frmmovimento.btnNovo.setEnabled(false);
+                              frmmovimento.ftxtValor.requestFocus();
                            }
                             //mnNovousuario.setEnabled(false);
                             //mnFecharNovousuario.setEnabled(false);
@@ -393,7 +394,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      dtpDescktop.add(frmmovimento);
                      frmmovimento.setVisible(true);
                      frmmovimento.setPosicao();   
-                     btnNovo.requestFocus();
+                     ftxtValor.requestFocus();
                      valorinicialn = Float.parseFloat(valorinicialmoedas.replaceAll("\\.", "").replaceAll(",","."));
                      valorinicialmoedas = obj_formato.format(valorinicialn);
                      RefazerConexao refc1 = new RefazerConexao();
@@ -504,7 +505,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            refc11.refazerconexao();
                            MovimentoDAO movdao31 = new MovimentoDAO();
                            txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
-                           btnNovo.requestFocus();
+                           ftxtValor.requestFocus();
                            //mnCaixa.setEnabled(true);
                            //mnFecharcaixa.setEnabled(true);
                            //btnCaixa.setEnabled(true);

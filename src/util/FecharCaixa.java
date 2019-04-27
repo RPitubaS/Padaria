@@ -20,7 +20,7 @@ import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import view.frmMovimento;
 import static view.frmMovimento.btnFecharcaixa;
-import static view.frmMovimento.btnNovo;
+//import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.ftxtValor;
 import static view.frmMovimento.tblMovimento;
 import static view.frmMovimento.txtAtendentecaixa;
@@ -105,7 +105,7 @@ public class FecharCaixa {
                       txtNotasinicio.setText("Notas: ");
                       txtMoedasinicio.setText("Moedas: ");
                       txtCaixainicial.setText("Início: ");
-                      btnNovo.setEnabled(false);
+                      ftxtValor.setEnabled(false);
                       btnExcluir.setEnabled(false);
                       btnFecharcaixa.setEnabled(false);
                       ftxtValor.setEnabled(false);
@@ -117,7 +117,7 @@ public class FecharCaixa {
                            break;
                        case 1:
                            fechandocaixa = false;
-                           btnNovo.setEnabled(true);                          
+                           ftxtValor.setEnabled(true);                          
         try {
             data = new java.sql.Date(formatbr.parse("27.03.2019").getTime());
             sdf = new java.sql.Date(formatbr.parse(datahoje).getTime());

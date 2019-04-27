@@ -89,21 +89,22 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     public frmMovimento() {
         initComponents();
         currentTime();
-        ftxtValor.setEnabled(false);
-        rbAvista.setEnabled(false);
-        rbEntrega.setEnabled(false);
-        rbAprazo.setEnabled(false);
-        rbCartao.setEnabled(false);
-        rbSaque.setEnabled(false);
-        rbVale.setEnabled(false);
-        rbPagamentos.setEnabled(false);
-        rdDiferencaNeg.setEnabled(false);
+//        ftxtValor.setEnabled(false);
+//        rbAvista.setEnabled(false);
+//        rbEntrega.setEnabled(false);
+//        rbAprazo.setEnabled(false);
+//        rbCartao.setEnabled(false);
+//        rbSaque.setEnabled(false);
+//        rbVale.setEnabled(false);
+//        rbPagamentos.setEnabled(false);
+//        rdDiferencaNeg.setEnabled(false);
         btnExcluir.setEnabled(false);
-        btnNovo.requestFocus(true);
+//        btnNovo.requestFocus(true);
         rbAvista.setSelected(true);
-        lblValor.setEnabled(false);
-        lblFormadepagamento.setEnabled(false);
-        btnNovo.requestFocus();
+//        lblValor.setEnabled(false);
+//        lblFormadepagamento.setEnabled(false);
+        ftxtValor.requestFocus();
+//        btnNovo.requestFocus();
         btnFecharMovimento.setVisible(false);
         ftxtNotasreserva.setDocument(new SoNumeros());
         ftxtMoedasreserva.setDocument(new SoNumeros());
@@ -393,7 +394,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         rbPagamentos = new javax.swing.JRadioButton();
         lblValor = new javax.swing.JLabel();
         lblFormadepagamento = new javax.swing.JLabel();
-        btnNovo = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         ftxtValor = new javax.swing.JFormattedTextField();
         rbEntrega = new javax.swing.JRadioButton();
@@ -669,25 +669,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         lblFormadepagamento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFormadepagamento.setText("Forma de Pagamento:");
 
-        btnNovo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cash_icon-icons.com_51028.png"))); // NOI18N
-        btnNovo.setText("Novo");
-        btnNovo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                btnNovoFocusGained(evt);
-            }
-        });
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovoActionPerformed(evt);
-            }
-        });
-        btnNovo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnNovoKeyPressed(evt);
-            }
-        });
-
         btnExcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete_21455.png"))); // NOI18N
         btnExcluir.setText("Excluir");
@@ -707,6 +688,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         ftxtValor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ftxtValor.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         ftxtValor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtValorFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 ftxtValorFocusLost(evt);
             }
@@ -824,7 +808,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         rdDiferencaPos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         rdDiferencaPos.setForeground(new java.awt.Color(51, 51, 255));
         rdDiferencaPos.setText("Diferença +");
-        rdDiferencaPos.setEnabled(false);
         rdDiferencaPos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 rdDiferencaPosFocusGained(evt);
@@ -1020,12 +1003,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(89, 89, 89)
                         .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
-                        .addComponent(btnFecharcaixa))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(btnFecharcaixa)
+                        .addGap(120, 120, 120))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1061,7 +1043,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(pnlCaixareservado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                                 .addComponent(btnFecharMovimento)))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -1095,9 +1077,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                             .addComponent(rbAprazo)
                             .addComponent(rbPagamentos)
                             .addComponent(rdDiferencaPos)))
-                    .addComponent(btnFecharcaixa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFecharcaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -1197,32 +1178,32 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         alinhamentocelula();
     }
     
-    public void botaonovo(){
-    
-        ftxtValor.setText("");
-        ftxtValor.setEnabled(true);
-        rbAvista.setEnabled(true);
-        rbEntrega.setEnabled(true);
-        rbAprazo.setEnabled(true);
-        rbCartao.setEnabled(true);
-        rbSaque.setEnabled(true);
-        rbVale.setEnabled(true);
-        rbPagamentos.setEnabled(true);
-        rdDiferencaNeg.setEnabled(true);
-        rdDiferencaPos.setEnabled(true);
-        rbAvista.setSelected(true);
-        rbAvista.requestFocus(true);
-        btnNovo.setEnabled(false);
-        btnExcluir.setEnabled(false);
-        lblValor.setEnabled(true);
-        lblFormadepagamento.setEnabled(true);
-        ftxtValor.setEnabled(true);
-        rbAvista.requestFocus(true);
-        ftxtValor.setText("");
-        btnFecharcaixa.setEnabled(false);
-        tblMovimento.clearSelection();
-    
-    }
+//    public void botaonovo(){
+//    
+//        ftxtValor.setText("");
+//        ftxtValor.setEnabled(true);
+//        rbAvista.setEnabled(true);
+//        rbEntrega.setEnabled(true);
+//        rbAprazo.setEnabled(true);
+//        rbCartao.setEnabled(true);
+//        rbSaque.setEnabled(true);
+//        rbVale.setEnabled(true);
+//        rbPagamentos.setEnabled(true);
+//        rdDiferencaNeg.setEnabled(true);
+//        rdDiferencaPos.setEnabled(true);
+//        rbAvista.setSelected(true);
+//        rbAvista.requestFocus(true);
+//        btnNovo.setEnabled(false);
+//        btnExcluir.setEnabled(false);
+//        lblValor.setEnabled(true);
+//        lblFormadepagamento.setEnabled(true);
+//        ftxtValor.setEnabled(true);
+//        rbAvista.requestFocus(true);
+//        ftxtValor.setText("");
+//        btnFecharcaixa.setEnabled(false);
+//        tblMovimento.clearSelection();
+//    
+//    }
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
         
     }//GEN-LAST:event_formInternalFrameActivated
@@ -1259,6 +1240,24 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formKeyPressed
 
     private void rdDiferencaPosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rdDiferencaPosKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rbPagamentos.requestFocus(true);
+                rbPagamentos.setSelected(true);
+                break;
+            case 38:
+                rdDiferencaNeg.requestFocus(true);
+                rdDiferencaNeg.setSelected(true);
+                break;
+            case 39:
+                rbAprazo.requestFocus(true);
+                rbAprazo.setSelected(true);
+                break;
+            case 40:
+                rbCartao.requestFocus(true);
+                rbCartao.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -1284,6 +1283,24 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rdDiferencaPosFocusGained
 
     private void rdDiferencaNegKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rdDiferencaNegKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rbSaque.requestFocus(true);
+                rbSaque.setSelected(true);
+                break;
+            case 38:
+                rbCartao.requestFocus(true);
+                rbCartao.setSelected(true);
+                break;
+            case 39:
+                rbEntrega.requestFocus(true);
+                rbEntrega.setSelected(true);
+                break;
+            case 40:
+                rdDiferencaPos.requestFocus(true);
+                rdDiferencaPos.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -1334,7 +1351,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             dtpDescktop.remove(this);
             this.dispose();
         }else{
-            btnNovo.requestFocus();
+            ftxtValor.requestFocus();
         }
 
         btnExcluir.setEnabled(false);
@@ -1343,6 +1360,24 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFecharcaixaActionPerformed
 
     private void rbSaqueKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbSaqueKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rbEntrega.requestFocus(true);
+                rbEntrega.setSelected(true);
+                break;
+            case 38:
+                rbVale.requestFocus(true);
+                rbVale.setSelected(true);
+                break;
+            case 39:
+                rdDiferencaNeg.requestFocus(true);
+                rdDiferencaNeg.setSelected(true);
+                break;
+            case 40:
+                rbPagamentos.requestFocus(true);
+                rbPagamentos.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -1368,6 +1403,24 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbSaqueFocusGained
 
     private void rbValeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbValeKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rbAvista.requestFocus(true);
+                rbAvista.setSelected(true);
+                break;
+            case 38:
+                rbPagamentos.requestFocus(true);
+                rbPagamentos.setSelected(true);
+                break;
+            case 39:
+                rbCartao.requestFocus(true);
+                rbCartao.setSelected(true);
+                break;
+            case 40:
+                rbSaque.requestFocus(true);
+                rbSaque.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -1393,6 +1446,24 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbValeFocusGained
 
     private void rbEntregaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbEntregaKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rdDiferencaNeg.requestFocus(true);
+                rdDiferencaNeg.setSelected(true);
+                break;
+            case 38:
+                rbAvista.requestFocus(true);
+                rbAvista.setSelected(true);
+                break;
+            case 39:
+                rbSaque.requestFocus(true);
+                rbSaque.setSelected(true);
+                break;
+            case 40:
+                rbAprazo.requestFocus(true);
+                rbAprazo.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -1418,27 +1489,19 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbEntregaFocusGained
 
     private void ftxtValorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftxtValorKeyPressed
+
         if(ftxtValor.getText().equals("")){
            ftxtValor.setDocument(new SoNumeros());
         }
+        if(evt.getKeyCode()== 37){         
+            rbAvista.requestFocus(true);
+            rbAvista.setSelected(true);
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             if(!ftxtValor.getText().equals("")){
-                btnNovo.requestFocus();
-                rbAvista.setEnabled(false);
-            }else{
-                if(evt.getKeyCode() == evt.VK_ESCAPE){
-                   btnFecharcaixa.doClick();
-                }
-            }
-        }
-    }//GEN-LAST:event_ftxtValorKeyPressed
-
-    private void ftxtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtValorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ftxtValorActionPerformed
-
-    private void ftxtValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorFocusLost
-        String valor = ftxtValor.getText();
+                //btnNovo.requestFocus();
+                //rbAvista.setEnabled(false);
+                String valor = ftxtValor.getText();
         if(!ftxtValor.getText().equals("")){
             rbAvista.setActionCommand("1");
             rbEntrega.setActionCommand("2");
@@ -1665,56 +1728,321 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 }
             }
             ftxtValor.setText("");
-            ftxtValor.setEnabled(false);
-            rbAvista.setEnabled(false);
-            rbEntrega.setEnabled(false);
-            rbAprazo.setEnabled(false);
-            rbCartao.setEnabled(false);
-            rbVale.setEnabled(false);
-            rbSaque.setEnabled(false);
-            rdDiferencaNeg.setEnabled(false);
-            rdDiferencaPos.setEnabled(false);
-            rbPagamentos.setEnabled(false);
-            btnExcluir.setEnabled(false);
-            lblValor.setEnabled(false);
-            lblFormadepagamento.setEnabled(false);
-            btnNovo.setEnabled(true);
+//            ftxtValor.setEnabled(false);
+//            rbAvista.setEnabled(false);
+//            rbEntrega.setEnabled(false);
+//            rbAprazo.setEnabled(false);
+//            rbCartao.setEnabled(false);
+//            rbVale.setEnabled(false);
+//            rbSaque.setEnabled(false);
+//            rdDiferencaNeg.setEnabled(false);
+//            rdDiferencaPos.setEnabled(false);
+//            rbPagamentos.setEnabled(false);
+//            btnExcluir.setEnabled(false);
+//            lblValor.setEnabled(false);
+//            lblFormadepagamento.setEnabled(false);
+//            btnNovo.setEnabled(true);
             rbAvista.setSelected(true);
             btnFecharcaixa.setEnabled(true);
-            btnNovo.requestFocus();
+            ftxtValor.requestFocus();
+//            btnNovo.requestFocus();
             //if(!ftxtValor.getText().equals("") && !ftxtValor.getText().equals("0,00") && !ftxtValor.getText().equals("0")){
                 //JOptionPane.showMessageDialog(null, "Correto " + ftxtValor.getText());
                 //}else{
                 //JOptionPane.showMessageDialog(null, "Errado");
                 //}
         }
+                
+            }else{
+                if(evt.getKeyCode() == evt.VK_ESCAPE){
+                   btnFecharcaixa.doClick();
+                }else{
+                      ftxtValor.requestFocus();
+                }
+            }
+        }
+    }//GEN-LAST:event_ftxtValorKeyPressed
+
+    private void ftxtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtValorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ftxtValorActionPerformed
+
+    private void ftxtValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorFocusLost
+//        String valor = ftxtValor.getText();
+//        if(!ftxtValor.getText().equals("")){
+//            rbAvista.setActionCommand("1");
+//            rbEntrega.setActionCommand("2");
+//            rbAprazo.setActionCommand("3");
+//            rbCartao.setActionCommand("4");
+//            rbVale.setActionCommand("5");
+//            rbSaque.setActionCommand("6");
+//            rbPagamentos.setActionCommand("7");
+//            rdDiferencaNeg.setActionCommand("8");
+//            rdDiferencaPos.setActionCommand("9");
+//            //DecimalFormat df = new DecimalFormat();
+//            df.applyPattern("##,##0.00");
+//            RefazerConexao refc11 = new RefazerConexao();
+//            refc11.refazerconexao();
+//            MovimentoDAO movdao31 = new MovimentoDAO();
+//            contafregues = movdao31.selecionacontagem(datahoje);
+//            RefazerConexao rfz = new RefazerConexao();
+//            rfz.refazerconexao();
+//            List<Entradas> selecionaultimoponto = new ArrayList<>();
+//            MovimentoDAO movimdao = new MovimentoDAO();
+//            selecionaultimoponto = movimdao.selecionarultimoponto();
+//            for(Entradas entradas : selecionaultimoponto){
+//                movidponto = entradas.getIdusuario();
+//                idcontafregues = entradas.getIddata();
+//            }
+//
+//            switch(Integer.parseInt(buttonGroup2.getSelection().getActionCommand())){
+//                case 1:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                entrega = 0;
+//                recebimentoprazo = 0;
+//                cartao = 0;
+//                vale = 0;
+//                saque = 0;
+//                pagamentos = 0;
+//                movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                contafregues += 1;
+//                break;
+//                case 2:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista = 0;
+//                entrega = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                recebimentoprazo = 0;
+//                cartao = 0;
+//                vale = 0;
+//                saque = 0;
+//                pagamentos = 0;
+//                movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                contafregues += 1;
+//                do{
+//                    clienteparaentrega = JOptionPane.showInputDialog(null, "Por favor digite aqui, o nome\n"
+//                        + "do cliente para entrega.");
+//                }while("".equals(clienterecebprazo));
+//                break;
+//                case 3:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista = 0;
+//                entrega = 0;
+//                recebimentoprazo = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                cartao = 0;
+//                vale = 0;
+//                saque = 0;
+//                pagamentos = 0;
+//                movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                do{
+//                    clienterecebprazo = JOptionPane.showInputDialog(null, "Por favor digite aqui o nome cliente.");
+//                }while("".equals(clienterecebprazo));
+//                break;
+//                case 4:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista = 0;
+//                entrega = 0;
+//                recebimentoprazo = 0;
+//                cartao = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                vale = 0;
+//                saque = 0;
+//                pagamentos = 0;
+//                movimento = 0;
+//                break;
+//                case 5:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista = 0;
+//                entrega = 0;
+//                recebimentoprazo = 0;
+//                cartao = 0;
+//                vale = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                saque = 0;
+//                pagamentos = 0;
+//                movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                do{
+//                    funcionariovale = JOptionPane.showInputDialog(null, "Por favor digite aqui para quem é o vale.");
+//                }while("".equals(funcionariovale));
+//                break;
+//                case 6:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista = 0;
+//                entrega = 0;
+//                recebimentoprazo = 0;
+//                cartao = 0;
+//                vale = 0;
+//                saque = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                pagamentos = 0;
+//                movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                do{
+//                    motivosaque = JOptionPane.showInputDialog(null, "Por favor digite aqui o motivo do saque.");
+//                }while("".equals(motivosaque));
+//                break;
+//                case 7:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista = 0;
+//                entrega = 0;
+//                recebimentoprazo = 0;
+//                cartao = 0;
+//                vale = 0;
+//                saque = 0;
+//                pagamentos = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                do{
+//                    motivopagamento = JOptionPane.showInputDialog(null, "Por favor digite aqui o que foi pago com este valor.");
+//                }while("".equals(motivopagamento));
+//                break;
+//                case 8:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                entrega = 0;
+//                recebimentoprazo = 0;
+//                cartao = 0;
+//                vale = 0;
+//                saque = 0;
+//                pagamentos = 0;
+//                movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                break;
+//                case 9:
+//                //horaagora = txtRelogio.getText();
+//                vendaavista =  Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                entrega = 0;
+//                recebimentoprazo = 0;
+//                cartao = 0;
+//                vale = 0;
+//                saque = 0;
+//                pagamentos = 0;
+//                movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+//                break;
+//            }
+//            if((recebimentoprazo != 0 && clienterecebprazo == null) || (vale != 0 && funcionariovale == null)
+//                || (saque != 0 && motivosaque == null) || (pagamentos != 0 && motivopagamento == null)){
+//                JOptionPane.showMessageDialog(null, "Nenhum cliente foi informado para pagamento ou\n"
+//                    + "nenhum motivo para uma retirada foi apresentado,\n"
+//                    + "não será contabilizado o valor de R$ "
+//                    + df.format(Float.parseFloat(valor.replaceAll("\\.", "").replaceAll(",","."))));
+//            }else{
+//                int resultconfirm = JOptionPane.showConfirmDialog(null, "Somar o valor de R$ " +
+//                    df.format(Float.parseFloat(valor.replaceAll("\\.", "").replaceAll(",","."))),
+//                    "Bragança", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//                if(resultconfirm == 0){
+//                                       RefazerConexao refcont = new RefazerConexao();
+//                                       refcont.refazerconexao();
+//                                       MovimentoDAO movdaocont = new MovimentoDAO();
+//                       if(contafregues <= 1){
+//                          movdaocont.salvar_contagem(idcontafregues, contafregues);
+//                       }else{
+//                          movdaocont.atualizar_contagem(idcontafregues, contafregues);
+//                       }
+//                    RefazerConexao rfc = new RefazerConexao();
+//                    rfc.refazerconexao();
+//                    MovimentoDAO movdao = new MovimentoDAO();
+//                    movdao.salvar_entrada_movimento(movidponto, horaagora, vendaavista,
+//                        entrega, recebimentoprazo, cartao, vale, saque, pagamentos, movimento);
+//
+//                    if(motivopagamento != null){
+//                        RefazerConexao rfc1 = new RefazerConexao();
+//                        rfc1.refazerconexao();
+//                        idmovimento = movdao.selecionarmaxmovimento(movidponto);
+//                        RefazerConexao rfc2 = new RefazerConexao();
+//                        rfc2.refazerconexao();
+//                        movdao.salvar_mot_pagt(idmovimento, motivopagamento);
+//                        motivopagamento = null;
+//                    }
+//
+//                    if(clienterecebprazo != null){
+//                        RefazerConexao rfc1 = new RefazerConexao();
+//                        rfc1.refazerconexao();
+//                        idmovimento = movdao.selecionarmaxmovimento(movidponto);
+//                        RefazerConexao rfc2 = new RefazerConexao();
+//                        rfc2.refazerconexao();
+//                        movdao.salvar_recebprazo(idmovimento, clienterecebprazo);
+//                        clienterecebprazo = null;
+//                    }
+//
+//                    if(funcionariovale != null){
+//                        RefazerConexao rfc1 = new RefazerConexao();
+//                        rfc1.refazerconexao();
+//                        idmovimento = movdao.selecionarmaxmovimento(movidponto);
+//                        RefazerConexao rfc2 = new RefazerConexao();
+//                        rfc2.refazerconexao();
+//                        movdao.salvar_vale(idmovimento, funcionariovale);
+//                        funcionariovale = null;
+//                    }
+//
+//                    if(motivosaque != null){
+//                        RefazerConexao rfc1 = new RefazerConexao();
+//                        rfc1.refazerconexao();
+//                        idmovimento = movdao.selecionarmaxmovimento(movidponto);
+//                        RefazerConexao rfc2 = new RefazerConexao();
+//                        rfc2.refazerconexao();
+//                        movdao.salvar_saque(idmovimento,motivosaque);
+//                        motivosaque = null;
+//                    }
+//
+//                    if(clienteparaentrega != null){
+//                        RefazerConexao rfc1 = new RefazerConexao();
+//                        rfc1.refazerconexao();
+//                        idmovimento = movdao.selecionarmaxmovimento(movidponto);
+//                        RefazerConexao rfc2 = new RefazerConexao();
+//                        rfc2.refazerconexao();
+//                        movdao.salvar_entrega(idmovimento,clienteparaentrega);
+//                        clienteparaentrega = null;
+//                    }
+//
+//                    rfc.refazerconexao();
+//                    lertabela();
+//                    alinhamentocelula();
+//                }
+//            }
+//            ftxtValor.setText("");
+//            ftxtValor.setEnabled(false);
+//            rbAvista.setEnabled(false);
+//            rbEntrega.setEnabled(false);
+//            rbAprazo.setEnabled(false);
+//            rbCartao.setEnabled(false);
+//            rbVale.setEnabled(false);
+//            rbSaque.setEnabled(false);
+//            rdDiferencaNeg.setEnabled(false);
+//            rdDiferencaPos.setEnabled(false);
+//            rbPagamentos.setEnabled(false);
+//            btnExcluir.setEnabled(false);
+//            lblValor.setEnabled(false);
+//            lblFormadepagamento.setEnabled(false);
+//            btnNovo.setEnabled(true);
+//            rbAvista.setSelected(true);
+//            btnFecharcaixa.setEnabled(true);
+//            btnNovo.requestFocus();
+//            //if(!ftxtValor.getText().equals("") && !ftxtValor.getText().equals("0,00") && !ftxtValor.getText().equals("0")){
+//                //JOptionPane.showMessageDialog(null, "Correto " + ftxtValor.getText());
+//                //}else{
+//                //JOptionPane.showMessageDialog(null, "Errado");
+//                //}
+//        }
     }//GEN-LAST:event_ftxtValorFocusLost
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         excluir();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void btnNovoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnNovoKeyPressed
-        if(evt.getKeyCode()== evt.VK_ENTER){
-            botaonovo();
-        }
-        if(evt.getKeyCode() == evt.VK_ESCAPE){
-           btnFecharcaixa.doClick();
-        }
-      
-    }//GEN-LAST:event_btnNovoKeyPressed
-
-    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-
-        botaonovo();
-
-    }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void btnNovoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnNovoFocusGained
-        ftxtValor.setText("");
-    }//GEN-LAST:event_btnNovoFocusGained
-
     private void rbPagamentosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbPagamentosKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rbAprazo.requestFocus(true);
+                rbAprazo.setSelected(true);
+                break;
+            case 38:
+                rbSaque.requestFocus(true);
+                rbSaque.setSelected(true);
+                break;
+            case 39:
+                rdDiferencaPos.requestFocus(true);
+                rdDiferencaPos.setSelected(true);
+                break;
+            case 40:
+                rbVale.requestFocus(true);
+                rbVale.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -1740,6 +2068,24 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbPagamentosFocusGained
 
     private void rbCartaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbCartaoKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rbVale.requestFocus(true);
+                rbVale.setSelected(true);
+                break;
+            case 38:
+                rdDiferencaPos.requestFocus(true);
+                rdDiferencaPos.setSelected(true);
+                break;
+            case 39:
+                rbAvista.requestFocus(true);
+                rbAvista.setSelected(true);
+                break;
+            case 40:
+                rdDiferencaNeg.requestFocus(true);
+                rdDiferencaNeg.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -1769,6 +2115,24 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbCartaoFocusGained
 
     private void rbAprazoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbAprazoKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rdDiferencaPos.requestFocus(true);
+                rdDiferencaPos.setSelected(true);
+                break;
+            case 38:
+                rbEntrega.requestFocus(true);
+                rbEntrega.setSelected(true);
+                break;
+            case 39:
+                rbPagamentos.requestFocus(true);
+                rbPagamentos.setSelected(true);
+                break;
+            case 40:
+                rbAvista.requestFocus(true);
+                rbAvista.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -1794,6 +2158,24 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbAprazoFocusGained
 
     private void rbAvistaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbAvistaKeyPressed
+        switch(evt.getKeyCode()){
+            case 37:
+                rbCartao.requestFocus(true);
+                rbCartao.setSelected(true);
+                break;
+            case 38:
+                rbAprazo.requestFocus(true);
+                rbAprazo.setSelected(true);
+                break;
+            case 39:
+                rbVale.requestFocus(true);
+                rbVale.setSelected(true);
+                break;
+            case 40:
+                rbEntrega.requestFocus(true);
+                rbEntrega.setSelected(true);
+                break;    
+        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             ftxtValor.setEnabled(true);
             ftxtValor.requestFocus(true);
@@ -2128,6 +2510,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_ftxtNotasreservaActionPerformed
 
+    private void ftxtValorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorFocusGained
+        tblMovimento.clearSelection();
+        btnExcluir.setEnabled(false);
+    }//GEN-LAST:event_ftxtValorFocusGained
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmareserva;
@@ -2135,7 +2522,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     public static javax.swing.JButton btnExcluir;
     public static javax.swing.JButton btnFecharMovimento;
     public static javax.swing.JButton btnFecharcaixa;
-    public static javax.swing.JButton btnNovo;
     private javax.swing.JButton btnReservarcaixa;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JFormattedTextField ftxtMoedasreserva;

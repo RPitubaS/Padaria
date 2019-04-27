@@ -17,7 +17,8 @@ import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import view.frmEntrar;
 import view.frmMovimento;
-import static view.frmMovimento.btnNovo;
+import static view.frmMovimento.ftxtValor;
+//import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
@@ -96,7 +97,7 @@ public class EntradaNovo {
                         refc11.refazerconexao();
                         MovimentoDAO movdao31 = new MovimentoDAO();
                         txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
-                        btnNovo.requestFocus();
+                        ftxtValor.requestFocus();
                         //mnCaixa.setEnabled(true);
                         //mnFecharcaixa.setEnabled(true);
                         //btnCaixa.setEnabled(true);

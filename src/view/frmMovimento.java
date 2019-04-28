@@ -412,7 +412,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         ftxtMoedasreserva = new javax.swing.JFormattedTextField();
         btnReservarcaixa = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         txtVendas = new javax.swing.JTextField();
 
         setClosable(true);
@@ -990,12 +989,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             }
         });
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField1KeyPressed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -1005,7 +998,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                         .addComponent(btnFecharcaixa)
                         .addGap(120, 120, 120))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -1043,13 +1036,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(pnlCaixareservado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                                 .addComponent(btnFecharMovimento)))
                         .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1084,9 +1073,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFecharMovimento)
-                        .addGap(20, 20, 20)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addGap(63, 63, 63))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1118,7 +1105,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(txtRelogio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtAtendentecaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtAtendentecaixa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtCaixainicial, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1129,8 +1116,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtMoedasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
         );
@@ -1150,21 +1138,22 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -1493,10 +1482,19 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(ftxtValor.getText().equals("")){
            ftxtValor.setDocument(new SoNumeros());
         }
-        if(evt.getKeyCode()== 37){         
-            rbAvista.requestFocus(true);
-            rbAvista.setSelected(true);
+        switch(evt.getKeyCode()){
+            case 37:
+                rbAvista.requestFocus(true);
+                rbAvista.setSelected(true);
+                break;
+            case 27:
+                btnFecharcaixa.doClick();
+                break;
         }
+//        if(evt.getKeyCode()== 37){         
+//            rbAvista.requestFocus(true);
+//            rbAvista.setSelected(true);
+//        }
         if(evt.getKeyCode()== evt.VK_ENTER){
             if(!ftxtValor.getText().equals("")){
                 //btnNovo.requestFocus();
@@ -2205,9 +2203,20 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblMovimentoVetoableChange
 
     private void tblMovimentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblMovimentoKeyPressed
-        if(evt.getKeyCode() == evt.VK_ESCAPE){
-           btnFecharcaixa.doClick();
+        switch(evt.getKeyCode()){
+            case 27:
+                btnFecharcaixa.doClick();
+                break;
+            case 127:
+                btnExcluir.doClick();
+                break;
         }
+//        if(evt.getKeyCode()== 127){         
+//            btnExcluir.doClick();
+//        }
+//        if(evt.getKeyCode() == 27){
+//           btnFecharcaixa.doClick();
+//        }
     }//GEN-LAST:event_tblMovimentoKeyPressed
 
     private void tblMovimentoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblMovimentoPropertyChange
@@ -2382,10 +2391,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnConfirmareservaActionPerformed
 
-    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1KeyPressed
-
     private void ftxtMoedasreservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtMoedasreservaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ftxtMoedasreservaActionPerformed
@@ -2533,7 +2538,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblFormadepagamento;
     private javax.swing.JLabel lblMoedas;
     private javax.swing.JLabel lblNotas;

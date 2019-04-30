@@ -96,7 +96,7 @@ public class EntradaNovo {
                         RefazerConexao refc11 = new RefazerConexao();
                         refc11.refazerconexao();
                         MovimentoDAO movdao31 = new MovimentoDAO();
-                        txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
+                        txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                         ftxtValor.requestFocus();
                         //mnCaixa.setEnabled(true);
                         //mnFecharcaixa.setEnabled(true);

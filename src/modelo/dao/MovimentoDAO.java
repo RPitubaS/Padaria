@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -686,30 +687,54 @@ public class MovimentoDAO {
         return selecionaultimoponto;
     }
     
-    public int selecionacontagem(String agora){
+    public int selecionacontagem(int iddata){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int selecionacontfregues = 0;
          
         try{
-            java.sql.Date diadata = new java.sql.Date(formatbr.parse(agora).getTime());
+            //java.sql.Date diadata = new java.sql.Date(formatbr.parse(agora).getTime());
             stmt = con.prepareStatement("select ctf.CONTAGEM from CONTA_FREGUES ctf join DATA dt on"
-                                       + " ctf.CONTFREGUES_ID_DATA = dt.ID_DATA where dt.DATA"
+                                       + " ctf.CONTFREGUES_ID_DATA = dt.ID_DATA where dt.ID_DATA"
                                        + " = ?");
-            stmt.setDate(1, diadata);
+            stmt.setInt(1, iddata);
             rs = stmt.executeQuery();
             while(rs.next()){
                selecionacontfregues = rs.getInt("CONTAGEM");
             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar a contagem do dia!");
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar data para contagem do dia!");
+        //} catch (ParseException ex) {
+            //JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar data para contagem do dia!");
         }finally{
             ConexaoFirebird.closeConnection(con, stmt, rs);
         }
         return selecionacontfregues;
+    }
+    
+    public int selecionariddata(int movidponto){
+         Connection con = ConexaoFirebird.getConnection();
+         PreparedStatement stmt = null;
+         ResultSet rs = null;
+         int selecionaiddata = 0;
+         
+         try{
+             stmt = con.prepareStatement("select dt.ID_DATA from DATA dt join CARTAO_PONTO cp ON dt.ID_DATA"
+                     + "= cp.PT_DATA join MOVIMENTO mv ON mv.MOV_ID_PONTO = cp.ID_PONTO where "
+                     + "mv.MOV_ID_PONTO = ?");
+             stmt.setInt(1, movidponto);
+             rs = stmt.executeQuery();
+             while(rs.next()){
+                 selecionaiddata = rs.getInt("ID_DATA");
+             }
+         }catch(SQLException ex){
+             JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao selecionar a data\n"
+                     + "para quantidade de vendas!");
+         }finally{
+             ConexaoFirebird.closeConnection(con, stmt, rs);
+         }
+         return selecionaiddata;
     }
     
     public List<ReservaDeCaixa> selecionarultimoreservadecaixa(){

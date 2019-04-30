@@ -112,7 +112,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     }
     
     void lertabeladia() {       
-        int contador = 0;
+        int contador = 0, movidponto = 0, iddata;
         String diaformatado;
         DefaultTableModel modelo = (DefaultTableModel) tblMovimentodia.getModel();
         SimpleDateFormat formatbr = new SimpleDateFormat("HH:mm.ss");
@@ -161,7 +161,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                    cornalinha(); 
             }
             horasaida = m.getHora();
-            
+            movidponto = m.getMovidponto();
         } 
      
         //Object[] dados1 = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00",
@@ -218,10 +218,16 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                //}
                             }
                             
+                                  RefazerConexao refc13 = new RefazerConexao();
+                                  refc13.refazerconexao();
+                                  MovimentoDAO movdao32 = new MovimentoDAO();
+                                  iddata = movdao32.selecionariddata(movidponto);
+                           
                                   RefazerConexao refc11 = new RefazerConexao();
                                   refc11.refazerconexao();
                                   MovimentoDAO movdao31 = new MovimentoDAO();
-                                  txtVendasdia.setText("Vendas:  " + movdao31.selecionacontagem(diaformatado));
+                                  txtVendasdia.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
+                                  
                                   if(selecionamovimentodia.isEmpty()){
                                       modelo.setNumRows(0);
                                       JOptionPane.showMessageDialog(null, "Relatório vazio para:\n"
@@ -450,10 +456,11 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                        .addComponent(txtRelogiodia)
-                        .addComponent(txtAtendentecaixadia)
-                        .addComponent(txtVendasdia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtVendasdia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtRelogiodia)
+                            .addComponent(txtAtendentecaixadia)))
                     .addComponent(dtcMovimentodia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)

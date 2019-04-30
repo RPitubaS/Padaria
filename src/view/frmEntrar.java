@@ -312,10 +312,10 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      frmmovimento.setVisible(true);
                      frmmovimento.setPosicao();
                      ftxtValor.requestFocus();
-                     RefazerConexao refc11 = new RefazerConexao();
-                     refc11.refazerconexao();
-                     MovimentoDAO movdao31 = new MovimentoDAO();
-                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
+//                     RefazerConexao refc11 = new RefazerConexao();
+//                     refc11.refazerconexao();
+//                     MovimentoDAO movdao31 = new MovimentoDAO();
+//                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
                    for(Entradas entradas : selecionasaidanula1){
                        if(entradas.getIdusuario() == idusuario){
                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
@@ -329,6 +329,10 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            agora = String.format("%02d/%02d/%02d", Integer.parseInt(agoradiv[0])
                                                                  , Integer.parseInt(agoradiv[1])
                                                                  , Integer.parseInt(agoradiv[2]));
+                           RefazerConexao refc13 = new RefazerConexao();
+                           refc13.refazerconexao();
+                           MovimentoDAO movdao32 = new MovimentoDAO();
+                           iddata = movdao32.selecionariddata(idpontoentrada);
                            
                            if(!data.equals(agora)){
                               JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ", por favor efetue"
@@ -345,8 +349,17 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            usuario = entradas.getUsuario();
                            idpontoentrada = entradas.getIdponto();
                            data = formatbr.format(entradas.getData());
+                           RefazerConexao refc13 = new RefazerConexao();
+                           refc13.refazerconexao();
+                           MovimentoDAO movdao32 = new MovimentoDAO();
+                           iddata = movdao32.selecionariddata(idpontoentrada);
+                           RefazerConexao refc11 = new RefazerConexao();
+                           refc11.refazerconexao();
+                           MovimentoDAO movdao31 = new MovimentoDAO();
+                           txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                        }
                    }
+                   
                    mnNovousuario.setEnabled(false);
                    mnFecharNovousuario.setEnabled(false);
                    mnEntrar.setEnabled(false);
@@ -429,7 +442,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      RefazerConexao refc11 = new RefazerConexao();
                      refc11.refazerconexao();
                      MovimentoDAO movdao31 = new MovimentoDAO();
-                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
+                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                  }catch(Exception ex){
                      JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula no formato '00.000,00' são aceitos!");                    
                      frmmovimento.dispose();
@@ -504,7 +517,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            RefazerConexao refc11 = new RefazerConexao();
                            refc11.refazerconexao();
                            MovimentoDAO movdao31 = new MovimentoDAO();
-                           txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
+                           txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                            ftxtValor.requestFocus();
                            //mnCaixa.setEnabled(true);
                            //mnFecharcaixa.setEnabled(true);

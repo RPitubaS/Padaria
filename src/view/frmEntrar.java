@@ -70,7 +70,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
     int iddata;
     Date datahoje;
     int idusuario;                                        
-    String agora, horaagora, hoje;
+    String agora, horaagora, hoje, dataagora;
     
    
     public static frmEntrar getInstancia(){
@@ -333,13 +333,19 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            idpontoentrada = entradas.getIdusuario();
                            data = formatbr.format(entradas.getData());
                            String[] agoradiv = agora.split("\\.");
-                           agora = String.format("%02d/%02d/%02d", Integer.parseInt(agoradiv[0])
+                           dataagora = String.format("%02d/%02d/%02d", Integer.parseInt(agoradiv[0])
                                                                  , Integer.parseInt(agoradiv[1])
                                                                  , Integer.parseInt(agoradiv[2]));
                            RefazerConexao refc13 = new RefazerConexao();
                            refc13.refazerconexao();
                            MovimentoDAO movdao32 = new MovimentoDAO();
                            iddata = movdao32.selecionariddata(entradas.getIdponto());
+                           
+                           if(!data.equals(dataagora)){
+                              JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ", por favor efetue"
+                                      + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
+                              frmmovimento.ftxtValor.requestFocus();
+                           }
                            
                            SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
                            selecionandoreservadecaixa.SelecionandoReservaDeCaixa(hoje, entradas.getIdponto(), iddata);
@@ -364,11 +370,6 @@ public class frmEntrar extends javax.swing.JInternalFrame {
 //                                  }
 //                           }
                            
-                           if(!data.equals(agora)){
-                              JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ", por favor efetue"
-                                      + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
-                              frmmovimento.ftxtValor.requestFocus();
-                           }
                             //mnNovousuario.setEnabled(false);
                             //mnFecharNovousuario.setEnabled(false);
                             //mnEntrar.setEnabled(false);

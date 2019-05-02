@@ -38,6 +38,7 @@ import util.CapturarTeclado;
 import util.EntradaNovo;
 import util.FecharCaixa;
 import util.GerenciadordeJanelas;
+import util.SelecionandoReservaDeCaixa;
 import util.SoNumeros;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
@@ -440,6 +441,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         btnCorrigereserva = new javax.swing.JButton();
         ftxtNotasreserva = new javax.swing.JFormattedTextField();
         ftxtMoedasreserva = new javax.swing.JFormattedTextField();
+        lblReservadoem = new javax.swing.JLabel();
         btnReservarcaixa = new javax.swing.JButton();
         btnCancelarreserva = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -919,10 +921,10 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             }
         });
         ftxtNotasreserva.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 ftxtNotasreservaInputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         ftxtNotasreserva.addActionListener(new java.awt.event.ActionListener() {
@@ -962,25 +964,31 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             }
         });
 
+        lblReservadoem.setText("Reservado em: ");
+        lblReservadoem.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblReservadoem.setEnabled(false);
+
         javax.swing.GroupLayout pnlCaixareservadoLayout = new javax.swing.GroupLayout(pnlCaixareservado);
         pnlCaixareservado.setLayout(pnlCaixareservadoLayout);
         pnlCaixareservadoLayout.setHorizontalGroup(
             pnlCaixareservadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCaixareservadoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlCaixareservadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlCaixareservadoLayout.createSequentialGroup()
-                        .addComponent(btnConfirmareserva, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(btnCorrigereserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlCaixareservadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCaixareservadoLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ftxtNotasreserva, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblMoedas)
+                        .addComponent(lblMoedas))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCaixareservadoLayout.createSequentialGroup()
+                        .addComponent(lblReservadoem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ftxtMoedasreserva, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnConfirmareserva)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlCaixareservadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ftxtMoedasreserva)
+                    .addComponent(btnCorrigereserva, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)))
         );
         pnlCaixareservadoLayout.setVerticalGroup(
             pnlCaixareservadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -995,7 +1003,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .addGap(2, 2, 2)
                 .addGroup(pnlCaixareservadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCorrigereserva, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConfirmareserva, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnConfirmareserva, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblReservadoem, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         btnReservarcaixa.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -1023,7 +1032,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         });
 
         btnCancelarreserva.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnCancelarreserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel_stop_exit_1583.png"))); // NOI18N
+        btnCancelarreserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/1486504346-cancel-close-delete-exit-remove-x_81304.png"))); // NOI18N
         btnCancelarreserva.setText("Cancelar reserva");
         btnCancelarreserva.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1071,7 +1080,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(rbPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(4, 4, 4)
-                                .addComponent(rdDiferencaPos, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                                .addComponent(rdDiferencaPos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnFecharMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1080,7 +1089,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                 .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(ftxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(71, 71, 71))
+                        .addGap(9, 9, 9))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -1091,12 +1100,12 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlCaixareservado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnReservarcaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelarreserva, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(btnCancelarreserva, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlCaixareservado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(71, 71, 71))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1113,9 +1122,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReservarcaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelarreserva))
-                .addGap(1, 1, 1)
-                .addComponent(pnlCaixareservado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2))
+                .addGap(3, 3, 3)
+                .addComponent(pnlCaixareservado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
@@ -1155,28 +1163,30 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtRelogio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtAtendentecaixa, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCaixainicial, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNotasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMoedasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, 0))
+                .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtRelogio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtAtendentecaixa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtCaixainicial, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNotasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMoedasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1196,7 +1206,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -1204,7 +1214,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(1, 1, 1))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1427,8 +1439,28 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formMouseClicked
 
     private void btnCancelarreservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarreservaActionPerformed
-        ftxtNotasreserva.setText("");
-        ftxtMoedasreserva.setText("");
+         
+           RefazerConexao refc10 = new RefazerConexao();
+           refc10.refazerconexao();
+           List<Entradas> selecionasaidanula1 = new ArrayList<>();
+           MovimentoDAO movdao30 = new MovimentoDAO();
+           selecionasaidanula1 = movdao30.selecionarsaidanull();
+
+                   for(Entradas entradas : selecionasaidanula1){
+                           RefazerConexao refc13 = new RefazerConexao();
+                           refc13.refazerconexao();
+                           MovimentoDAO movdao32 = new MovimentoDAO();
+                           iddata = movdao32.selecionariddata(entradas.getIdponto());
+                           
+                           SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+                           selecionandoreservadecaixa.SelecionandoReservaDeCaixa(datahoje, entradas.getIdponto(), iddata);
+
+                   }
+        
+//        SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+//        selecionandoreservadecaixa.SelecionandoReservaDeCaixa(datahoje, idponto, iddata);
+//        ftxtNotasreserva.setText("");
+//        ftxtMoedasreserva.setText("");
         pnlCaixareservado.setEnabled(false);
         lblNotas.setEnabled(false);
         ftxtNotasreserva.setEnabled(false);
@@ -1436,10 +1468,12 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         ftxtMoedasreserva.setEnabled(false);
         btnConfirmareserva.setEnabled(false);
         btnCorrigereserva.setEnabled(false);
+        lblReservadoem.setEnabled(false);
+        btnReservarcaixa.setEnabled(true);
     }//GEN-LAST:event_btnCancelarreservaActionPerformed
 
     private void btnCancelarreservaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnCancelarreservaFocusLost
-        ftxtNotasreserva.setDocument(new SoNumeros());
+        //ftxtNotasreserva.setDocument(new SoNumeros());
     }//GEN-LAST:event_btnCancelarreservaFocusLost
 
     private void btnReservarcaixaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnReservarcaixaKeyPressed
@@ -1455,10 +1489,12 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         btnConfirmareserva.setEnabled(true);
         btnCorrigereserva.setEnabled(true);
         ftxtNotasreserva.setText("");
+        ftxtMoedasreserva.setText("");
         ftxtNotasreserva.setDocument(new SoNumeros());
         ftxtNotasreserva.requestFocus();
         btnCancelarreserva.setEnabled(true);
-        btnReservarcaixa.setEnabled(false);
+        lblReservadoem.setEnabled(true);
+        btnReservarcaixa.setEnabled(false);       
 
     }//GEN-LAST:event_btnReservarcaixaActionPerformed
 
@@ -1572,6 +1608,20 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .replaceAll("\\.", "").replaceAll(",",".")),
             parseFloat(ftxtMoedasreserva.getText().replaceAll("\\.", "")
                 .replaceAll(",",".")));
+            pnlCaixareservado.setEnabled(false);
+            lblNotas.setEnabled(false);
+            ftxtNotasreserva.setEnabled(false);
+            lblMoedas.setEnabled(false);
+            ftxtMoedasreserva.setEnabled(false);
+            btnConfirmareserva.setEnabled(false);
+            btnCorrigereserva.setEnabled(false);
+            //ftxtNotasreserva.setText("");
+            //ftxtNotasreserva.setDocument(new SoNumeros());
+            //ftxtNotasreserva.requestFocus();
+            btnCancelarreserva.setEnabled(false);
+            btnReservarcaixa.setEnabled(true);
+            lblReservadoem.setEnabled(false);
+            ftxtValor.requestFocus();
         }else{
             JOptionPane.showMessageDialog(null, "É preciso apresentar um\n valor a ser guardado!");
         }
@@ -2595,6 +2645,20 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .replaceAll("\\.", "").replaceAll(",",".")),
             parseFloat(ftxtMoedasreserva.getText().replaceAll("\\.", "")
                 .replaceAll(",",".")));
+            pnlCaixareservado.setEnabled(false);
+            lblNotas.setEnabled(false);
+            ftxtNotasreserva.setEnabled(false);
+            lblMoedas.setEnabled(false);
+            ftxtMoedasreserva.setEnabled(false);
+            btnConfirmareserva.setEnabled(false);
+            btnCorrigereserva.setEnabled(false);
+            //ftxtNotasreserva.setText("");
+            //ftxtNotasreserva.setDocument(new SoNumeros());
+            //ftxtNotasreserva.requestFocus();
+            btnCancelarreserva.setEnabled(false);
+            btnReservarcaixa.setEnabled(true);
+            lblReservadoem.setEnabled(false);
+            ftxtValor.requestFocus();
         }else{
             JOptionPane.showMessageDialog(null, "É preciso apresentar um\n valor a ser guardado!");
         }
@@ -2623,6 +2687,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFormadepagamento;
     private javax.swing.JLabel lblMoedas;
     private javax.swing.JLabel lblNotas;
+    public static javax.swing.JLabel lblReservadoem;
     private javax.swing.JLabel lblValor;
     private javax.swing.JPanel pnlCaixareservado;
     public static javax.swing.JRadioButton rbAprazo;

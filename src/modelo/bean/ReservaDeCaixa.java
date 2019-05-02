@@ -5,13 +5,16 @@
  */
 package modelo.bean;
 
+import java.sql.Date;
+
 /**
  *
  * @author Pituba
  */
 public class ReservaDeCaixa {
-    int idreserva, reseridmovimento;
-    float notas, moedas;
+    private int idreserva, reseridmovimento;
+    private float notas, moedas;
+    private Date data;
 
     public int getIdreserva() {
         return idreserva;
@@ -43,6 +46,14 @@ public class ReservaDeCaixa {
 
     public void setMoedas(float moedas) {
         this.moedas = moedas;
+    }  
+    
+    public Date getData(){
+       return data;
+    }
+    
+       public void setData(Date data){
+       this.data = data;
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -13,6 +14,7 @@ import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import static view.frmMovimento.ftxtMoedasreserva;
 import static view.frmMovimento.ftxtNotasreserva;
+import static view.frmMovimento.lblReservadoem;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
 
@@ -21,6 +23,9 @@ import static view.frmMovimento.txtNotasinicio;
  * @author Pituba
  */
 public class SelecionarReservaDeCaixa {
+    
+    SimpleDateFormat formatbr = new SimpleDateFormat("dd/MM/yyyy");
+    
     public void SelecionarReservaDeCaixa(int iddata){
         List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
         RefazerConexao refc14 = new RefazerConexao();
@@ -31,6 +36,7 @@ public class SelecionarReservaDeCaixa {
                   for(ReservaDeCaixa reservadecaixa : selecionareservadecaixa){
                       ftxtNotasreserva.setText(String.format("%,.2f",reservadecaixa.getNotas()));
                       ftxtMoedasreserva.setText(String.format("%,.2f",reservadecaixa.getMoedas()));
+                      lblReservadoem.setText("Reservado em: " + formatbr.format(reservadecaixa.getData()));
                   }
               }
     }
@@ -45,6 +51,7 @@ public class SelecionarReservaDeCaixa {
                   for(ReservaDeCaixa reservadecaixa : selecionareservadecaixa){
                       ftxtNotasreserva.setText(String.format("%,.2f",reservadecaixa.getNotas()));
                       ftxtMoedasreserva.setText(String.format("%,.2f",reservadecaixa.getMoedas()));
+                      lblReservadoem.setText("Reservado em: " + formatbr.format(reservadecaixa.getData()));
                   }
               }
     }

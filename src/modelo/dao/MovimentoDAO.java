@@ -744,7 +744,12 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<ReservaDeCaixa> selecionaultimoreservadecaixa = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select * from RESERVADECAIXA where ID_RESERVA = (select "
+            stmt = con.prepareStatement("select rc.ID_RESERVA, rc.RESER_ID_MOVIMENTO, rc.NOTAS, rc.MOEDAS,"
+                                        + " dt.DATA from RESERVADECAIXA rc join MOVIMENTO mv on "
+                                        + "rc.RESER_ID_MOVIMENTO = mv.ID_MOVIMENTO "
+                                        + " join CARTAO_PONTO cp on cp.ID_PONTO = mv.MOV_ID_PONTO "
+                                        + "join DATA dt on dt.ID_DATA = cp.PT_DATA  "
+                                        + "where ID_RESERVA = (select "
                                         + "max(ID_RESERVA) from RESERVADECAIXA)");
             rs = stmt.executeQuery();
             ReservaDeCaixa reservadecaixa = new ReservaDeCaixa();
@@ -753,6 +758,7 @@ public class MovimentoDAO {
                   reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_MOVIMENTO"));
                   reservadecaixa.setNotas(rs.getFloat("NOTAS"));
                   reservadecaixa.setMoedas(rs.getFloat("MOEDAS"));
+                  reservadecaixa.setData(rs.getDate("DATA"));
                   selecionaultimoreservadecaixa.add(reservadecaixa);
             }
         }catch(SQLException ex){
@@ -770,7 +776,7 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select rc.ID_RESERVA, rc.RESER_ID_MOVIMENTO, rc.NOTAS, rc.MOEDAS"
+            stmt = con.prepareStatement("select rc.ID_RESERVA, rc.RESER_ID_MOVIMENTO, rc.NOTAS, rc.MOEDAS, dt.DATA"
                     + " from RESERVADECAIXA rc join MOVIMENTO mv on rc.RESER_ID_MOVIMENTO = mv.ID_MOVIMENTO "
                     + " join CARTAO_PONTO cp on cp.ID_PONTO = mv.MOV_ID_PONTO join DATA dt on dt.ID_DATA = cp.PT_DATA "
                     + "where dt.ID_DATA = ?");
@@ -782,6 +788,7 @@ public class MovimentoDAO {
                   reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_MOVIMENTO"));
                   reservadecaixa.setNotas(rs.getFloat("NOTAS"));
                   reservadecaixa.setMoedas(rs.getFloat("MOEDAS"));
+                  reservadecaixa.setData(rs.getDate("DATA"));
                   selecionareservadecaixa.add(reservadecaixa);
             }
         }catch(SQLException ex){

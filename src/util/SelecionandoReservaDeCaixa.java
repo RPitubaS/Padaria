@@ -36,6 +36,9 @@ public class SelecionandoReservaDeCaixa {
                                      SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
                                      selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata);
                                   }
+                           }else{
+                                SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
+                                selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata);
                            }
     }
 }

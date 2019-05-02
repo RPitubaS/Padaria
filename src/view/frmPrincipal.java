@@ -43,6 +43,7 @@ import static view.frmLogin.txtNome;
 import static view.frmLogin.txtSenha;
 import static view.frmLogin.txtLogsenha;
 import static view.frmMovimento.btnFecharMovimento;
+import static view.frmMovimentodia.btnMovimentododiaSair;
 
 
 /**
@@ -377,10 +378,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         //} catch (PropertyVetoException ex) {
             //JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao abrir a janela.");
         //}
+        btnCaixa.doClick();
     }//GEN-LAST:event_mnCaixaActionPerformed
 
     private void mnFecharcaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnFecharcaixaActionPerformed
-        gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
+        btnMovimentododiaSair.doClick();
         mnFecharcaixa.setEnabled(false);
         mnCaixa.setEnabled(true);
     }//GEN-LAST:event_mnFecharcaixaActionPerformed
@@ -400,8 +402,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         dtpDescktop.add(frmmovimentodia);
         frmmovimentodia.setVisible(true);
         frmmovimentodia.setPosicaodia();
-        mnMovimento.setEnabled(false);
+        mnCaixa.setEnabled(false);
         mnFecharcaixa.setEnabled(true);
+        mnFecharcaixa.setEnabled(true);
+        btnCaixa.setEnabled(false);
     }//GEN-LAST:event_btnCaixaActionPerformed
 
     private void mnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnUsuariosActionPerformed

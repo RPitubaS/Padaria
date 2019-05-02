@@ -763,6 +763,35 @@ public class MovimentoDAO {
         return selecionaultimoreservadecaixa;
     }
     
+    public List<ReservaDeCaixa> selecionarreservadecaixa(int iddata){
+    
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
+        try{
+            stmt = con.prepareStatement("select rc.ID_RESERVA, rc.RESER_ID_MOVIMENTO, rc.NOTAS, rc.MOEDAS"
+                    + " from RESERVADECAIXA rc join MOVIMENTO mv on rc.RESER_ID_MOVIMENTO = mv.ID_MOVIMENTO "
+                    + " join CARTAO_PONTO cp on cp.ID_PONTO = mv.MOV_ID_PONTO join DATA dt on dt.ID_DATA = cp.PT_DATA "
+                    + "where dt.ID_DATA = ?");
+            stmt.setInt(1, iddata);
+            rs = stmt.executeQuery();
+            ReservaDeCaixa reservadecaixa = new ReservaDeCaixa();
+            while(rs.next()){
+                  reservadecaixa.setIdreserva(rs.getInt("ID_RESERVA"));
+                  reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_MOVIMENTO"));
+                  reservadecaixa.setNotas(rs.getFloat("NOTAS"));
+                  reservadecaixa.setMoedas(rs.getFloat("MOEDAS"));
+                  selecionareservadecaixa.add(reservadecaixa);
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar última reserva de caixa!");
+        }finally{
+            ConexaoFirebird.closeConnection(con, stmt, rs);
+        }
+        return selecionareservadecaixa;
+    }
+    
     public void salvar_ponto(int iddata, int idusuario, float valorinicialnotas, float valorinicialmoedas){
     
         Connection con = ConexaoFirebird.getConnection();

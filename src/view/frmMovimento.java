@@ -105,6 +105,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
 //        lblFormadepagamento.setEnabled(false);
         ftxtValor.requestFocus();
 //        btnNovo.requestFocus();
+        btnCancelarreserva.setEnabled(false);
         btnFecharMovimento.setVisible(false);
         ftxtNotasreserva.setDocument(new SoNumeros());
         ftxtMoedasreserva.setDocument(new SoNumeros());
@@ -340,9 +341,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                    
                    rfc1.refazerconexao();
                    lertabela();
+                   
                    }else{
                    tblMovimento.setSelectionMode(0);
             }
+            ftxtValor.requestFocus();
             btnExcluir.setEnabled(false);
            }
         }
@@ -402,6 +405,18 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         buttonGroup2 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        txtMoedasinicio = new javax.swing.JTextField();
+        txtData = new javax.swing.JTextField();
+        txtRelogio = new javax.swing.JTextField();
+        txtAtendentecaixa = new javax.swing.JTextField();
+        txtCaixainicial = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txtNotasinicio = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblMovimento = new javax.swing.JTable();
+        txtVendas = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         rbAvista = new javax.swing.JRadioButton();
         rbAprazo = new javax.swing.JRadioButton();
@@ -426,21 +441,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         ftxtNotasreserva = new javax.swing.JFormattedTextField();
         ftxtMoedasreserva = new javax.swing.JFormattedTextField();
         btnReservarcaixa = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnCancelarreserva = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        jPanel1 = new javax.swing.JPanel();
-        txtMoedasinicio = new javax.swing.JTextField();
-        txtData = new javax.swing.JTextField();
-        txtRelogio = new javax.swing.JTextField();
-        txtAtendentecaixa = new javax.swing.JTextField();
-        txtCaixainicial = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        txtNotasinicio = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblMovimento = new javax.swing.JTable();
-        txtVendas = new javax.swing.JTextField();
 
         setClosable(true);
         setPreferredSize(new java.awt.Dimension(1340, 793));
@@ -477,6 +480,150 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+
+        txtMoedasinicio.setBackground(new java.awt.Color(255, 153, 0));
+        txtMoedasinicio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtMoedasinicio.setText("Moedas: ");
+        txtMoedasinicio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtMoedasinicio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMoedasinicioKeyPressed(evt);
+            }
+        });
+
+        txtData.setEditable(false);
+        txtData.setBackground(new java.awt.Color(255, 153, 0));
+        txtData.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtData.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtData.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDataActionPerformed(evt);
+            }
+        });
+        txtData.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDataKeyPressed(evt);
+            }
+        });
+
+        txtRelogio.setEditable(false);
+        txtRelogio.setBackground(new java.awt.Color(255, 153, 0));
+        txtRelogio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtRelogio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtRelogio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtRelogio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtRelogioKeyPressed(evt);
+            }
+        });
+
+        txtAtendentecaixa.setBackground(new java.awt.Color(255, 153, 0));
+        txtAtendentecaixa.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtAtendentecaixa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtAtendentecaixa.setText("Caixa:");
+        txtAtendentecaixa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtAtendentecaixa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtAtendentecaixaKeyPressed(evt);
+            }
+        });
+
+        txtCaixainicial.setBackground(new java.awt.Color(255, 153, 0));
+        txtCaixainicial.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtCaixainicial.setText("Início: ");
+        txtCaixainicial.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtCaixainicial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCaixainicialKeyPressed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("=");
+
+        txtNotasinicio.setBackground(new java.awt.Color(255, 153, 0));
+        txtNotasinicio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtNotasinicio.setText("Notas: ");
+        txtNotasinicio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtNotasinicio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNotasinicioKeyPressed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("+");
+
+        tblMovimento.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        tblMovimento.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Hora", "Venda à vista", "Entrega", "Receb. à prazo", "Vale", "Saque", "Pagamentos", "Movimento", "Cartão"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblMovimento.getTableHeader().setReorderingAllowed(false);
+        tblMovimento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMovimentoMouseClicked(evt);
+            }
+        });
+        tblMovimento.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                tblMovimentoComponentShown(evt);
+            }
+        });
+        tblMovimento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tblMovimentoPropertyChange(evt);
+            }
+        });
+        tblMovimento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblMovimentoKeyPressed(evt);
+            }
+        });
+        tblMovimento.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
+            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
+                tblMovimentoVetoableChange(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblMovimento);
+        if (tblMovimento.getColumnModel().getColumnCount() > 0) {
+            tblMovimento.getColumnModel().getColumn(0).setResizable(false);
+            tblMovimento.getColumnModel().getColumn(1).setResizable(false);
+            tblMovimento.getColumnModel().getColumn(2).setResizable(false);
+            tblMovimento.getColumnModel().getColumn(3).setResizable(false);
+            tblMovimento.getColumnModel().getColumn(4).setResizable(false);
+            tblMovimento.getColumnModel().getColumn(5).setResizable(false);
+            tblMovimento.getColumnModel().getColumn(6).setResizable(false);
+            tblMovimento.getColumnModel().getColumn(7).setResizable(false);
+            tblMovimento.getColumnModel().getColumn(8).setResizable(false);
+        }
+
+        txtVendas.setBackground(new java.awt.Color(255, 153, 0));
+        txtVendas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtVendas.setText("Vendas:");
+        txtVendas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtVendas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtVendasKeyPressed(evt);
             }
         });
 
@@ -743,6 +890,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         btnCorrigereserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Selecionar.png"))); // NOI18N
         btnCorrigereserva.setText("Corrige");
         btnCorrigereserva.setEnabled(false);
+        btnCorrigereserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCorrigereservaActionPerformed(evt);
+            }
+        });
         btnCorrigereserva.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnCorrigereservaKeyPressed(evt);
@@ -870,17 +1022,17 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel_stop_exit_1583.png"))); // NOI18N
-        jButton1.setText("Cancelar reserva");
-        jButton1.addFocusListener(new java.awt.event.FocusAdapter() {
+        btnCancelarreserva.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnCancelarreserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel_stop_exit_1583.png"))); // NOI18N
+        btnCancelarreserva.setText("Cancelar reserva");
+        btnCancelarreserva.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jButton1FocusLost(evt);
+                btnCancelarreservaFocusLost(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelarreserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCancelarreservaActionPerformed(evt);
             }
         });
 
@@ -919,14 +1071,16 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(rbPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(4, 4, 4)
-                                .addComponent(rdDiferencaPos, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                                .addComponent(rdDiferencaPos, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnFecharMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ftxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnFecharMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ftxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(71, 71, 71))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -941,7 +1095,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnReservarcaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCancelarreserva, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -958,7 +1112,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .addGap(2, 3, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReservarcaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnCancelarreserva))
                 .addGap(1, 1, 1)
                 .addComponent(pnlCaixareservado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2))
@@ -996,163 +1150,20 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             .addComponent(jSeparator1)
         );
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
-
-        txtMoedasinicio.setBackground(new java.awt.Color(255, 153, 0));
-        txtMoedasinicio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtMoedasinicio.setText("Moedas: ");
-        txtMoedasinicio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtMoedasinicio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtMoedasinicioKeyPressed(evt);
-            }
-        });
-
-        txtData.setEditable(false);
-        txtData.setBackground(new java.awt.Color(255, 153, 0));
-        txtData.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtData.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtData.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtData.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDataActionPerformed(evt);
-            }
-        });
-        txtData.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtDataKeyPressed(evt);
-            }
-        });
-
-        txtRelogio.setEditable(false);
-        txtRelogio.setBackground(new java.awt.Color(255, 153, 0));
-        txtRelogio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtRelogio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtRelogio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtRelogio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtRelogioKeyPressed(evt);
-            }
-        });
-
-        txtAtendentecaixa.setBackground(new java.awt.Color(255, 153, 0));
-        txtAtendentecaixa.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtAtendentecaixa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtAtendentecaixa.setText("Caixa:");
-        txtAtendentecaixa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtAtendentecaixa.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtAtendentecaixaKeyPressed(evt);
-            }
-        });
-
-        txtCaixainicial.setBackground(new java.awt.Color(255, 153, 0));
-        txtCaixainicial.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtCaixainicial.setText("Início: ");
-        txtCaixainicial.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtCaixainicial.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCaixainicialKeyPressed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("=");
-
-        txtNotasinicio.setBackground(new java.awt.Color(255, 153, 0));
-        txtNotasinicio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtNotasinicio.setText("Notas: ");
-        txtNotasinicio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtNotasinicio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNotasinicioKeyPressed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("+");
-
-        tblMovimento.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        tblMovimento.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Hora", "Venda à vista", "Entrega", "Receb. à prazo", "Vale", "Saque", "Pagamentos", "Movimento", "Cartão"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblMovimento.getTableHeader().setReorderingAllowed(false);
-        tblMovimento.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblMovimentoMouseClicked(evt);
-            }
-        });
-        tblMovimento.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                tblMovimentoComponentShown(evt);
-            }
-        });
-        tblMovimento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                tblMovimentoPropertyChange(evt);
-            }
-        });
-        tblMovimento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tblMovimentoKeyPressed(evt);
-            }
-        });
-        tblMovimento.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
-            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
-                tblMovimentoVetoableChange(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tblMovimento);
-        if (tblMovimento.getColumnModel().getColumnCount() > 0) {
-            tblMovimento.getColumnModel().getColumn(0).setResizable(false);
-            tblMovimento.getColumnModel().getColumn(1).setResizable(false);
-            tblMovimento.getColumnModel().getColumn(2).setResizable(false);
-            tblMovimento.getColumnModel().getColumn(3).setResizable(false);
-            tblMovimento.getColumnModel().getColumn(4).setResizable(false);
-            tblMovimento.getColumnModel().getColumn(5).setResizable(false);
-            tblMovimento.getColumnModel().getColumn(6).setResizable(false);
-            tblMovimento.getColumnModel().getColumn(7).setResizable(false);
-            tblMovimento.getColumnModel().getColumn(8).setResizable(false);
-        }
-
-        txtVendas.setBackground(new java.awt.Color(255, 153, 0));
-        txtVendas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtVendas.setText("Vendas:");
-        txtVendas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtVendas.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtVendasKeyPressed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtRelogio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtAtendentecaixa)
+                        .addComponent(txtAtendentecaixa, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtCaixainicial, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1183,7 +1194,10 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1191,14 +1205,12 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -1414,7 +1426,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_formMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCancelarreservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarreservaActionPerformed
         ftxtNotasreserva.setText("");
         ftxtMoedasreserva.setText("");
         pnlCaixareservado.setEnabled(false);
@@ -1424,11 +1436,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         ftxtMoedasreserva.setEnabled(false);
         btnConfirmareserva.setEnabled(false);
         btnCorrigereserva.setEnabled(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCancelarreservaActionPerformed
 
-    private void jButton1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jButton1FocusLost
+    private void btnCancelarreservaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnCancelarreservaFocusLost
         ftxtNotasreserva.setDocument(new SoNumeros());
-    }//GEN-LAST:event_jButton1FocusLost
+    }//GEN-LAST:event_btnCancelarreservaFocusLost
 
     private void btnReservarcaixaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnReservarcaixaKeyPressed
 
@@ -1445,6 +1457,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         ftxtNotasreserva.setText("");
         ftxtNotasreserva.setDocument(new SoNumeros());
         ftxtNotasreserva.requestFocus();
+        btnCancelarreserva.setEnabled(true);
+        btnReservarcaixa.setEnabled(false);
 
     }//GEN-LAST:event_btnReservarcaixaActionPerformed
 
@@ -2568,8 +2582,27 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         ftxtValor.setText("");
     }//GEN-LAST:event_rbAvistaFocusGained
 
+    private void btnCorrigereservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrigereservaActionPerformed
+        if(!ftxtNotasreserva.getText().equals("") || !ftxtMoedasreserva.getText().equals("")){
+            RefazerConexao rfcid = new RefazerConexao();
+            rfcid.refazerconexao();
+            MovimentoDAO movdaoid = new MovimentoDAO();
+            idmovimento = movdaoid.selecionarmaxmovimento(movidponto);
+            RefazerConexao rfc = new RefazerConexao();
+            rfc.refazerconexao();
+            MovimentoDAO movdao = new MovimentoDAO();
+            movdao.atualizar_reservadecaixa(idmovimento, parseFloat(ftxtNotasreserva.getText()
+                .replaceAll("\\.", "").replaceAll(",",".")),
+            parseFloat(ftxtMoedasreserva.getText().replaceAll("\\.", "")
+                .replaceAll(",",".")));
+        }else{
+            JOptionPane.showMessageDialog(null, "É preciso apresentar um\n valor a ser guardado!");
+        }
+    }//GEN-LAST:event_btnCorrigereservaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelarreserva;
     private javax.swing.JButton btnConfirmareserva;
     private javax.swing.JButton btnCorrigereserva;
     public static javax.swing.JButton btnExcluir;
@@ -2577,10 +2610,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     public static javax.swing.JButton btnFecharcaixa;
     private javax.swing.JButton btnReservarcaixa;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JFormattedTextField ftxtMoedasreserva;
-    private javax.swing.JFormattedTextField ftxtNotasreserva;
+    public static javax.swing.JFormattedTextField ftxtMoedasreserva;
+    public static javax.swing.JFormattedTextField ftxtNotasreserva;
     public static javax.swing.JFormattedTextField ftxtValor;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

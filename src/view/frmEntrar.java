@@ -21,6 +21,8 @@ import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import modelo.bean.Datas;
 import modelo.bean.Entradas;
+import modelo.bean.Movimento;
+import modelo.bean.ReservaDeCaixa;
 import modelo.bean.Usuario;
 import modelo.dao.MovimentoDAO;
 import modelo.dao.UsuariosDAO;
@@ -28,7 +30,11 @@ import produzconexao.RefazerConexao;
 import util.EntradaNovo;
 import util.GerenciadordeJanelas;
 import util.GuardarUrl;
+import util.SelecionandoReservaDeCaixa;
+import util.SelecionarReservaDeCaixa;
 import static view.frmMovimento.btnExcluir;
+import static view.frmMovimento.ftxtMoedasreserva;
+import static view.frmMovimento.ftxtNotasreserva;
 import static view.frmMovimento.ftxtValor;
 //import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.txtAtendentecaixa;
@@ -64,7 +70,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
     int iddata;
     Date datahoje;
     int idusuario;                                        
-    String agora, horaagora;
+    String agora, horaagora, hoje;
     
    
     public static frmEntrar getInstancia(){
@@ -255,6 +261,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                     int second = cal.get(Calendar.SECOND);
                     int minute = cal.get(Calendar.MINUTE);
                     int hour = cal.get(Calendar.HOUR_OF_DAY);
+                    hoje = String.format("%02d.%02d.%02d", day, month, year);
                     agora = String.format("%02d.%02d.%02d", day, month, year);
                     horaagora = String.format("%02d:%02d:%02d", hour, minute, second);
                     try {
@@ -332,7 +339,30 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            RefazerConexao refc13 = new RefazerConexao();
                            refc13.refazerconexao();
                            MovimentoDAO movdao32 = new MovimentoDAO();
-                           iddata = movdao32.selecionariddata(idpontoentrada);
+                           iddata = movdao32.selecionariddata(entradas.getIdponto());
+                           
+                           SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+                           selecionandoreservadecaixa.SelecionandoReservaDeCaixa(hoje, entradas.getIdponto(), iddata);
+                           
+//                           List<Movimento> selecionamovimentodia = new ArrayList<>();
+//                           RefazerConexao refc15 = new RefazerConexao();
+//                           refc15.refazerconexao();
+//                           MovimentoDAO movdao35 = new MovimentoDAO();
+//                           selecionamovimentodia = movdao35.selecionarmovimentodia(hoje);
+//                           if(!selecionamovimentodia.isEmpty()){
+//                               List<Movimento> selecionamovimentousua = new ArrayList<>();
+//                               RefazerConexao refc16 = new RefazerConexao();
+//                               refc16.refazerconexao();
+//                               MovimentoDAO movdao36 = new MovimentoDAO();
+//                               selecionamovimentousua = movdao36.selecionarmovimentousua(entradas.getIdponto());
+//                                  if(selecionamovimentousua.isEmpty()){
+//                                     SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
+//                                     selecionarreservadecaixa.SelecionarUltimoReservaDeCaixa();
+//                                  }else{
+//                                     SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
+//                                     selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata);
+//                                  }
+//                           }
                            
                            if(!data.equals(agora)){
                               JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ", por favor efetue"
@@ -357,6 +387,28 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            refc11.refazerconexao();
                            MovimentoDAO movdao31 = new MovimentoDAO();
                            txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
+                           
+                           SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+                           selecionandoreservadecaixa.SelecionandoReservaDeCaixa(hoje, entradas.getIdponto(), iddata);
+//                           List<Movimento> selecionamovimentodia = new ArrayList<>();
+//                           RefazerConexao refc15 = new RefazerConexao();
+//                           refc15.refazerconexao();
+//                           MovimentoDAO movdao35 = new MovimentoDAO();
+//                           selecionamovimentodia = movdao35.selecionarmovimentodia(hoje);
+//                           if(!selecionamovimentodia.isEmpty()){
+//                               List<Movimento> selecionamovimentousua = new ArrayList<>();
+//                               RefazerConexao refc16 = new RefazerConexao();
+//                               refc16.refazerconexao();
+//                               MovimentoDAO movdao36 = new MovimentoDAO();
+//                               selecionamovimentousua = movdao36.selecionarmovimentousua(entradas.getIdponto());
+//                                  if(selecionamovimentousua.isEmpty()){
+//                                     SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
+//                                     selecionarreservadecaixa.SelecionarUltimoReservaDeCaixa();
+//                                  }else{
+//                                     SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
+//                                     selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata);
+//                                  }
+//                           }
                        }
                    }
                    
@@ -513,7 +565,11 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                                txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
                                txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
                                frmmovimento.recebemovidponto(entradas.getIdponto());
+                               
+                               SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+                               selecionandoreservadecaixa.SelecionandoReservaDeCaixa(hoje, entradas.getIdponto(), iddata);
                            }
+                           
                            RefazerConexao refc11 = new RefazerConexao();
                            refc11.refazerconexao();
                            MovimentoDAO movdao31 = new MovimentoDAO();

@@ -92,6 +92,9 @@ public class EntradaNovo {
                             txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
                             txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));  
                             frmmovimento.recebemovidponto(entradas.getIdponto());
+                            
+                            SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+                            selecionandoreservadecaixa.SelecionandoReservaDeCaixa(agora, entradas.getIdponto(), iddata);
                         }
                         RefazerConexao refc11 = new RefazerConexao();
                         refc11.refazerconexao();

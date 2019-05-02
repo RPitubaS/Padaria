@@ -38,9 +38,11 @@ import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
+import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.dtpDescktop;
 import static view.frmPrincipal.mnCaixa;
 import static view.frmPrincipal.mnFecharcaixa;
+import static view.frmPrincipal.mnMovimento;
 
 /**
  *
@@ -78,7 +80,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         JTableHeader tabeladia = tblMovimentodia.getTableHeader();
         tabeladia.setFont(new Font("Tahoma", Font.BOLD,12)); 
         ((DefaultTableCellRenderer)tabeladia.getDefaultRenderer()).setHorizontalAlignment(JLabel.RIGHT);
-        
+        btnMovimentododiaSair.setVisible(false);
         
         
         Thread clock = new Thread() {
@@ -319,6 +321,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         dtcMovimentodia = new com.toedter.calendar.JDateChooser();
         txtVendasdia = new javax.swing.JTextField();
+        btnMovimentododiaSair = new javax.swing.JButton();
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -432,6 +435,13 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
             }
         });
 
+        btnMovimentododiaSair.setText("Sair");
+        btnMovimentododiaSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMovimentododiaSairActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -448,6 +458,8 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnMovimentododiaSair)
+                .addGap(78, 78, 78)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18))
         );
@@ -465,7 +477,9 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 .addGap(8, 8, 8)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(btnMovimentododiaSair))
                 .addGap(6, 6, 6))
         );
 
@@ -604,6 +618,9 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                       //}
             }
         }
+              mnCaixa.setEnabled(true);
+              mnFecharcaixa.setEnabled(false);
+              btnCaixa.setEnabled(true);
               
     }//GEN-LAST:event_formInternalFrameClosing
 
@@ -616,8 +633,17 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtVendasdiaActionPerformed
 
+    private void btnMovimentododiaSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovimentododiaSairActionPerformed
+        try {
+            this.setClosed(true);
+        } catch (PropertyVetoException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao tentar fechar Movimento do dia!");
+        }
+    }//GEN-LAST:event_btnMovimentododiaSairActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JButton btnMovimentododiaSair;
     private com.toedter.calendar.JDateChooser dtcMovimentodia;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;

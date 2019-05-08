@@ -6,6 +6,8 @@
 package view;
 
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
 import static java.lang.Thread.sleep;
 import java.sql.Date;
@@ -53,6 +55,7 @@ import static view.frmPrincipal.mnFecharNovousuario;
 import static view.frmPrincipal.mnFecharcaixa;
 import static view.frmPrincipal.mnMovimento;
 import static view.frmPrincipal.mnNovousuario;
+import static view.frmReservaDeCaixa.ftxtConfirmanotasreservadas;
 
 
 /**
@@ -342,7 +345,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            iddata = movdao32.selecionariddata(entradas.getIdponto());
                            
                            if(!data.equals(dataagora)){
-                              JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ", por favor efetue"
+                              JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + "\n, por favor efetue"
                                       + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
                               frmmovimento.ftxtValor.requestFocus();
                            }
@@ -420,7 +423,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                    btnEntrar.setEnabled(false);
                    btnLogin.setEnabled(false);
                    if(idpontoentrada != idusuario){
-                       JOptionPane.showMessageDialog(null, "Existe um caixa aberto para: '" + usuario + " na data: "
+                       JOptionPane.showMessageDialog(null, "Existe um caixa aberto para: '" + usuario + "\n na data: "
                                + data + "' é necessário fechamento!");
                        //gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
                    mnNovousuario.setEnabled(true);
@@ -447,69 +450,90 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                     datahoje = datas.getData();
            }
            if(datahoje == null){
-               String valorinicialcedula, valorinicialmoedas;
-               float valorinicialn = 0;
-               DecimalFormat obj_formato = new DecimalFormat();
-               obj_formato.applyPattern("##,##0.00");
-                 valorinicialcedula = JOptionPane.showInputDialog(null, "Digite o valor em cédulas para início de caixa. Somente números, ponto e vírgula no formato '00.000,00' são aceitos!");
-                 valorinicialmoedas = JOptionPane.showInputDialog(null, "Digite o valor em moédas para início de caixa. Somente números, ponto e vírgula no formato '00.000,00' são aceitos!");
-                 try{
-                     valorinicialn = Float.parseFloat(valorinicialcedula.replaceAll("\\.", "").replaceAll(",","."));
-                     valorinicialcedula = obj_formato.format(valorinicialn);
-                     frmmovimento = new frmMovimento();
-                     dtpDescktop.add(frmmovimento);
-                     frmmovimento.setVisible(true);
-                     frmmovimento.setPosicao();   
-                     ftxtValor.requestFocus();
-                     valorinicialn = Float.parseFloat(valorinicialmoedas.replaceAll("\\.", "").replaceAll(",","."));
-                     valorinicialmoedas = obj_formato.format(valorinicialn);
-                     RefazerConexao refc1 = new RefazerConexao();
-                     refc1.refazerconexao();
-                     movdao.salvar_data(agora);
-                     RefazerConexao refc2 = new RefazerConexao();
-                     refc2.refazerconexao();
-                     List<Datas> selecionadatahoje2 = new ArrayList<>();
-                     MovimentoDAO movdao2 = new MovimentoDAO();
-                     selecionadatahoje2 = movdao2.selecionardata(agora);
-                        for(Datas datas : selecionadatahoje2){
-                            iddata = datas.getId();
-                            datahoje = datas.getData();
-                        }
-                     RefazerConexao refc3 = new RefazerConexao();
-                     refc3.refazerconexao();
-                     movdao.salvar_ponto_entrada(iddata, idusuario, horaagora, Float.parseFloat(valorinicialcedula.
-                                   replaceAll("\\.", "").replaceAll(",",".")), 
-                                   Float.parseFloat(valorinicialmoedas.replaceAll("\\.", "").replaceAll(",",".")));
-                     RefazerConexao refc4 = new RefazerConexao();
-                     refc4.refazerconexao();
-                     List<Entradas> selecionaentradahoje = new ArrayList<>();
-                     MovimentoDAO movdao3 = new MovimentoDAO();
-                     selecionaentradahoje = movdao3.selecionarentrada(agora, idusuario);
-                        for(Entradas entradas : selecionaentradahoje){
-                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
-                            txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
-                            txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
-                            txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));     
-                            frmmovimento.recebemovidponto(entradas.getIdponto());
-                        }
-                     RefazerConexao refc11 = new RefazerConexao();
-                     refc11.refazerconexao();
-                     MovimentoDAO movdao31 = new MovimentoDAO();
-                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
-                 }catch(Exception ex){
-                     JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula no formato '00.000,00' são aceitos!");                    
-                     frmmovimento.dispose();
-                     mnCaixa.setEnabled(false);
-                     mnFecharcaixa.setEnabled(false);
-                     btnCaixa.setEnabled(false);
-                     mnEntrar.setEnabled(true);
-                     mnFecharEntrar.setEnabled(false);
-                     mnNovousuario.setEnabled(true);
-                     mnFecharNovousuario.setEnabled(false);
-                     btnEntrar.setEnabled(true);
-                     btnLogin.setEnabled(true);
-                     
-                 }   
+               btnCaixa.setEnabled(false);
+               mnCaixa.setEnabled(false);
+               mnFecharcaixa.setEnabled(false);
+               mnMovimento.setEnabled(false);
+               frmReservaDeCaixa frmreservadecaixa = new frmReservaDeCaixa();
+               Dimension dimensao = Toolkit.getDefaultToolkit().getScreenSize();
+               frmreservadecaixa.setBounds(((dimensao.width)-660)/2,
+                               ((dimensao.height)-735)/2,
+                               660,
+                               468);
+               frmreservadecaixa.setMaximizable(false);
+               dtpDescktop.add(frmreservadecaixa);
+               frmreservadecaixa.setVisible(true);
+               ftxtConfirmanotasreservadas.requestFocus();
+               frmreservadecaixa.setLognickentrar(nomeusuario);
+               frmreservadecaixa.setAgora(agora);
+               frmreservadecaixa.setHoraagora(horaagora);
+               frmreservadecaixa.setIddata(iddata);
+               frmreservadecaixa.setIdusuario(idusuario);
+               
+           
+//               String valorinicialcedula, valorinicialmoedas;
+//               float valorinicialn = 0;
+//               DecimalFormat obj_formato = new DecimalFormat();
+//               obj_formato.applyPattern("##,##0.00");
+//                 valorinicialcedula = JOptionPane.showInputDialog(null, "Digite o valor em cédulas para início de caixa.\n Somente números, ponto e vírgula no \n formato '00.000,00' são aceitos!");
+//                 valorinicialmoedas = JOptionPane.showInputDialog(null, "Digite o valor em moédas para início de caixa. \nSomente números, ponto e vírgula no \n formato '00.000,00' são aceitos!");
+//                 try{
+//                     valorinicialn = Float.parseFloat(valorinicialcedula.replaceAll("\\.", "").replaceAll(",","."));
+//                     valorinicialcedula = obj_formato.format(valorinicialn);
+//                     frmmovimento = new frmMovimento();
+//                     dtpDescktop.add(frmmovimento);
+//                     frmmovimento.setVisible(true);
+//                     frmmovimento.setPosicao();   
+//                     ftxtValor.requestFocus();
+//                     valorinicialn = Float.parseFloat(valorinicialmoedas.replaceAll("\\.", "").replaceAll(",","."));
+//                     valorinicialmoedas = obj_formato.format(valorinicialn);
+//                     RefazerConexao refc1 = new RefazerConexao();
+//                     refc1.refazerconexao();
+//                     movdao.salvar_data(agora);
+//                     RefazerConexao refc2 = new RefazerConexao();
+//                     refc2.refazerconexao();
+//                     List<Datas> selecionadatahoje2 = new ArrayList<>();
+//                     MovimentoDAO movdao2 = new MovimentoDAO();
+//                     selecionadatahoje2 = movdao2.selecionardata(agora);
+//                        for(Datas datas : selecionadatahoje2){
+//                            iddata = datas.getId();
+//                            datahoje = datas.getData();
+//                        }
+//                     RefazerConexao refc3 = new RefazerConexao();
+//                     refc3.refazerconexao();
+//                     movdao.salvar_ponto_entrada(iddata, idusuario, horaagora, Float.parseFloat(valorinicialcedula.
+//                                   replaceAll("\\.", "").replaceAll(",",".")), 
+//                                   Float.parseFloat(valorinicialmoedas.replaceAll("\\.", "").replaceAll(",",".")));
+//                     RefazerConexao refc4 = new RefazerConexao();
+//                     refc4.refazerconexao();
+//                     List<Entradas> selecionaentradahoje = new ArrayList<>();
+//                     MovimentoDAO movdao3 = new MovimentoDAO();
+//                     selecionaentradahoje = movdao3.selecionarentrada(agora, idusuario);
+//                        for(Entradas entradas : selecionaentradahoje){
+//                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
+//                            txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
+//                            txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
+//                            txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));     
+//                            frmmovimento.recebemovidponto(entradas.getIdponto());
+//                        }
+//                     RefazerConexao refc11 = new RefazerConexao();
+//                     refc11.refazerconexao();
+//                     MovimentoDAO movdao31 = new MovimentoDAO();
+//                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
+//                 }catch(Exception ex){
+//                     JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula \n no formato '00.000,00' são aceitos!");                    
+//                     frmmovimento.dispose();
+//                     mnCaixa.setEnabled(false);
+//                     mnFecharcaixa.setEnabled(false);
+//                     btnCaixa.setEnabled(false);
+//                     mnEntrar.setEnabled(true);
+//                     mnFecharEntrar.setEnabled(false);
+//                     mnNovousuario.setEnabled(true);
+//                     mnFecharNovousuario.setEnabled(false);
+//                     btnEntrar.setEnabled(true);
+//                     btnLogin.setEnabled(true);
+//                     
+//                 }   
                   this.setVisible(false);
                   dtpDescktop.remove(this);
                   this.dispose();
@@ -521,7 +545,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                selecionasaidanula = movdao3.selecionarsaidanull();
                if(selecionasaidanula.isEmpty()){
                    int novocaixa = JOptionPane.showConfirmDialog(null,"Deseja iniciar o caixa, "
-                           + "a partir do total do caixa anterior?", "Entrada."
+                           + "a partir \n do total do caixa anterior?", "Entrada."
                            , JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                    switch(novocaixa){
                        case 0:

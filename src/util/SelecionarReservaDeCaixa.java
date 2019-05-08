@@ -17,6 +17,11 @@ import static view.frmMovimento.ftxtNotasreserva;
 import static view.frmMovimento.lblReservadoem;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
+import static view.frmReservaDeCaixa.ftxtConfirmamoedasreservadas;
+import static view.frmReservaDeCaixa.ftxtConfirmanotasreservadas;
+import static view.frmReservaDeCaixa.lblDatadareserva;
+import static view.frmReservaDeCaixa.txtReservaemmoedas;
+import static view.frmReservaDeCaixa.txtReservaemnotas;
 
 /**
  *
@@ -52,6 +57,21 @@ public class SelecionarReservaDeCaixa {
                       ftxtNotasreserva.setText(String.format("%,.2f",reservadecaixa.getNotas()));
                       ftxtMoedasreserva.setText(String.format("%,.2f",reservadecaixa.getMoedas()));
                       lblReservadoem.setText("Reservado em: " + formatbr.format(reservadecaixa.getData()));
+                  }
+              }
+    }
+    
+    public void SelecionarUltimoCaixaReservado(){
+        List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
+        RefazerConexao refc14 = new RefazerConexao();
+        refc14.refazerconexao();
+        MovimentoDAO movdao33 = new MovimentoDAO();
+        selecionareservadecaixa = movdao33.selecionarultimoreservadecaixa();
+               if(!selecionareservadecaixa.isEmpty()){
+                  for(ReservaDeCaixa reservadecaixa : selecionareservadecaixa){
+                      txtReservaemnotas.setText(String.format("%,.2f",reservadecaixa.getNotas()));
+                      txtReservaemmoedas.setText(String.format("%,.2f",reservadecaixa.getMoedas()));
+                      lblDatadareserva.setText("Reservado em: " + formatbr.format(reservadecaixa.getData()));
                   }
               }
     }

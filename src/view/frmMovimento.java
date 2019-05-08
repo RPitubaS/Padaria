@@ -1470,6 +1470,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         btnCorrigereserva.setEnabled(false);
         lblReservadoem.setEnabled(false);
         btnReservarcaixa.setEnabled(true);
+        btnCancelarreserva.setEnabled(false);
     }//GEN-LAST:event_btnCancelarreservaActionPerformed
 
     private void btnCancelarreservaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnCancelarreservaFocusLost
@@ -1622,6 +1623,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             btnReservarcaixa.setEnabled(true);
             lblReservadoem.setEnabled(false);
             ftxtValor.requestFocus();
+            
+            SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+            selecionandoreservadecaixa.SelecionandoReservaDeCaixa(datahoje, idponto, iddata);
         }else{
             JOptionPane.showMessageDialog(null, "É preciso apresentar um\n valor a ser guardado!");
         }

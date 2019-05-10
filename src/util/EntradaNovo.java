@@ -23,6 +23,8 @@ import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
 import static view.frmMovimento.txtVendas;
+import static view.frmPassagemDeCaixa.ftxtPassagemmoedasreservadas;
+import static view.frmPassagemDeCaixa.ftxtPassagemnotasreservadas;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
 import static view.frmPrincipal.btnLogin;
@@ -58,8 +60,8 @@ public class EntradaNovo {
                dtpDescktop.add(frmmovimento);
                frmmovimento.setVisible(true);
                frmmovimento.setPosicao(); 
-                 valorinicialcedula = JOptionPane.showInputDialog(null, "Digite o valor em cédulas para início de caixa.\n Somente números, ponto e vírgula no\n formato '00.000,00' são aceitos!");
-                 valorinicialmoedas = JOptionPane.showInputDialog(null, "Digite o valor em moédas para início de caixa.\n Somente números, ponto e vírgula no\n formato '00.000,00' são aceitos!");
+                 valorinicialcedula = ftxtPassagemnotasreservadas.getText();//JOptionPane.showInputDialog(null, "Digite o valor em cédulas para início de caixa.\n Somente números, ponto e vírgula no\n formato '00.000,00' são aceitos!");
+                 valorinicialmoedas = ftxtPassagemmoedasreservadas.getText(); //JOptionPane.showInputDialog(null, "Digite o valor em moédas para início de caixa.\n Somente números, ponto e vírgula no\n formato '00.000,00' são aceitos!");
                  try{
                      valorinicialn = Float.parseFloat(valorinicialcedula.replaceAll("\\.", "").replaceAll(",","."));
                      valorinicialcedula = obj_formato.format(valorinicialn);
@@ -100,16 +102,12 @@ public class EntradaNovo {
                         MovimentoDAO movdao31 = new MovimentoDAO();
                         txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                         ftxtValor.requestFocus();
-                        //mnCaixa.setEnabled(true);
-                        //mnFecharcaixa.setEnabled(true);
-                        //btnCaixa.setEnabled(true);
                         mnEntrar.setEnabled(false);
                         mnFecharEntrar.setEnabled(false);
                         mnNovousuario.setEnabled(false);
                         mnFecharNovousuario.setEnabled(false);
                         btnEntrar.setEnabled(false);
                         btnLogin.setEnabled(false);
-                        //gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
                  }catch(Exception ex){
                      
                      JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula no\n formato '00.000,00' são aceitos!");

@@ -18,7 +18,6 @@ import static view.frmPrincipal.mnEntrar;
 import static view.frmPrincipal.mnFecharEntrar;
 import static view.frmPrincipal.mnFecharNovousuario;
 import static view.frmPrincipal.mnNovousuario;
-import static view.frmEntrar.btnLogEntrar;
 import static view.frmPrincipal.btnEntrar;
 import static view.frmPrincipal.dtpDescktop;
 
@@ -362,11 +361,6 @@ public class frmLogin extends javax.swing.JInternalFrame {
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
         
-       //try {
-           //EnviarEMail enviaremail = new EnviarEMail(txtEmail.getText(), "e_mail enviado do programa", "Este e-mail foi enviado a t�tulo de teste!");
-       //} catch (MessagingException ex) {
-           //JOptionPane.showMessageDialog(null,"Ocorreu um erro, por favor confira o endere�o de e-mail e tente novamente! ERRO: " + ex);
-       //}
        String selecao;
        if(txtNome.getText().equals("")){
          JOptionPane.showMessageDialog(null, "É necessário um nome de usuário/administrador!");
@@ -533,8 +527,6 @@ public class frmLogin extends javax.swing.JInternalFrame {
                 senha = usuario.getSenha();
                 tipousuario = usuario.getAdmin();
                 }
-            //SingletonModel.ABC obj = SingletonModel.ABC.INSTANCE;
-            //obj.i = tipousuario;
             if(tipousuario.equals("sim") && senha.equals(txtLogsenha.getText())){
                 cbxAdministrador.setSelected(false);
                 txtNome.setEnabled(true);
@@ -545,22 +537,12 @@ public class frmLogin extends javax.swing.JInternalFrame {
                 txtLognick.setText("");
                 txtLogsenha.setText("");
                 frmlogin.setClosable(true);
-                //btnNovodocumento.setEnabled(true);
-                //btnAbrirarquivos.setEnabled(true);
-                //btnLogin.setEnabled(true);
                 btnNovoEntrar.setEnabled(false);
-                //btnEntrarlogin.setEnabled(true);
-                //lblUsuario.setText("Usu�rio: " + nomeusuario);
             }else{
                 if(tipousuario.equals("nao") && senha.equals(txtLogsenha.getText())){
                     txtLognick.setText("");
                     txtLogsenha.setText("");
-                    //btnNovodocumento.setEnabled(true);
-                    //btnAbrirarquivos.setEnabled(true);
-                    //btnLogin.setEnabled(false);
                     frmlogin.setClosable(false);
-                    //btnEntrarlogin.setEnabled(true);
-                    //lblUsuario.setText("Usu�rio: " + nomeusuario);
                     JOptionPane.showMessageDialog(null, "Se não é um administrador, vá em Login para logar!", "Bragança", JOptionPane.OK_OPTION);
                     mnNovousuario.setEnabled(true);
                     mnFecharNovousuario.setEnabled(false);
@@ -571,7 +553,6 @@ public class frmLogin extends javax.swing.JInternalFrame {
                     txtLognick.setText("");
                     txtLogsenha.setText("");
                     txtLognick.requestFocus(true);
-                    //btnLogin.setEnabled(false);
                 }
             }
         }else{

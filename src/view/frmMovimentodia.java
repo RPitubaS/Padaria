@@ -11,15 +11,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.beans.PropertyVetoException;
 import java.sql.Time;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -31,18 +28,17 @@ import modelo.bean.Movimento;
 import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import util.GerenciadordeJanelas;
+import util.SelecionandoReservaDeCaixa;
 import static view.frmMovimento.ftxtValor;
-//import static view.frmMovimento.btnNovo;
-import static view.frmMovimento.tblMovimento;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
+import static view.frmMovimento.txtVendas;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.dtpDescktop;
 import static view.frmPrincipal.mnCaixa;
 import static view.frmPrincipal.mnFecharcaixa;
-import static view.frmPrincipal.mnMovimento;
 
 /**
  *
@@ -52,6 +48,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
 
     String agora, horaagora;;
     Time horasaida;
+    int iddata;
     float encerrarmovimento;
     private static frmMovimentodia frmmovimentodia;
     frmMovimento frmmovimento = new frmMovimento();
@@ -110,7 +107,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
 
         };
         clock.start();
-        //lertabela();
     }
     
     void lertabeladia() {       
@@ -165,17 +161,11 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
             horasaida = m.getHora();
             movidponto = m.getMovidponto();
         } 
-     
-        //Object[] dados1 = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00",
-                          // "0,00"},
+
          Object[] dados = {"Total:", "", "", "", "", "", "", "", ""};
-       // modelo.insertRow(modelo.getRowCount(), dados1);
+
         modelo.insertRow(modelo.getRowCount(), dados);
 
-        //String pd = txtCaixainicialdia.getText().substring(8, txtCaixainicialdia.getText().length());
-        //modelo.setValueAt(pd, modelo.getRowCount() - 2, 7);
-        
-       //// DecimalFormat obj_formato = new DecimalFormat();
                             float total = 0, vendaavista = 0, entrega = 0,recebimentoprazo = 0, cartao = 0,
                                     vale = 0, saque = 0, pagamentos = 0, movimento = 0;
                             for (int i = 0; i < modelo.getRowCount() - 1; i++) {
@@ -195,9 +185,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                     .replaceAll("\\.", "").replaceAll(",", "."));
                                 cartao += Float.parseFloat(modelo.getValueAt(i, 8).toString()
                                     .replaceAll("\\.", "").replaceAll(",", "."));
-                                //JOptionPane.showMessageDialog(null, movimento);
-                             
-                                //obj_formato.applyPattern("##, ##0.00");
+
                                 String va = df.format(vendaavista);
                                 String et = df.format(entrega);
                                 String rp = df.format(recebimentoprazo);
@@ -216,8 +204,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                 modelo.setValueAt(pg, modelo.getRowCount() - 1, 6);
                                 modelo.setValueAt(mv, modelo.getRowCount() - 1, 7); 
                                 modelo.setValueAt(ct, modelo.getRowCount() - 1, 8);
-                                //encerrarmovimento = movimento;
-                               //}
+
                             }
                             
                                   RefazerConexao refc13 = new RefazerConexao();
@@ -228,7 +215,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                   RefazerConexao refc11 = new RefazerConexao();
                                   refc11.refazerconexao();
                                   MovimentoDAO movdao31 = new MovimentoDAO();
-                                  txtVendasdia.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
+                                  txtVendasdia.setText("Vendas:  " + movdao31.selecionacontagemtotal(iddata));
                                   
                                   if(selecionamovimentodia.isEmpty()){
                                       modelo.setNumRows(0);
@@ -239,7 +226,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                        }
     
     public void cornalinha(){
-             //String mudacordelinha = ct;
               
              DefaultTableCellRenderer rightrenderer = new DefaultTableCellRenderer();
              DefaultTableCellRenderer rightrenderer1 = new DefaultTableCellRenderer();
@@ -250,13 +236,9 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                              Object value, boolean isSelected, boolean hasfocus, int row, int column){
                              JLabel label = (JLabel) super.getTableCellRendererComponent(table, value,
                                      isSelected, hasfocus, row, column);
-                             //label.setFont(new Font("Tahoma", Font.BOLD,11));
-                              //label.setHorizontalAlignment(JLabel.RIGHT);
-                              //rightrenderer.setBackground(Color.YELLOW);
-                              //tblMovimento.getColumnModel().getColumn(5).setCellRenderer(rightrenderer);
+                             
                               Color c = Color.BLACK;
                               
-                              //label.setFont(new Font("Tahoma", Font.BOLD,11));
                               Object texto = table.getValueAt(row, 7);
                               Object textocar = table.getValueAt(row, 8);
                               if(texto != null && 0 > Float.parseFloat((texto.toString().
@@ -268,27 +250,13 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                  replaceAll("\\*", "").replaceAll("\\.", "").replaceAll(",", ".")))
                                       && !"*".equals(textocar.toString().substring(0, 1))){                                 
                                   c = Color.BLUE; 
-                                  //rightrenderer1.setForeground(Color.BLUE);
+                                  
                               }
                                                             
                                  label.setForeground(c);
                                  
                                  rightrenderer.setForeground(c);
-                                 
-                                 //if(value.equals("*4,00")){
-                                   //rightrenderer1.setForeground(Color.BLUE);
-                                 //}
-                                                        
-                                 //rightrenderer.setForeground(c);
-                                
-                                 //tblMovimento.getColumnModel().getColumn(1).setCellRenderer(rightrenderer);
-                                 //tblMovimento.getColumnModel().getColumn(2).setCellRenderer(rightrenderer);
-                                 //tblMovimento.getColumnModel().getColumn(3).setCellRenderer(rightrenderer);
-                                 //tblMovimento.getColumnModel().getColumn(4).setCellRenderer(rightrenderer);
-                                 //tblMovimento.getColumnModel().getColumn(5).setCellRenderer(rightrenderer);
-                                 //tblMovimento.getColumnModel().getColumn(6).setCellRenderer(rightrenderer);
-                                 //tblMovimento.getColumnModel().getColumn(7).setCellRenderer(rightrenderer);
-                                 //tblMovimento.getColumnModel().getColumn(8).setCellRenderer(rightrenderer);
+                          
                                  rightrenderer.setHorizontalAlignment(JLabel.RIGHT);
                                  rightrenderer1.setHorizontalAlignment(JLabel.RIGHT);
                                  rightrenderer1.setForeground(Color.BLUE);
@@ -300,9 +268,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                  tblMovimentodia.getColumnModel().getColumn(6).setCellRenderer(rightrenderer);
                                  tblMovimentodia.getColumnModel().getColumn(7).setCellRenderer(rightrenderer);
                                  tblMovimentodia.getColumnModel().getColumn(8).setCellRenderer(rightrenderer1);
-                                 
-                                  //label.setForeground(c);
-                                 //label.setFont(new Font("Tahoma", Font.BOLD,11));                                  
+                              
                                   return label;
                                    
                               }                            
@@ -500,8 +466,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     private void tblMovimentodiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovimentodiaMouseClicked
         String motivopagamento = null, saquefuncionario = null, valefuncionario = null,
                clientepagamento = null, clienteentrega = null;
-        //btnExcluir.setEnabled(true);
-        //btnNovo.setEnabled(false);
+
         if(tblMovimentodia.getSelectedRow() != -1 && tblMovimentodia.getSelectedRow() != 
                 (tblMovimentodia.getRowCount() -1)){
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() < 0
@@ -512,7 +477,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 motivopagamento = movdao.selecionamotivopagto(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
                 JOptionPane.showMessageDialog(null, "Pagamento de: " + motivopagamento,"Bragança", JOptionPane.INFORMATION_MESSAGE);
-                //tblMovimento.clearSelection();
+
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() < 0
                 && selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getVale() > 0){
@@ -522,7 +487,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 valefuncionario = movdao.selecionafunvionariovale(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
                 JOptionPane.showMessageDialog(null, "Vale feito por: " + valefuncionario,"Bragança", JOptionPane.INFORMATION_MESSAGE);
-                //tblMovimento.clearSelection();
+
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() < 0
                 && selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getSaque() > 0){
@@ -532,7 +497,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 saquefuncionario = movdao.selecionafuncionariosaque(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
                 JOptionPane.showMessageDialog(null, "Saque feito por: " + saquefuncionario,"Bragança", JOptionPane.INFORMATION_MESSAGE);
-                //tblMovimento.clearSelection();
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() > 0
                 && selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getRecebapraso() > 0){
@@ -542,7 +506,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 clientepagamento = movdao.selecionaclientepagamento(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
                 JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clientepagamento,"Bragança", JOptionPane.INFORMATION_MESSAGE);
-                //tblMovimento.clearSelection();
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() > 0
                && selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getEntrega() > 0){
@@ -552,7 +515,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                clienteentrega = movdao.selecionaclienteentrega(selecionamovimentodia.get
                                                             (tblMovimentodia.getSelectedRow()).getIdmovimento());
                JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
-               //tblMovimento.clearSelection();
             }
         }
     }//GEN-LAST:event_tblMovimentodiaMouseClicked
@@ -581,11 +543,6 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
               
        DefaultTableModel modelo = (DefaultTableModel) tblMovimentodia.getModel();
        modelo.setNumRows(0);
-              //mnCaixa.setEnabled(true);
-              //mnFecharcaixa.setEnabled(false);
-              //frmmovimento = new frmMovimento();
-              //dtpDescktop.add(frmmovimento);
-              //frmmovimento.setPosicao();
               
            RefazerConexao refc10 = new RefazerConexao();
            refc10.refazerconexao();
@@ -603,20 +560,21 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                      frmmovimento.setPosicao();
                      ftxtValor.requestFocus();
                    for(Entradas entradas : selecionasaidanula1){
-                       //if(entradas.getIdusuario() == idusuario){
                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
                            txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
                            txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
                            txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
                            frmmovimento.recebemovidponto(entradas.getIdponto());
                            idpontoentrada = entradas.getIdusuario();
-                           //data = formatbr.format(entradas.getData());
-                           //String[] agoradiv = agora.split("\\.");
-                           //agora = String.format("%02d/%02d/%02d", Integer.parseInt(agoradiv[0])
-                                                                // , Integer.parseInt(agoradiv[1])
-                                                                // , Integer.parseInt(agoradiv[2]));
-                      //}
+                           SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+                           selecionandoreservadecaixa.SelecionandoReservaDeCaixa(agora, idpontoentrada, entradas.getIddata());
+                           iddata = entradas.getIddata();
+                           
             }
+                             RefazerConexao refc13 = new RefazerConexao();
+                             refc13.refazerconexao();
+                             MovimentoDAO movdao31 = new MovimentoDAO();
+                             txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
         }
               mnCaixa.setEnabled(true);
               mnFecharcaixa.setEnabled(false);

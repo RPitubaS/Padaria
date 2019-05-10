@@ -7,9 +7,7 @@ package view;
 
 //import controle.ControleMovimento;
 import controle.ControleMovimento;
-import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
-import java.awt.MenuComponent;
 import java.beans.PropertyVetoException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -19,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import modelo.bean.Usuario;
@@ -371,13 +368,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnSairActionPerformed
 
     private void mnCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCaixaActionPerformed
-        //try {
-            //.abrirjanelas(frmMovimento.getInstancia());
-            //mnFecharacrescimo.setEnabled(true);
-            //mnAcrescimo.setEnabled(false);
-        //} catch (PropertyVetoException ex) {
-            //JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao abrir a janela.");
-        //}
+
         btnCaixa.doClick();
     }//GEN-LAST:event_mnCaixaActionPerformed
 
@@ -392,11 +383,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnMovimentoActionPerformed
 
     private void btnCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaixaActionPerformed
-        //frmusuario.setVisible(false);
-        //dtpDescktop.remove(frmusuario);
-        //frmusuario.dispose();
-        //gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
-        //frmmovimentodia.setPosicaodia();
+
         btnFecharMovimento.doClick();
         frmmovimentodia = new frmMovimentodia();
         dtpDescktop.add(frmmovimentodia);
@@ -422,9 +409,6 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void mnFecharEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnFecharEntrarActionPerformed
         gerenciadordejanelas.fecharjanelas(frmEntrar.getInstancia());
-        //frmentrar.setVisible(false);
-        //dtpDescktop.remove(frmEntrar.getInstancia());
-        //frmentrar.dispose();
         mnEntrar.setEnabled(true);
         mnFecharEntrar.setEnabled(false);
         btnEntrar.setEnabled(true);
@@ -446,10 +430,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         try{
             Map parametros = new HashMap();
             parametros.put(null,idponto);
-            //JasperReport report = (JasperReport) JRLoader.loadObject("C:\\Users\\Pituba\\Documents\\NetBeansProjects\\ControleMercados_1\\src\\RelatMovimento\\RelatorioMovimento.jasper");
             InputStream inputstream = getClass().getResourceAsStream("/RelatMovimento/RelatorioMovimento.jasper");
             JRResultSetDataSource resultset = new JRResultSetDataSource(controlemovimento.movimentousuario(idponto));
-            //HashMap parameters = new HashMap();
             JasperPrint jpprint = JasperFillManager.fillReport(inputstream,
                                 parametros, resultset);
             JInternalFrame frmrelatorios = new JInternalFrame();
@@ -460,9 +442,6 @@ public class frmPrincipal extends javax.swing.JFrame {
             frmrelatorios.setClosable(true);
             frmrelatorios.setVisible(true);
             frmrelatorios.toFront();
-            //JasperViewer jv = new JasperViewer(jpprint, false);;      
-            //jv.setVisible(true);
-            //jv.toFront();
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage() + " ao gerar o relatório!");
         }
@@ -471,8 +450,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         try {
             gerenciadordejanelas.abrirjanelas(frmRelatorios.getInstancia());
-            //mnNovousuario.setEnabled(false);
-            //mnFecharNovousuario.setEnabled(true);
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog( null,"Erro: " + ex + " ao abrir a janela de relatórios.");
         }

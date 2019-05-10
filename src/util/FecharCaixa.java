@@ -11,8 +11,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.bean.Entradas;
@@ -20,7 +18,6 @@ import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import view.frmMovimento;
 import static view.frmMovimento.btnFecharcaixa;
-//import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.ftxtValor;
 import static view.frmMovimento.tblMovimento;
 import static view.frmMovimento.txtAtendentecaixa;
@@ -47,11 +44,10 @@ public class FecharCaixa {
         java.sql.Date data;
         df.applyPattern("R$ ##,##0.00");
         boolean fechandocaixa = true;
-        //String encerrarmovimentos = df.format(encerrarmovimento);
         
         SimpleDateFormat formatbr = new SimpleDateFormat("dd.MM.yyyy");
         SimpleDateFormat formathr = new SimpleDateFormat("HH:mm:hh");
-        //JOptionPane.showMessageDialog(null, datahoje);
+
         int fechacaixa = JOptionPane.showConfirmDialog(null,"Deseja realmente fechar o caixa, com o valor de: "
                                                        + df.format(caixasaida) + " ?", "Fechamento."
                                                        , JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -69,9 +65,6 @@ public class FecharCaixa {
                              for(Entradas entradas : selecionasaida){
                                  data = entradas.getData();
                              }
-
-                //java.sql.Time sdfhorasaida = new java.sql.Time(formathr.parse(txtRelogio.getText().substring
-                                                                              //(0, 8)).getTime());
                      
                  if(data.before(sdf)){
                      RefazerConexao rfc2 = new RefazerConexao();
@@ -83,7 +76,7 @@ public class FecharCaixa {
                                                                    + "saida. Somente números e dois\n"
                                                                    + "pontos no formato 'hh:mm:ss'\n"
                                                                    + "são aceitos!");
-                     //horasaidanull = new java.sql.Time(formathr.parse(horadasaida).getTime());
+
                      RefazerConexao rfc1 = new RefazerConexao();
                      rfc1.refazerconexao();
                      MovimentoDAO movimdao = new MovimentoDAO();
@@ -109,7 +102,6 @@ public class FecharCaixa {
                       btnExcluir.setEnabled(false);
                       btnFecharcaixa.setEnabled(false);
                       ftxtValor.setEnabled(false);
-                      //gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
 
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Erro: " + ex);

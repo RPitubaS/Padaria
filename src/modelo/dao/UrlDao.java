@@ -49,7 +49,7 @@ public class UrlDao {
                        guardarurl.SaveProp("conectar", caminhofinal + "?encoding=WIN1252");
                        String arq = "";
                        enviandocaminho = caminhofinal + "?encoding=WIN1252";
-                       //enviandocaminho = guardarurl.GetProp("conectar");
+
                        try {
                            ConexaoFirebird conecta = new ConexaoFirebird(enviandocaminho);
                            JOptionPane.showMessageDialog(null,"URL gravada com sucesso!");

@@ -8,23 +8,17 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.beans.PropertyVetoException;
 import static java.lang.Thread.sleep;
 import java.sql.Date;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import modelo.bean.Datas;
 import modelo.bean.Entradas;
-import modelo.bean.Movimento;
-import modelo.bean.ReservaDeCaixa;
 import modelo.bean.Usuario;
 import modelo.dao.MovimentoDAO;
 import modelo.dao.UsuariosDAO;
@@ -33,12 +27,8 @@ import util.EntradaNovo;
 import util.GerenciadordeJanelas;
 import util.GuardarUrl;
 import util.SelecionandoReservaDeCaixa;
-import util.SelecionarReservaDeCaixa;
 import static view.frmMovimento.btnExcluir;
-import static view.frmMovimento.ftxtMoedasreserva;
-import static view.frmMovimento.ftxtNotasreserva;
 import static view.frmMovimento.ftxtValor;
-//import static view.frmMovimento.btnNovo;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
@@ -66,7 +56,6 @@ public class frmEntrar extends javax.swing.JInternalFrame {
    GerenciadordeJanelas gerenciadordejanelas = new GerenciadordeJanelas(dtpDescktop);
    frmMovimento frmmovimento = new frmMovimento();
    GuardarUrl guardarurl = new GuardarUrl();
-    //frmCarregando frmcarregando;
     private static frmEntrar frmentrar;
     private static JDesktopPane jdesktoppane;
     String nomeusuario = "", tipousuario = "";
@@ -294,8 +283,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                        senha = usuarios.getSenha();
                        tipousuario = usuarios.getAdmin();
                       }
-        //SingletonModel.ABC obj = SingletonModel.ABC.INSTANCE;
-        //obj.i = tipousuario;
+
         if(senha.equals(txtLogsenhaentrar.getText())){
            txtLognickentrar.setText("");
            txtLogsenhaentrar.setText("");
@@ -322,10 +310,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                      frmmovimento.setVisible(true);
                      frmmovimento.setPosicao();
                      ftxtValor.requestFocus();
-//                     RefazerConexao refc11 = new RefazerConexao();
-//                     refc11.refazerconexao();
-//                     MovimentoDAO movdao31 = new MovimentoDAO();
-//                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(agora));
+
                    for(Entradas entradas : selecionasaidanula1){
                        if(entradas.getIdusuario() == idusuario){
                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
@@ -339,11 +324,15 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            dataagora = String.format("%02d/%02d/%02d", Integer.parseInt(agoradiv[0])
                                                                  , Integer.parseInt(agoradiv[1])
                                                                  , Integer.parseInt(agoradiv[2]));
-                           RefazerConexao refc13 = new RefazerConexao();
-                           refc13.refazerconexao();
-                           MovimentoDAO movdao32 = new MovimentoDAO();
-                           iddata = movdao32.selecionariddata(entradas.getIdponto());
-                           
+//                           RefazerConexao refc13 = new RefazerConexao();
+//                           refc13.refazerconexao();
+//                           MovimentoDAO movdao32 = new MovimentoDAO();
+//                           iddata = movdao32.selecionariddata(entradas.getIdponto());
+                             iddata = entradas.getIddata();
+                             RefazerConexao refc13 = new RefazerConexao();
+                             refc13.refazerconexao();
+                             MovimentoDAO movdao31 = new MovimentoDAO();
+                             txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                            if(!data.equals(dataagora)){
                               JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + "\n, por favor efetue"
                                       + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
@@ -353,40 +342,15 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
                            selecionandoreservadecaixa.SelecionandoReservaDeCaixa(hoje, entradas.getIdponto(), iddata);
                            
-//                           List<Movimento> selecionamovimentodia = new ArrayList<>();
-//                           RefazerConexao refc15 = new RefazerConexao();
-//                           refc15.refazerconexao();
-//                           MovimentoDAO movdao35 = new MovimentoDAO();
-//                           selecionamovimentodia = movdao35.selecionarmovimentodia(hoje);
-//                           if(!selecionamovimentodia.isEmpty()){
-//                               List<Movimento> selecionamovimentousua = new ArrayList<>();
-//                               RefazerConexao refc16 = new RefazerConexao();
-//                               refc16.refazerconexao();
-//                               MovimentoDAO movdao36 = new MovimentoDAO();
-//                               selecionamovimentousua = movdao36.selecionarmovimentousua(entradas.getIdponto());
-//                                  if(selecionamovimentousua.isEmpty()){
-//                                     SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
-//                                     selecionarreservadecaixa.SelecionarUltimoReservaDeCaixa();
-//                                  }else{
-//                                     SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
-//                                     selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata);
-//                                  }
-//                           }
-                           
-                            //mnNovousuario.setEnabled(false);
-                            //mnFecharNovousuario.setEnabled(false);
-                            //mnEntrar.setEnabled(false);
-                            //mnFecharEntrar.setEnabled(false);
-                            //btnEntrar.setEnabled(false);
-                            //btnLogin.setEnabled(false);
                        }else{
                            usuario = entradas.getUsuario();
                            idpontoentrada = entradas.getIdponto();
                            data = formatbr.format(entradas.getData());
-                           RefazerConexao refc13 = new RefazerConexao();
-                           refc13.refazerconexao();
-                           MovimentoDAO movdao32 = new MovimentoDAO();
-                           iddata = movdao32.selecionariddata(idpontoentrada);
+//                           RefazerConexao refc13 = new RefazerConexao();
+//                           refc13.refazerconexao();
+//                           MovimentoDAO movdao32 = new MovimentoDAO();
+//                           iddata = movdao32.selecionariddata(idpontoentrada);
+                             iddata = entradas.getIddata();
                            RefazerConexao refc11 = new RefazerConexao();
                            refc11.refazerconexao();
                            MovimentoDAO movdao31 = new MovimentoDAO();
@@ -394,25 +358,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            
                            SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
                            selecionandoreservadecaixa.SelecionandoReservaDeCaixa(hoje, entradas.getIdponto(), iddata);
-//                           List<Movimento> selecionamovimentodia = new ArrayList<>();
-//                           RefazerConexao refc15 = new RefazerConexao();
-//                           refc15.refazerconexao();
-//                           MovimentoDAO movdao35 = new MovimentoDAO();
-//                           selecionamovimentodia = movdao35.selecionarmovimentodia(hoje);
-//                           if(!selecionamovimentodia.isEmpty()){
-//                               List<Movimento> selecionamovimentousua = new ArrayList<>();
-//                               RefazerConexao refc16 = new RefazerConexao();
-//                               refc16.refazerconexao();
-//                               MovimentoDAO movdao36 = new MovimentoDAO();
-//                               selecionamovimentousua = movdao36.selecionarmovimentousua(entradas.getIdponto());
-//                                  if(selecionamovimentousua.isEmpty()){
-//                                     SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
-//                                     selecionarreservadecaixa.SelecionarUltimoReservaDeCaixa();
-//                                  }else{
-//                                     SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
-//                                     selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata);
-//                                  }
-//                           }
+
                        }
                    }
                    
@@ -425,7 +371,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                    if(idpontoentrada != idusuario){
                        JOptionPane.showMessageDialog(null, "Existe um caixa aberto para: '" + usuario + "\n na data: "
                                + data + "' é necessário fechamento!");
-                       //gerenciadordejanelas.fecharjanelas(frmMovimento.getInstancia());
+
                    mnNovousuario.setEnabled(true);
                    mnFecharNovousuario.setEnabled(false);
                    mnEntrar.setEnabled(true);
@@ -470,70 +416,6 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                frmreservadecaixa.setIddata(iddata);
                frmreservadecaixa.setIdusuario(idusuario);
                
-           
-//               String valorinicialcedula, valorinicialmoedas;
-//               float valorinicialn = 0;
-//               DecimalFormat obj_formato = new DecimalFormat();
-//               obj_formato.applyPattern("##,##0.00");
-//                 valorinicialcedula = JOptionPane.showInputDialog(null, "Digite o valor em cédulas para início de caixa.\n Somente números, ponto e vírgula no \n formato '00.000,00' são aceitos!");
-//                 valorinicialmoedas = JOptionPane.showInputDialog(null, "Digite o valor em moédas para início de caixa. \nSomente números, ponto e vírgula no \n formato '00.000,00' são aceitos!");
-//                 try{
-//                     valorinicialn = Float.parseFloat(valorinicialcedula.replaceAll("\\.", "").replaceAll(",","."));
-//                     valorinicialcedula = obj_formato.format(valorinicialn);
-//                     frmmovimento = new frmMovimento();
-//                     dtpDescktop.add(frmmovimento);
-//                     frmmovimento.setVisible(true);
-//                     frmmovimento.setPosicao();   
-//                     ftxtValor.requestFocus();
-//                     valorinicialn = Float.parseFloat(valorinicialmoedas.replaceAll("\\.", "").replaceAll(",","."));
-//                     valorinicialmoedas = obj_formato.format(valorinicialn);
-//                     RefazerConexao refc1 = new RefazerConexao();
-//                     refc1.refazerconexao();
-//                     movdao.salvar_data(agora);
-//                     RefazerConexao refc2 = new RefazerConexao();
-//                     refc2.refazerconexao();
-//                     List<Datas> selecionadatahoje2 = new ArrayList<>();
-//                     MovimentoDAO movdao2 = new MovimentoDAO();
-//                     selecionadatahoje2 = movdao2.selecionardata(agora);
-//                        for(Datas datas : selecionadatahoje2){
-//                            iddata = datas.getId();
-//                            datahoje = datas.getData();
-//                        }
-//                     RefazerConexao refc3 = new RefazerConexao();
-//                     refc3.refazerconexao();
-//                     movdao.salvar_ponto_entrada(iddata, idusuario, horaagora, Float.parseFloat(valorinicialcedula.
-//                                   replaceAll("\\.", "").replaceAll(",",".")), 
-//                                   Float.parseFloat(valorinicialmoedas.replaceAll("\\.", "").replaceAll(",",".")));
-//                     RefazerConexao refc4 = new RefazerConexao();
-//                     refc4.refazerconexao();
-//                     List<Entradas> selecionaentradahoje = new ArrayList<>();
-//                     MovimentoDAO movdao3 = new MovimentoDAO();
-//                     selecionaentradahoje = movdao3.selecionarentrada(agora, idusuario);
-//                        for(Entradas entradas : selecionaentradahoje){
-//                            txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
-//                            txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
-//                            txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
-//                            txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));     
-//                            frmmovimento.recebemovidponto(entradas.getIdponto());
-//                        }
-//                     RefazerConexao refc11 = new RefazerConexao();
-//                     refc11.refazerconexao();
-//                     MovimentoDAO movdao31 = new MovimentoDAO();
-//                     txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
-//                 }catch(Exception ex){
-//                     JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula \n no formato '00.000,00' são aceitos!");                    
-//                     frmmovimento.dispose();
-//                     mnCaixa.setEnabled(false);
-//                     mnFecharcaixa.setEnabled(false);
-//                     btnCaixa.setEnabled(false);
-//                     mnEntrar.setEnabled(true);
-//                     mnFecharEntrar.setEnabled(false);
-//                     mnNovousuario.setEnabled(true);
-//                     mnFecharNovousuario.setEnabled(false);
-//                     btnEntrar.setEnabled(true);
-//                     btnLogin.setEnabled(true);
-//                     
-//                 }   
                   this.setVisible(false);
                   dtpDescktop.remove(this);
                   this.dispose();
@@ -591,6 +473,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                                txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
                                frmmovimento.recebemovidponto(entradas.getIdponto());
                                
+                               iddata = entradas.getIddata();
                                SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
                                selecionandoreservadecaixa.SelecionandoReservaDeCaixa(hoje, entradas.getIdponto(), iddata);
                            }
@@ -600,9 +483,6 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            MovimentoDAO movdao31 = new MovimentoDAO();
                            txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                            ftxtValor.requestFocus();
-                           //mnCaixa.setEnabled(true);
-                           //mnFecharcaixa.setEnabled(true);
-                           //btnCaixa.setEnabled(true);
                            mnEntrar.setEnabled(false);
                            mnFecharEntrar.setEnabled(false);
                            mnNovousuario.setEnabled(false);
@@ -611,8 +491,21 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            btnLogin.setEnabled(false);                           
                            break;
                        case 1:
-                           EntradaNovo entradanovo = new EntradaNovo();
-                           entradanovo.EntradaNovo(agora, horaagora, iddata, idusuario);                           
+                           frmPassagemDeCaixa frmpassagemdecaixa = new frmPassagemDeCaixa();
+                           Dimension dimensao = Toolkit.getDefaultToolkit().getScreenSize();
+                           frmpassagemdecaixa.setBounds(((dimensao.width)-660)/2,
+                               ((dimensao.height)-735)/2,
+                               660,
+                               468);
+                           frmpassagemdecaixa.setMaximizable(false);                           
+                           dtpDescktop.add(frmpassagemdecaixa);
+                           frmpassagemdecaixa.setVisible(true);
+                           frmpassagemdecaixa.setAgora(agora);
+                           frmpassagemdecaixa.setHoraagora(horaagora);
+                           frmpassagemdecaixa.setIddata(iddata);
+                           frmpassagemdecaixa.setIdusuario(idusuario);
+                           //EntradaNovo entradanovo = new EntradaNovo();
+                           //entradanovo.EntradaNovo(agora, horaagora, iddata, idusuario);                           
                            break;
                        case 2:
                            mnCaixa.setEnabled(false);
@@ -629,16 +522,6 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            this.dispose();
                            break;
                    }
-                   //mnCaixa.setEnabled(false);
-                   //mnFecharcaixa.setEnabled(false);
-                   //btnCaixa.setEnabled(false);
-                  // mnEntrar.setEnabled(true);
-                  // mnFecharEntrar.setEnabled(false);
-                  // mnNovousuario.setEnabled(true);
-                  // mnFecharNovousuario.setEnabled(false);
-                  // btnEntrar.setEnabled(true);
-                  // btnLogin.setEnabled(true);
-                  // dtpDescktop.remove(this);
                    this.dispose();
                }
                 dtpDescktop.remove(this);

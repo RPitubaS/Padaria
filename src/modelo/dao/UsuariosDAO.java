@@ -53,7 +53,6 @@ public class UsuariosDAO {
             stmt = con.prepareStatement("SELECT ID, USUARIO, ADIMIN FROM USUARIOS \n"+
                     "WHERE ADIMIN = 'sim'");
            
-            //stmt.setString(1, senhausuario);
             rs = stmt.executeQuery();
             Usuario usuario = new Usuario();
                              while (rs.next()){

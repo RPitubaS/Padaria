@@ -6,16 +6,11 @@
 package controle;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
-import modelo.bean.Movimento;
 import modelo.dao.MovimentoDAO;
 import produzconexao.ConexaoFirebird;
 
@@ -39,8 +34,7 @@ public class ControleMovimento {
             rs = stmt.executeQuery();
         }catch(SQLException ex){
                JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar selecionar o movimento!");
-        //}finally{
-                 //ConexaoFirebird.closeConnection(con, stmt, rs);
+
         }
         if(rs != null){
            return rs;
@@ -57,7 +51,6 @@ public class ControleMovimento {
          
          try{
              java.sql.Date inicio = new java.sql.Date(formatbr.parse(data).getTime());
-             //JOptionPane.showMessageDialog(null, inicio + "fdfdfd");
              
              stmt = con.prepareStatement("select DT.DATA, US.USUARIO,MV.HORA, MV.VENDA_AVISTA, ENTREGA, "
                      + "RECEBIMENTO_PRAZO, CARTAO, VALE, SAQUE, PAGAMENTOS, MOVIMENTO\n" +

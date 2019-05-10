@@ -7,7 +7,6 @@
 package modelo.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,8 +15,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.bean.Datas;
 import modelo.bean.Entradas;
@@ -39,7 +36,6 @@ public class MovimentoDAO {
         PreparedStatement stmt = null;
        
         try {       
-            //SimpleDateFormat formatbr = new SimpleDateFormat("dd.MM.yyyy");
             java.sql.Date sdf = new java.sql.Date(formatbr.parse(agoraini).getTime());
             stmt = con.prepareStatement("INSERT INTO DATA(DATA) VALUES(?)");
             stmt.setDate(1, sdf);//.setDate(1, sdf);
@@ -63,7 +59,6 @@ public class MovimentoDAO {
         PreparedStatement stmt = null;
            
         try{
-            //SimpleDateFormat formatbr = new SimpleDateFormat("HH:mm:ss");
             java.sql.Time sdf = new java.sql.Time(formatbrh.parse(horaentrada).getTime());
             stmt = con.prepareStatement("INSERT INTO CARTAO_PONTO(PT_DATA, PT_USUARIO, HORA_ENTRADA, CAIXA_ENTRADA_NOTAS," +
                                         "CAIXA_ENTRADA_MOEDAS) VALUES(?,?,?,?,?)");
@@ -91,7 +86,6 @@ public class MovimentoDAO {
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         try{
-            //SimpleDateFormat formatbr = new SimpleDateFormat("HH:mm:ss");
             java.sql.Time sdf = new java.sql.Time(formatbrh.parse(horaagora).getTime());
             stmt = con.prepareStatement("insert into MOVIMENTO(MOV_ID_PONTO, HORA, VENDA_AVISTA, ENTREGA, RECEBIMENTO_PRAZO,"
                                         + " CARTAO, VALE, SAQUE, PAGAMENTOS, MOVIMENTO) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -221,14 +215,14 @@ public class MovimentoDAO {
           }
       }
       
-      public void salvar_reservadecaixa(int reseridmovimento, float notas, float moedas){
+      public void salvar_reservadecaixa(int reseridponto, float notas, float moedas){
       
           Connection con = ConexaoFirebird.getConnection();
           PreparedStatement stmt = null;
           try{
-              stmt = con.prepareStatement("insert into RESERVADECAIXA(RESER_ID_MOVIMENTO, NOTAS, MOEDAS)"
+              stmt = con.prepareStatement("insert into RESERVADECAIXA(RESER_ID_PONTO, NOTAS, MOEDAS)"
                                           + "values(?, ?, ?)");
-              stmt.setInt(1, reseridmovimento);
+              stmt.setInt(1, reseridponto);
               stmt.setFloat(2, notas);
               stmt.setFloat(3, moedas);
               stmt.executeUpdate();
@@ -260,8 +254,6 @@ public class MovimentoDAO {
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         try{
-            //SimpleDateFormat formatbr = new SimpleDateFormat("HH:mm:ss");
-            //java.sql.Time sdf = new java.sql.Time(formatbr.parse(horasaida).getTime());
              java.sql.Time sdf = new java.sql.Time(formatbrh.parse(horasaida).getTime());
             stmt = con.prepareStatement("UPDATE CARTAO_PONTO a SET a.HORA_SAIDA = ?, a.CAIXA_SAIDA = ?" +
                                         "WHERE a.ID_PONTO = ?");
@@ -272,9 +264,6 @@ public class MovimentoDAO {
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro ao tentar fechar o ponto! " + ex,
                     "Bragança", JOptionPane.ERROR_MESSAGE);
-        //} catch (ParseException ex) {
-             //JOptionPane.showMessageDialog(null, "Erro ao tentar fechar o movimento! " + ex,
-                    //"Bragança", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Erro: " + ex + " no fechamento de ponto!");
         }finally{
@@ -309,7 +298,6 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<Datas> selecionadataatual = new ArrayList<>();
         try {
-            //SimpleDateFormat formatbr = new SimpleDateFormat("dd.MM.yyyy");
             java.sql.Date sdf = new java.sql.Date(formatbr.parse(agora).getTime());
             stmt = con.prepareStatement("SELECT * FROM DATA WHERE DATA = ?");
             stmt.setDate(1, sdf);
@@ -438,10 +426,9 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<Entradas> selecionaentrada = new ArrayList<>();
         try{
-            //SimpleDateFormat formatbr = new SimpleDateFormat("dd.MM.yyyy");
             java.sql.Date sdf = new java.sql.Date(formatbr.parse(agora).getTime());
             stmt = con.prepareStatement("SELECT CP.ID_PONTO, CP.CAIXA_ENTRADA_NOTAS,\n" + 
-                                        "CP.CAIXA_ENTRADA_MOEDAS, US.USUARIO FROM DATA DT JOIN CARTAO_PONTO CP\n" + 
+                                        "CP.CAIXA_ENTRADA_MOEDAS,DT.ID_DATA, US.USUARIO FROM DATA DT JOIN CARTAO_PONTO CP\n" + 
                                         "ON CP.PT_DATA = DT.ID_DATA JOIN USUARIOS US ON US.ID = CP.PT_USUARIO\n" +
                                         "WHERE DT.DATA = ? AND US.ID = ? AND CP.HORA_SAIDA is null");
             stmt.setDate(1, sdf);
@@ -449,6 +436,7 @@ public class MovimentoDAO {
             rs = stmt.executeQuery();
             Entradas entradas = new Entradas();
               while(rs.next()){
+                    entradas.setIddata(rs.getInt("ID_DATA"));
                     entradas.setIdponto(rs.getInt("ID_PONTO"));
                     entradas.setUsuario(rs.getString("USUARIO"));
                     entradas.setValorinicialcedula(rs.getFloat("CAIXA_ENTRADA_NOTAS"));
@@ -542,7 +530,7 @@ public class MovimentoDAO {
         List<Entradas> selecionasaidanula = new ArrayList<>();
         try{
             stmt = con.prepareStatement("SELECT CP.ID_PONTO, CP.CAIXA_ENTRADA_NOTAS,\n" + 
-                                        "CP.CAIXA_ENTRADA_MOEDAS,DT.DATA, US.ID, US.USUARIO FROM DATA DT JOIN CARTAO_PONTO CP\n" + 
+                                        "CP.CAIXA_ENTRADA_MOEDAS,DT.ID_DATA, DT.DATA, US.ID, US.USUARIO FROM DATA DT JOIN CARTAO_PONTO CP\n" + 
                                         "ON CP.PT_DATA = DT.ID_DATA JOIN USUARIOS US ON US.ID = CP.PT_USUARIO\n" +
                                         "WHERE CP.HORA_SAIDA is null");
             rs = stmt.executeQuery();
@@ -550,6 +538,7 @@ public class MovimentoDAO {
             while(rs.next()){
                   entradas.setIdponto(rs.getInt("ID_PONTO"));
                   entradas.setIdusuario(rs.getInt("ID"));
+                  entradas.setIddata(rs.getInt("ID_DATA"));
                   entradas.setData(rs.getDate("DATA"));
                   entradas.setUsuario(rs.getString("USUARIO"));
                   entradas.setValorinicialcedula(rs.getFloat("CAIXA_ENTRADA_NOTAS"));
@@ -705,14 +694,55 @@ public class MovimentoDAO {
             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar a contagem do dia!");
-        //} catch (ParseException ex) {
-            //JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar data para contagem do dia!");
         }finally{
             ConexaoFirebird.closeConnection(con, stmt, rs);
         }
         return selecionacontfregues;
     }
     
+    public int selecionacontagemtotal(int iddata){
+       Connection con = ConexaoFirebird.getConnection();
+       PreparedStatement stmt = null;
+       ResultSet rs = null;
+       int selecionatotalfregues = 0;
+       
+       try{
+           stmt = con.prepareStatement("select sum(CONTAGEM) as TOTALFREGUES from CONTA_FREGUES\n" +
+                                       "where CONTFREGUES_ID_DATA = ?");
+           stmt.setInt(1, iddata);
+           rs = stmt.executeQuery();
+           while(rs.next()){
+              selecionatotalfregues = rs.getInt("TOTALFREGUES");
+           }
+       }catch(SQLException ex){
+           JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar a contagem total do dia!");
+       }finally{
+           ConexaoFirebird.closeConnection(con, stmt, rs);
+       }
+       return selecionatotalfregues;
+    }
+    
+     public int selecionaidcontagem(int iddata){
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int idcontagem = 0;
+        try{
+            stmt = con.prepareStatement("select CONTFREGUES_ID_DATA from CONTA_FREGUES\n" +
+                                        "where CONTFREGUES_ID_DATA = ?");
+            stmt.setInt(1, iddata);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+               idcontagem = rs.getInt("CONTFREGUES_ID_DATA");
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar o id da contagem\n total do dia!");
+        }finally{
+            ConexaoFirebird.closeConnection(con, stmt, rs);
+        }
+        return idcontagem;
+     }
+     
     public int selecionariddata(int movidponto){
          Connection con = ConexaoFirebird.getConnection();
          PreparedStatement stmt = null;
@@ -744,10 +774,9 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<ReservaDeCaixa> selecionaultimoreservadecaixa = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select rc.ID_RESERVA, rc.RESER_ID_MOVIMENTO, rc.NOTAS, rc.MOEDAS,"
-                                        + " dt.DATA from RESERVADECAIXA rc join MOVIMENTO mv on "
-                                        + "rc.RESER_ID_MOVIMENTO = mv.ID_MOVIMENTO "
-                                        + " join CARTAO_PONTO cp on cp.ID_PONTO = mv.MOV_ID_PONTO "
+            stmt = con.prepareStatement("select rc.ID_RESERVA, rc.RESER_ID_PONTO, rc.NOTAS, rc.MOEDAS,"
+                                        + " dt.DATA from RESERVADECAIXA rc join CARTAO_PONTO cp on "
+                                        + "rc.RESER_ID_PONTO = cp.ID_PONTO "
                                         + "join DATA dt on dt.ID_DATA = cp.PT_DATA  "
                                         + "where ID_RESERVA = (select "
                                         + "max(ID_RESERVA) from RESERVADECAIXA)");
@@ -755,7 +784,7 @@ public class MovimentoDAO {
             ReservaDeCaixa reservadecaixa = new ReservaDeCaixa();
             while(rs.next()){
                   reservadecaixa.setIdreserva(rs.getInt("ID_RESERVA"));
-                  reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_MOVIMENTO"));
+                  reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_PONTO"));
                   reservadecaixa.setNotas(rs.getFloat("NOTAS"));
                   reservadecaixa.setMoedas(rs.getFloat("MOEDAS"));
                   reservadecaixa.setData(rs.getDate("DATA"));
@@ -776,16 +805,16 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select rc.ID_RESERVA, rc.RESER_ID_MOVIMENTO, rc.NOTAS, rc.MOEDAS, dt.DATA"
-                    + " from RESERVADECAIXA rc join MOVIMENTO mv on rc.RESER_ID_MOVIMENTO = mv.ID_MOVIMENTO "
-                    + " join CARTAO_PONTO cp on cp.ID_PONTO = mv.MOV_ID_PONTO join DATA dt on dt.ID_DATA = cp.PT_DATA "
+            stmt = con.prepareStatement("select rc.ID_RESERVA, rc.RESER_ID_PONTO, rc.NOTAS, rc.MOEDAS, dt.DATA"
+                    + " from RESERVADECAIXA rc join CARTAO_PONTO cp on rc.RESER_ID_PONTO = cp.ID_PONTO "
+                    + " join DATA dt on dt.ID_DATA = cp.PT_DATA "
                     + "where dt.ID_DATA = ?");
             stmt.setInt(1, iddata);
             rs = stmt.executeQuery();
             ReservaDeCaixa reservadecaixa = new ReservaDeCaixa();
             while(rs.next()){
                   reservadecaixa.setIdreserva(rs.getInt("ID_RESERVA"));
-                  reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_MOVIMENTO"));
+                  reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_PONTO"));
                   reservadecaixa.setNotas(rs.getFloat("NOTAS"));
                   reservadecaixa.setMoedas(rs.getFloat("MOEDAS"));
                   reservadecaixa.setData(rs.getDate("DATA"));

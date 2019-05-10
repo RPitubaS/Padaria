@@ -5,31 +5,19 @@
  */
 package view;
 
-//import controle.ControleMovimento;
 import controle.ControleMovimento;
-import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JRViewer;
-import net.sf.jasperreports.view.JasperViewer;
 import produzconexao.RefazerConexao;
 import util.GerenciadordeJanelas;
 import static view.frmPrincipal.dtpDescktop;
@@ -173,33 +161,9 @@ public class frmRelatorios extends javax.swing.JInternalFrame {
         String inicio;
         RefazerConexao rfc = new RefazerConexao();
         rfc.refazerconexao();
-        //int idponto = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o id"));
-        //try{
-            //Map parametros = new HashMap();
-            //parametros.put(null,null);
-      
-            //InputStream inputstream = getClass().getResourceAsStream("/RelatMovimento/RelatorioMovimento.jasper");
-            //JRResultSetDataSource resultset = new JRResultSetDataSource(controlemovimento.movimentousuario(idponto));
-            
-            //JasperPrint jpprint = JasperFillManager.fillReport(inputstream,
-                                //parametros, resultset);
-            //JInternalFrame frmrelatorios = new JInternalFrame();
-            //frmrelatorios.getContentPane().add(new JRViewer(jpprint));
-            //frmrelatorios.pack();
-            //dkpRelatorios.add(frmrelatorios);
-            //frmrelatorios.setSize(dkpRelatorios.getSize());
-            //frmrelatorios.setClosable(true);
-            //frmrelatorios.setVisible(true);
-            //frmrelatorios.toFront();
-          
-        //}catch(Exception ex){
-            //JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage() + " ao gerar o relatório!");
-        //}
           DateFormat df = DateFormat.getDateInstance();
-          //java.sql.Date inicio = new java.sql.Date(df.format(dtcDatainicial.getDate()));
         try {
             inicio = df.format(dtcDatainicial.getDate());
-            //JOptionPane.showMessageDialog(null, inicio);
             InputStream inputstream = getClass().getResourceAsStream("/RelatMovimento/MovimentoDia.jasper");
               JRResultSetDataSource resultset = new JRResultSetDataSource(controlemovimento.movimentodiario(inicio));
               JasperPrint jpprint = JasperFillManager.fillReport(inputstream, new HashMap<>(), resultset);

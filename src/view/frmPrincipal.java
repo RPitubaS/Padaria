@@ -59,7 +59,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         this.gerenciadordejanelas = new GerenciadordeJanelas(dtpDescktop);
-        
+        guardarurl.setContador(0);
         String resultado = guardarurl.GetProp("conectar");       
         try {
             if (!resultado.equals("")) {
@@ -71,7 +71,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             UrlDao url = new UrlDao();
             url.pegaurl();
-
         } catch (SQLException ex) {
             System.exit(0);
         }  
@@ -161,6 +160,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnCaixa = new javax.swing.JButton();
         btnEntrar = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
+        btnAdministrador = new javax.swing.JButton();
         mnBarraMenu = new javax.swing.JMenuBar();
         mnMovimento = new javax.swing.JMenu();
         mnCaixa = new javax.swing.JMenuItem();
@@ -243,6 +243,17 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
         tbrBarraFerramentas.add(btnLogin);
+
+        btnAdministrador.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
+        btnAdministrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconfinder_Downloads-Folder-Icon_70751 (2).png"))); // NOI18N
+        btnAdministrador.setText("admin.");
+        btnAdministrador.setFocusable(false);
+        btnAdministrador.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdministrador.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnAdministrador.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnAdministrador.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnAdministrador.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tbrBarraFerramentas.add(btnAdministrador);
 
         mnMovimento.setText("Arquivo");
         mnMovimento.addActionListener(new java.awt.event.ActionListener() {
@@ -538,6 +549,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdministrador;
     public static javax.swing.JButton btnCaixa;
     public static javax.swing.JButton btnEntrar;
     public static javax.swing.JButton btnLogin;

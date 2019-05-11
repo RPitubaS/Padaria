@@ -58,6 +58,7 @@ public class SelecionarReservaDeCaixa {
     
     public void SelecionarUltimoCaixaReservado(){
         List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
+        int selecionaridpontoultimocaixareservado = 0;
         RefazerConexao refc14 = new RefazerConexao();
         refc14.refazerconexao();
         MovimentoDAO movdao33 = new MovimentoDAO();
@@ -71,4 +72,34 @@ public class SelecionarReservaDeCaixa {
               }
     }
     
+    public int SelecionaridpontoUltimoCaixaReservado(){
+        List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
+        int selecionaridpontoultimocaixareservado = 0;
+        RefazerConexao refc14 = new RefazerConexao();
+        refc14.refazerconexao();
+        MovimentoDAO movdao33 = new MovimentoDAO();
+        selecionareservadecaixa = movdao33.selecionarultimoreservadecaixa();
+               if(!selecionareservadecaixa.isEmpty()){
+                  for(ReservaDeCaixa reservadecaixa : selecionareservadecaixa){
+                      selecionaridpontoultimocaixareservado = reservadecaixa.getReseriponto();
+                  }
+              }
+               return selecionaridpontoultimocaixareservado;
+    }
+    
+//    public int selecionaridpontoreservadecaixa (int iddata){
+//        
+//        int selecionaridpontoreservadecaixa = 0;
+//        List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
+//        RefazerConexao refc14 = new RefazerConexao();
+//        refc14.refazerconexao();
+//        MovimentoDAO movdao33 = new MovimentoDAO();
+//        selecionareservadecaixa = movdao33.selecionarreservadecaixa(iddata);
+//               if(!selecionareservadecaixa.isEmpty()){
+//                  for(ReservaDeCaixa reservadecaixa : selecionareservadecaixa){
+//                      selecionaridpontoreservadecaixa = reservadecaixa.getReseriponto();
+//                  }
+//              }
+//               return selecionaridpontoreservadecaixa;
+//    }
 }

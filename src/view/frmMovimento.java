@@ -31,6 +31,7 @@ import produzconexao.RefazerConexao;
 import util.FecharCaixa;
 import util.GerenciadordeJanelas;
 import util.SelecionandoReservaDeCaixa;
+import util.SelecionarReservaDeCaixa;
 import util.SoNumeros;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
@@ -2266,14 +2267,18 @@ public class frmMovimento extends javax.swing.JInternalFrame {
 
     private void btnCorrigereservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrigereservaActionPerformed
         if(!ftxtNotasreserva.getText().equals("") || !ftxtMoedasreserva.getText().equals("")){
+            RefazerConexao rfcreser = new RefazerConexao();
+            rfcreser.refazerconexao();
+            SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
+            idponto = selecionarreservadecaixa.SelecionaridpontoUltimoCaixaReservado();
             RefazerConexao rfcid = new RefazerConexao();
             rfcid.refazerconexao();
             MovimentoDAO movdaoid = new MovimentoDAO();
-            idmovimento = movdaoid.selecionarmaxmovimento(movidponto);
+            //idmovimento = movdaoid.selecionarmaxmovimento(movidponto);
             RefazerConexao rfc = new RefazerConexao();
             rfc.refazerconexao();
             MovimentoDAO movdao = new MovimentoDAO();
-            movdao.atualizar_reservadecaixa(idmovimento, parseFloat(ftxtNotasreserva.getText()
+            movdao.atualizar_reservadecaixa(idponto, parseFloat(ftxtNotasreserva.getText()
                 .replaceAll("\\.", "").replaceAll(",",".")),
             parseFloat(ftxtMoedasreserva.getText().replaceAll("\\.", "")
                 .replaceAll(",",".")));

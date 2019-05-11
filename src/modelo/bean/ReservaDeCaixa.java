@@ -12,7 +12,7 @@ import java.sql.Date;
  * @author Pituba
  */
 public class ReservaDeCaixa {
-    private int idreserva, reseridmovimento;
+    private int idreserva, reseridponto;
     private float notas, moedas;
     private Date data;
 
@@ -24,12 +24,12 @@ public class ReservaDeCaixa {
         this.idreserva = idreserva;
     }
 
-    public int getReseridmovimento() {
-        return reseridmovimento;
+    public int getReseriponto() {
+        return reseridponto;
     }
 
-    public void setReseridmovimento(int reseridmovimento) {
-        this.reseridmovimento = reseridmovimento;
+    public void setReseridponto(int reseridponto) {
+        this.reseridponto = reseridponto;
     }
 
     public float getNotas() {

@@ -161,12 +161,17 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
             horasaida = m.getHora();
             movidponto = m.getMovidponto();
         } 
-
+        
          Object[] dados = {"Total:", "", "", "", "", "", "", "", ""};
-
+//                  dados = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00"},
+//                  dados1 = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00",
+//                           "0,00"},
+                  
+//        modelo.insertRow(modelo.getRowCount(), dados);
+//        modelo.insertRow(modelo.getRowCount(), dados1);
         modelo.insertRow(modelo.getRowCount(), dados);
 
-                            float total = 0, vendaavista = 0, entrega = 0,recebimentoprazo = 0, cartao = 0,
+                            float subtotal = 0, vendaavista = 0, entrega = 0,recebimentoprazo = 0, cartao = 0,
                                     vale = 0, saque = 0, pagamentos = 0, movimento = 0;
                             for (int i = 0; i < modelo.getRowCount() - 1; i++) {
                                 vendaavista += Float.parseFloat(modelo.getValueAt(i, 1).toString()

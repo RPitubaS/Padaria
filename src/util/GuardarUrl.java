@@ -17,6 +17,12 @@ import javax.swing.JOptionPane;
  */
 public class GuardarUrl {
     
+    private int contador;
+
+    public void setContador(int contador) {
+        this.contador = contador;
+    }
+    
      public static Properties prop = new Properties();
     
     public void SaveProp(String nome, String arquivo){
@@ -37,7 +43,17 @@ public class GuardarUrl {
                 prop.load(new FileInputStream("C:\\Meusprogramas\\Url"));
                 valor = prop.getProperty(nome);
             }catch(IOException ex){
-               JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar pegar a URL!");
+                switch(contador){
+                    case 0:
+                         JOptionPane.showMessageDialog(null, "Erro: \n" + ex + 
+                         "\nPor favor selecione seu bando de dados!");
+                         contador = 1;
+                        break;
+                    case 1:
+                         contador = 0;
+                        break;
+                }
+
             }
                  return valor;
         }

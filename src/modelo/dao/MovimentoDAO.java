@@ -271,16 +271,16 @@ public class MovimentoDAO {
         }
     }
     
-    public void atualizar_reservadecaixa(int reseridmovimento, float notas, float moedas ){
+    public void atualizar_reservadecaixa(int reseridponto, float notas, float moedas ){
      
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         try{
             stmt = con.prepareStatement("update RESERVADECAIXA rc SET rc.NOTAS = ?, rc.MOEDAS = ? "
-                                        + "where rc.RESER_ID_MOVIMENTO = ?");
+                                        + "where rc.RESER_ID_PONTO = ?");
             stmt.setFloat(1, notas);
             stmt.setFloat(2, moedas);
-            stmt.setInt(3, reseridmovimento);
+            stmt.setInt(3, reseridponto);
             stmt.executeUpdate();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao\n"
@@ -784,7 +784,7 @@ public class MovimentoDAO {
             ReservaDeCaixa reservadecaixa = new ReservaDeCaixa();
             while(rs.next()){
                   reservadecaixa.setIdreserva(rs.getInt("ID_RESERVA"));
-                  reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_PONTO"));
+                  reservadecaixa.setReseridponto(rs.getInt("RESER_ID_PONTO"));
                   reservadecaixa.setNotas(rs.getFloat("NOTAS"));
                   reservadecaixa.setMoedas(rs.getFloat("MOEDAS"));
                   reservadecaixa.setData(rs.getDate("DATA"));
@@ -814,7 +814,7 @@ public class MovimentoDAO {
             ReservaDeCaixa reservadecaixa = new ReservaDeCaixa();
             while(rs.next()){
                   reservadecaixa.setIdreserva(rs.getInt("ID_RESERVA"));
-                  reservadecaixa.setReseridmovimento(rs.getInt("RESER_ID_PONTO"));
+                  reservadecaixa.setReseridponto(rs.getInt("RESER_ID_PONTO"));
                   reservadecaixa.setNotas(rs.getFloat("NOTAS"));
                   reservadecaixa.setMoedas(rs.getFloat("MOEDAS"));
                   reservadecaixa.setData(rs.getDate("DATA"));

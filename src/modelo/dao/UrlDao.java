@@ -44,7 +44,7 @@ public class UrlDao {
                    caminhofinal += (caminhodoarquivo[i]);
                 }
             }
-        
+                     guardarurl.setContador(1);
                   if(caminhofinal != guardarurl.GetProp("conectar")){
                        guardarurl.SaveProp("conectar", caminhofinal + "?encoding=WIN1252");
                        String arq = "";

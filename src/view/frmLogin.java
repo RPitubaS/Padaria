@@ -366,11 +366,11 @@ public class frmLogin extends javax.swing.JInternalFrame {
          JOptionPane.showMessageDialog(null, "É necessário um nome de usuário/administrador!");
          txtNome.requestFocus();
        } else {
-               if(txtSenha.getText().equals("")){
+               if(String.valueOf(txtSenha.getPassword()).equals("")){
                  JOptionPane.showMessageDialog(null, "É necessário uma senha!");
                  txtSenha.requestFocus();
                }else{
-                     if(txtConfsenha.getText().equals("")){
+                     if(String.valueOf(txtConfsenha.getPassword()).equals("")){
                        JOptionPane.showMessageDialog(null, "As senhas não conferem ou o campo de confirmação de senha esta em branco!");
                        txtSenha.requestFocus();
                        btnCadastro.setEnabled(false);
@@ -395,9 +395,9 @@ public class frmLogin extends javax.swing.JInternalFrame {
                                 txtNome.requestFocus();
                             }else{
                               rfc1.refazerconexao();
-                              usdao.salvar_usuarios(txtNome.getText(), txtConfsenha.getText(), selecao);
+                              usdao.salvar_usuarios(txtNome.getText(), String.valueOf(txtConfsenha.getPassword()), selecao);
                               txtLognick.setText(txtNome.getText());
-                              txtLogsenha.setText(txtConfsenha.getText());
+                              txtLogsenha.setText(String.valueOf(txtConfsenha.getPassword()));
                               txtNome.setText("");
                               txtNome.setEnabled(false);
                               txtSenha.setText("");
@@ -428,7 +428,7 @@ public class frmLogin extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCadastroActionPerformed
 
     private void txtConfsenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConfsenhaFocusLost
-        if(!txtConfsenha.getText().equals(txtSenha.getText())){
+        if(!String.valueOf(txtConfsenha.getPassword()).equals(String.valueOf(txtSenha.getPassword()))){
            JOptionPane.showMessageDialog(null, "As senhas não conferem!");
            txtConfsenha.setText("");
            txtSenha.setText("");
@@ -488,7 +488,7 @@ public class frmLogin extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbxAdministradorKeyPressed
 
     private void btnCadastroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCadastroKeyPressed
-        if(!txtNome.getText().equals("") && !txtSenha.getText().equals("") && !txtConfsenha.getText().equals("")){
+        if(!txtNome.getText().equals("") && !String.valueOf(txtSenha.getPassword()).equals("") && !String.valueOf(txtConfsenha.getPassword()).equals("")){
            if(evt.getKeyCode()== evt.VK_ENTER){
                 btnCadastro.doClick();
         }
@@ -502,7 +502,7 @@ public class frmLogin extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtLogsenhaKeyPressed
 
     private void btnNovoEntrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnNovoEntrarKeyPressed
-        if(!txtLognick.getText().equals("") && !txtLogsenha.getText().equals("")){
+        if(!txtLognick.getText().equals("") && !String.valueOf(txtLogsenha.getPassword()).equals("")){
             if(evt.getKeyCode()== evt.VK_ENTER){
                 btnNovoEntrar.doClick();
             }
@@ -512,7 +512,7 @@ public class frmLogin extends javax.swing.JInternalFrame {
     private void btnNovoEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoEntrarActionPerformed
         int idusuario;
         String senha = "";
-        if(!txtLognick.getText().equals("") && !txtLogsenha.getText().equals("")){
+        if(!txtLognick.getText().equals("") && !String.valueOf(txtLogsenha.getPassword()).equals("")){
             GuardarUrl guardarurl = new GuardarUrl();
             String resultado = guardarurl.GetProp("conectar");
             RefazerConexao rfc = new RefazerConexao();
@@ -527,7 +527,7 @@ public class frmLogin extends javax.swing.JInternalFrame {
                 senha = usuario.getSenha();
                 tipousuario = usuario.getAdmin();
                 }
-            if(tipousuario.equals("sim") && senha.equals(txtLogsenha.getText())){
+            if(tipousuario.equals("sim") && senha.equals(String.valueOf(txtLogsenha.getPassword()))){
                 cbxAdministrador.setSelected(false);
                 txtNome.setEnabled(true);
                 txtSenha.setEnabled(true);
@@ -539,7 +539,7 @@ public class frmLogin extends javax.swing.JInternalFrame {
                 frmlogin.setClosable(true);
                 btnNovoEntrar.setEnabled(false);
             }else{
-                if(tipousuario.equals("nao") && senha.equals(txtLogsenha.getText())){
+                if(tipousuario.equals("nao") && senha.equals(String.valueOf(txtLogsenha.getPassword()))){
                     txtLognick.setText("");
                     txtLogsenha.setText("");
                     frmlogin.setClosable(false);

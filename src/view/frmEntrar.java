@@ -269,7 +269,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
         };
         clock.start();
         
-        if(!txtLognickentrar.getText().equals("") && !txtLogsenhaentrar.getText().equals("")){
+        if(!txtLognickentrar.getText().equals("") && !String.valueOf(txtLogsenhaentrar.getPassword()).equals("")){
         
         RefazerConexao rfc = new RefazerConexao();
         rfc.refazerconexao();
@@ -284,7 +284,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                        tipousuario = usuarios.getAdmin();
                       }
 
-        if(senha.equals(txtLogsenhaentrar.getText())){
+        if(senha.equals(String.valueOf(txtLogsenhaentrar.getPassword()))){
            txtLognickentrar.setText("");
            txtLogsenhaentrar.setText("");
            btnLogEntrar.setEnabled(true);
@@ -566,7 +566,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtLogsenhaentrarKeyPressed
 
     private void btnLogEntrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLogEntrarKeyPressed
-        if(!txtLognickentrar.getText().equals("") && !txtLogsenhaentrar.getText().equals("")){
+        if(!txtLognickentrar.getText().equals("") && !String.valueOf(txtLogsenhaentrar.getPassword()).equals("")){
            if(evt.getKeyCode()== evt.VK_ENTER){
                 btnLogEntrar.doClick();
         }

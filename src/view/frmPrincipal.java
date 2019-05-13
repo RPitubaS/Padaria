@@ -435,16 +435,16 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnFecharNovousuarioActionPerformed
 
     private void mnRelatorioMovimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnRelatorioMovimentoActionPerformed
+        int idponto = 0;
         RefazerConexao rfc = new RefazerConexao();
         rfc.refazerconexao();
-        int idponto = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o id"));
+        idponto = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o id"));
         try{
             Map parametros = new HashMap();
             parametros.put(null,idponto);
             InputStream inputstream = getClass().getResourceAsStream("/RelatMovimento/RelatorioMovimento.jasper");
             JRResultSetDataSource resultset = new JRResultSetDataSource(controlemovimento.movimentousuario(idponto));
-            JasperPrint jpprint = JasperFillManager.fillReport(inputstream,
-                                parametros, resultset);
+            JasperPrint jpprint = JasperFillManager.fillReport(inputstream, parametros, resultset);
             JInternalFrame frmrelatorios = new JInternalFrame();
             frmrelatorios.getContentPane().add(new JRViewer(jpprint));
             frmrelatorios.pack();

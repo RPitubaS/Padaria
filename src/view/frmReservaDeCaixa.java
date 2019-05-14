@@ -15,6 +15,7 @@ import produzconexao.RefazerConexao;
 import util.ConfirmarReservaDeCaixa;
 import util.SelecionarReservaDeCaixa;
 import util.SoNumeros;
+import static view.frmPrincipal.btnAdministrador;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.dtpDescktop;
 import static view.frmPrincipal.mnCaixa;
@@ -54,6 +55,7 @@ public class frmReservaDeCaixa extends javax.swing.JInternalFrame {
     public frmReservaDeCaixa() {
         initComponents();
         selecionarreservadecaixa.SelecionarUltimoCaixaReservado();
+        btnAdministrador.setEnabled(false);
     }
     
     public void setPosicao(){
@@ -297,7 +299,11 @@ public class frmReservaDeCaixa extends javax.swing.JInternalFrame {
               mnCaixa.setEnabled(true);
               mnFecharcaixa.setEnabled(false);
               mnMovimento.setEnabled(true);
+              btnAdministrador.setEnabled(false);
+           }else{
+              btnAdministrador.setEnabled(true);
            }
+           
           this.dispose();
      }else{
         JOptionPane.showMessageDialog(null, "É necessário confirmar o caixa reservado!\n"

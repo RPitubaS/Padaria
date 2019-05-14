@@ -55,6 +55,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     frmMovimentodia frmmovimentodia;
     frmEntrar frmentrar = new frmEntrar();
     ControleMovimento controlemovimento = new ControleMovimento();
+    frmAdministrador administrador = new frmAdministrador();
     public frmPrincipal() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -253,6 +254,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnAdministrador.setMinimumSize(new java.awt.Dimension(50, 50));
         btnAdministrador.setPreferredSize(new java.awt.Dimension(50, 50));
         btnAdministrador.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAdministrador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministradorActionPerformed(evt);
+            }
+        });
         tbrBarraFerramentas.add(btnAdministrador);
 
         mnMovimento.setText("Arquivo");
@@ -473,6 +479,9 @@ public class frmPrincipal extends javax.swing.JFrame {
                mnNovousuario.setEnabled(true);
                mnFecharNovousuario.setEnabled(false);
             }
+            if(frmAdministrador.getInstancia().isSelected()){
+               gerenciadordejanelas.fecharjanelas(frmAdministrador.getInstancia());
+            }
             gerenciadordejanelas.abrirentrar(frmEntrar.getInstancia());
             mnEntrar.setEnabled(false);
             mnFecharEntrar.setEnabled(true);
@@ -490,6 +499,11 @@ public class frmPrincipal extends javax.swing.JFrame {
                mnEntrar.setEnabled(true);
                mnFecharEntrar.setEnabled(false);
             }
+            
+            if(frmAdministrador.getInstancia().isSelected()){
+               gerenciadordejanelas.fecharjanelas(frmAdministrador.getInstancia());
+            }
+            
             txtNome.setText("");
             txtNome.setEnabled(false);
             txtSenha.setText("");
@@ -512,6 +526,29 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
        
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministradorActionPerformed
+        try {
+            if(frmEntrar.getInstancia().isSelected()){
+               gerenciadordejanelas.fecharjanelas(frmEntrar.getInstancia());
+               mnEntrar.setEnabled(true);
+               mnFecharEntrar.setEnabled(false);
+               
+            }
+            
+            if(frmLogin.getInstancia().isSelected()){
+               gerenciadordejanelas.fecharjanelas(frmLogin.getInstancia());
+               mnNovousuario.setEnabled(true);
+               mnFecharNovousuario.setEnabled(false);
+               btnLogin.setEnabled(true);
+            }
+            
+            gerenciadordejanelas.abriradministrador(frmAdministrador.getInstancia());
+            //btnEntrar.setEnabled(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAdministradorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -549,7 +586,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdministrador;
+    public static javax.swing.JButton btnAdministrador;
     public static javax.swing.JButton btnCaixa;
     public static javax.swing.JButton btnEntrar;
     public static javax.swing.JButton btnLogin;

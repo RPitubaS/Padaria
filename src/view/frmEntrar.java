@@ -34,6 +34,7 @@ import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
 import static view.frmMovimento.txtVendas;
+import static view.frmPrincipal.btnAdministrador;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
 import static view.frmPrincipal.btnLogin;
@@ -294,7 +295,11 @@ public class frmEntrar extends javax.swing.JInternalFrame {
               mnCaixa.setEnabled(true);
               mnFecharcaixa.setEnabled(false);
               mnMovimento.setEnabled(true);
+              btnAdministrador.setEnabled(false);
+           }else{
+              btnAdministrador.setEnabled(true);
            }
+          
            RefazerConexao refc10 = new RefazerConexao();
            refc10.refazerconexao();
            List<Entradas> selecionasaidanula1 = new ArrayList<>();
@@ -379,6 +384,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                    btnEntrar.setEnabled(true);
                    btnLogin.setEnabled(true);
                    btnCaixa.setEnabled(false);
+                   btnAdministrador.setEnabled(true);
                    dtpDescktop.remove(frmMovimento.getInstancia());
                    frmmovimento.dispose();
                    } 
@@ -546,7 +552,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
-       
+        
     }//GEN-LAST:event_formInternalFrameActivated
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened

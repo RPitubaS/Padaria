@@ -83,6 +83,25 @@ public class GerenciadordeJanelas {
          }  
     }
     
+    public void abriradministrador(JInternalFrame jinternalframe) throws PropertyVetoException{
+        
+        Dimension dimensao = Toolkit.getDefaultToolkit().getScreenSize();
+        jinternalframe.setBounds(((dimensao.width)-390)/2,
+                               ((dimensao.height)-735)/2,
+                               390,
+                               468);
+        jinternalframe.setMaximizable(false);
+    
+         if(jinternalframe.isVisible()){
+            jinternalframe.toFront();
+            jinternalframe.requestFocus();
+         }else{
+            jdesktoppane.add(jinternalframe);
+            jinternalframe.setVisible(true);
+            jinternalframe.setSelected(true);
+         }  
+    }
+    
      public void fecharjanelas(JInternalFrame jinternalframe){
          if(jinternalframe.isVisible() && jinternalframe.isSelected()){
  

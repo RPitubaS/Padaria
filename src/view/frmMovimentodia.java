@@ -25,10 +25,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import modelo.bean.Entradas;
 import modelo.bean.Movimento;
+import modelo.bean.Usuario;
 import modelo.dao.MovimentoDAO;
+import modelo.dao.UsuariosDAO;
 import produzconexao.RefazerConexao;
 import util.GerenciadordeJanelas;
 import util.SelecionandoReservaDeCaixa;
+import static view.frmEntrar.txtLognickentrar;
 import static view.frmMovimento.ftxtValor;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
@@ -545,6 +548,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+              String tipousuario = "", usuario = "";
               
        DefaultTableModel modelo = (DefaultTableModel) tblMovimentodia.getModel();
        modelo.setNumRows(0);
@@ -574,6 +578,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                            SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
                            selecionandoreservadecaixa.SelecionandoReservaDeCaixa(agora, idpontoentrada, entradas.getIddata());
                            iddata = entradas.getIddata();
+                           usuario = entradas.getUsuario();
                            
             }
                              RefazerConexao refc13 = new RefazerConexao();
@@ -581,9 +586,26 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                              MovimentoDAO movdao31 = new MovimentoDAO();
                              txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
         }
+           
+           RefazerConexao rfc = new RefazerConexao();
+           rfc.refazerconexao();
+           List<Usuario> selecionandousuario = new ArrayList<>();
+           UsuariosDAO usdao = new UsuariosDAO();
+           selecionandousuario = usdao.selecionarusuario(usuario);
+
+        for(Usuario usuarios : selecionandousuario){
+                       tipousuario = usuarios.getAdmin();
+                      }
+           if(tipousuario.equals("sim")){
               mnCaixa.setEnabled(true);
-              mnFecharcaixa.setEnabled(false);
               btnCaixa.setEnabled(true);
+              mnFecharcaixa.setEnabled(false);
+           }else{
+             mnCaixa.setEnabled(false);
+              btnCaixa.setEnabled(false);
+              mnFecharcaixa.setEnabled(false);
+           }   
+              
               
     }//GEN-LAST:event_formInternalFrameClosing
 

@@ -26,6 +26,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import modelo.bean.Entradas;
 import modelo.bean.Movimento;
+import modelo.bean.Pagamentos;
+import modelo.bean.RecebimentoPrazo;
 import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import util.FecharCaixa;
@@ -57,7 +59,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     int idponto, iddata;
     int movidponto = 0, idmovimento = 0, contafregues = 0, iddatacontafregues;
     String horaagora, datahoje, motivopagamento, clienteparaentrega, clienterecebprazo, funcionariovale,
-           motivosaque;
+           motivosaque, competencia, empresa;
     float vendaavista, entrega, recebimentoprazo, cartao, vale, saque, pagamentos, movimento, encerrarmovimento;
     Time horasaida;
     
@@ -260,12 +262,19 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }
     
     public void excluir(){
+        
+        String valor;
+        
+        if(Double.parseDouble((tblMovimento.getValueAt(tblMovimento.getSelectedRow(), 7)).toString().replaceAll(",", ".")) != 0.0){
+          valor = (String) tblMovimento.getValueAt(tblMovimento.getSelectedRow(), 7);
+        }else{
+          valor = (String) tblMovimento.getValueAt(tblMovimento.getSelectedRow(), 8);
+        }
    
         if(tblMovimento.getSelectedRow()!= -1 && tblMovimento.getSelectedRow()!= tblMovimento.getRowCount() - 2){
            if(tblMovimento.getSelectedRow()!= -1 && tblMovimento.getSelectedRow()!= (tblMovimento.getRowCount() - 1)){
             int resultconfirm = JOptionPane.showConfirmDialog(null, "Confirma a exclusão de R$ "
-                + (String) tblMovimento.getValueAt(tblMovimento.getSelectedRow(), 7) + 
-                " do seu arguivo de origem?",
+                + valor + " do seu arguivo de origem?",
                 "Bragança", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if(resultconfirm == 0){      
                    RefazerConexao refc11 = new RefazerConexao();
@@ -1116,27 +1125,29 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1212, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtRelogio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtAtendentecaixa, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtCaixainicial, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNotasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMoedasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtRelogio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtAtendentecaixa)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCaixainicial, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNotasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMoedasinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addGap(1, 1, 1))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1166,7 +1177,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(1, 1, 1))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1246,9 +1257,13 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblMovimentoComponentShown
 
     private void tblMovimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovimentoMouseClicked
-        String motivopagamento = null, saquefuncionario = null, valefuncionario = null,
+        String motivopagamentos = "", empresas = "", competencias = "", saquefuncionario = null, valefuncionario = null,
         clientepagamento = null, clienteentrega = null;
-        btnExcluir.setEnabled(true);
+        if(tblMovimento.getSelectedRow()!= -1 && tblMovimento.getSelectedRow()!= tblMovimento.getRowCount() - 2){
+           if(tblMovimento.getSelectedRow()!= -1 && tblMovimento.getSelectedRow()!= (tblMovimento.getRowCount() - 1)){
+              btnExcluir.setEnabled(true);
+           }
+        }
         if(tblMovimento.getSelectedRow() != -1 && tblMovimento.getSelectedRow() != (tblMovimento.getRowCount() -1)
             && tblMovimento.getSelectedRow() != tblMovimento.getRowCount() - 2){
             if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento() < 0
@@ -1256,9 +1271,14 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
                 MovimentoDAO movdao = new MovimentoDAO();
+                List<Pagamentos> motivopagamento = new ArrayList<>();
                 motivopagamento = movdao.selecionamotivopagto(selecionamovimentousuario.get
                     (tblMovimento.getSelectedRow()).getIdmovimento());
-                JOptionPane.showMessageDialog(null, "Pagamento de: " + motivopagamento,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+                for(Pagamentos pg : motivopagamento){
+                    motivopagamentos = pg.getMotivopago();
+                    empresas = pg.getEmpresa();
+                }
+                JOptionPane.showMessageDialog(null, "Pagamento de: " + motivopagamentos + ",\n da empresa: " + empresas,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento() < 0
                 && selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getVale() > 0){
@@ -1283,9 +1303,15 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
                 MovimentoDAO movdao = new MovimentoDAO();
-                clientepagamento = movdao.selecionaclientepagamento(selecionamovimentousuario.get
+                List<RecebimentoPrazo> clientepagamentos = new ArrayList<>();
+                clientepagamentos = movdao.selecionaclientepagamento(selecionamovimentousuario.get
                     (tblMovimento.getSelectedRow()).getIdmovimento());
-                JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clientepagamento,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+                for(RecebimentoPrazo rp : clientepagamentos){
+                    clientepagamento = rp.getClientepagante();
+                    competencias = rp.getCompetencia();
+                }
+                JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clientepagamento + ","
+                        + "\n referente a: " + competencias,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento() > 0
                 && selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getEntrega() > 0){
@@ -1294,7 +1320,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 MovimentoDAO movdao = new MovimentoDAO();
                 clienteentrega = movdao.selecionaclienteentrega(selecionamovimentousuario.get
                     (tblMovimento.getSelectedRow()).getIdmovimento());
-                JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Entrega feita por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             
 //            RefazerConexao refselcentrada = new RefazerConexao();
@@ -1516,7 +1542,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             RefazerConexao rfc = new RefazerConexao();
             rfc.refazerconexao();
             MovimentoDAO movdao = new MovimentoDAO();
-            movdao.salvar_reservadecaixa(movidponto, parseFloat(ftxtNotasreserva.getText()
+            movdao.salvar_reservadecaixa(iddata, movidponto, parseFloat(ftxtNotasreserva.getText()
                 .replaceAll("\\.", "").replaceAll(",",".")),
             parseFloat(ftxtMoedasreserva.getText().replaceAll("\\.", "")
                 .replaceAll(",",".")));
@@ -1886,6 +1912,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         do{
                             clienterecebprazo = JOptionPane.showInputDialog(null, "Por favor digite aqui o nome cliente.");
                         }while("".equals(clienterecebprazo));
+                            competencia = JOptionPane.showInputDialog(null, "Por favor digite aqui a competência.");
                         break;
                         case 4:
                         vendaavista = 0;
@@ -1935,6 +1962,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         do{
                             motivopagamento = JOptionPane.showInputDialog(null, "Por favor digite aqui o que foi pago com este valor.");
                         }while("".equals(motivopagamento));
+                            empresa = JOptionPane.showInputDialog(null, "Por favor digite aqui o nome da empresa");
                         break;
                         case 8:
                         vendaavista = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
@@ -1996,8 +2024,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                 idmovimento = movdao.selecionarmaxmovimento(movidponto);
                                 RefazerConexao rfc2 = new RefazerConexao();
                                 rfc2.refazerconexao();
-                                movdao.salvar_mot_pagt(idmovimento, motivopagamento);
+                                movdao.salvar_mot_pagt(idmovimento, motivopagamento, empresa);
                                 motivopagamento = null;
+                                empresa = null;
                             }
 
                             if(clienterecebprazo != null){
@@ -2006,8 +2035,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                 idmovimento = movdao.selecionarmaxmovimento(movidponto);
                                 RefazerConexao rfc2 = new RefazerConexao();
                                 rfc2.refazerconexao();
-                                movdao.salvar_recebprazo(idmovimento, clienterecebprazo);
+                                movdao.salvar_recebprazo(idmovimento, clienterecebprazo, competencia);
                                 clienterecebprazo = null;
+                                competencia = null;
                             }
 
                             if(funcionariovale != null){
@@ -2269,7 +2299,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             RefazerConexao rfcreser = new RefazerConexao();
             rfcreser.refazerconexao();
             SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
-            idponto = selecionarreservadecaixa.SelecionaridpontoUltimoCaixaReservado();
+            //idponto = selecionarreservadecaixa.SelecionaridpontoUltimoCaixaReservado();
             RefazerConexao rfcid = new RefazerConexao();
             rfcid.refazerconexao();
             MovimentoDAO movdaoid = new MovimentoDAO();
@@ -2277,7 +2307,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             RefazerConexao rfc = new RefazerConexao();
             rfc.refazerconexao();
             MovimentoDAO movdao = new MovimentoDAO();
-            movdao.atualizar_reservadecaixa(idponto, parseFloat(ftxtNotasreserva.getText()
+            movdao.atualizar_reservadecaixa(iddata, parseFloat(ftxtNotasreserva.getText()
                 .replaceAll("\\.", "").replaceAll(",",".")),
             parseFloat(ftxtMoedasreserva.getText().replaceAll("\\.", "")
                 .replaceAll(",",".")));

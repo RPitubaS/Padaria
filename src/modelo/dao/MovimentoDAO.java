@@ -16,9 +16,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.bean.CaixaInicialDia;
 import modelo.bean.Datas;
 import modelo.bean.Entradas;
 import modelo.bean.Movimento;
+import modelo.bean.Pagamentos;
+import modelo.bean.RecebimentoPrazo;
 import modelo.bean.ReservaDeCaixa;
 import produzconexao.ConexaoFirebird;
 
@@ -112,13 +115,15 @@ public class MovimentoDAO {
         }
     }
     
-    public void salvar_mot_pagt(int pgtomovi, String pagamento){
+    public void salvar_mot_pagt(int pgtomovi, String pagamento, String empresa){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         try{
-        stmt = con.prepareStatement("insert into PAGAMENTOS(PG_ID_MOVIMENTO, PG_PAGO) values(?, ?)");
+        stmt = con.prepareStatement("insert into PAGAMENTOS(PG_ID_MOVIMENTO, PG_PAGO, EMPRESA) "
+                                   + "values(?, ?, ?)");
         stmt.setInt(1, pgtomovi);
         stmt.setString(2, pagamento);
+        stmt.setString(3, empresa);
         stmt.executeUpdate();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar salvar o que foi pago!","Bragança",
@@ -129,13 +134,15 @@ public class MovimentoDAO {
         
     }
     
-     public void salvar_recebprazo(int pgtomovi, String cliente){
+     public void salvar_recebprazo(int pgtomovi, String cliente, String competencia){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         try{
-        stmt = con.prepareStatement("insert into RECEBIMENTOPRAZO(RP_ID_MOVIMENTO, CLIENTE_PAGANTE) values(?, ?)");
+        stmt = con.prepareStatement("insert into RECEBIMENTOPRAZO(RP_ID_MOVIMENTO, CLIENTE_PAGANTE, "
+                + "COMPETENCIA) values(?, ?, ?)");
         stmt.setInt(1, pgtomovi);
         stmt.setString(2, cliente);
+        stmt.setString(3, competencia);
         stmt.executeUpdate();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar salvar pagamento do cliente!","Bragança",
@@ -215,19 +222,20 @@ public class MovimentoDAO {
           }
       }
       
-      public void salvar_reservadecaixa(int reseridponto, float notas, float moedas){
+      public void salvar_reservadecaixa(int reseriddata, int reseridponto, float notas, float moedas){
       
           Connection con = ConexaoFirebird.getConnection();
           PreparedStatement stmt = null;
           try{
-              stmt = con.prepareStatement("insert into RESERVADECAIXA(RESER_ID_PONTO, NOTAS, MOEDAS)"
-                                          + "values(?, ?, ?)");
-              stmt.setInt(1, reseridponto);
-              stmt.setFloat(2, notas);
-              stmt.setFloat(3, moedas);
+              stmt = con.prepareStatement("insert into RESERVADECAIXA(RESER_ID_DATA, RESER_ID_PONTO, NOTAS, MOEDAS)"
+                                          + "values(?, ?, ?, ?)");
+              stmt.setInt(1, reseriddata);
+              stmt.setInt(2, reseridponto);
+              stmt.setFloat(3, notas);
+              stmt.setFloat(4, moedas);
               stmt.executeUpdate();
           }catch(SQLException ex){
-              JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao salvar reserva de caixa!");
+              JOptionPane.showMessageDialog(null, "Erro: \n" + ex + "\n ao salvar reserva de caixa!");
           }finally{
               ConexaoFirebird.closeConnection(con, stmt);
           }
@@ -271,16 +279,16 @@ public class MovimentoDAO {
         }
     }
     
-    public void atualizar_reservadecaixa(int reseridponto, float notas, float moedas ){
+    public void atualizar_reservadecaixa(int reseriddata, float notas, float moedas ){
      
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         try{
             stmt = con.prepareStatement("update RESERVADECAIXA rc SET rc.NOTAS = ?, rc.MOEDAS = ? "
-                                        + "where rc.RESER_ID_PONTO = ?");
+                                        + "where rc.RESER_ID_DATA = ?");
             stmt.setFloat(1, notas);
             stmt.setFloat(2, moedas);
-            stmt.setInt(3, reseridponto);
+            stmt.setInt(3, reseriddata);
             stmt.executeUpdate();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao\n"
@@ -320,23 +328,26 @@ public class MovimentoDAO {
          return selecionadataatual;
     }
     
-    public String selecionamotivopagto(int pgidmovimento){
+    public List<Pagamentos> selecionamotivopagto(int pgidmovimento){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String motivopago = null;
+        List<Pagamentos> selecionarmotivopagto = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select PG_PAGO from PAGAMENTOS where PG_ID_MOVIMENTO = ?");
+            stmt = con.prepareStatement("select PG_PAGO, EMPRESA from PAGAMENTOS where PG_ID_MOVIMENTO = ?");
             stmt.setInt(1, pgidmovimento);
             rs = stmt.executeQuery();
+            Pagamentos pagamentos = new Pagamentos();
             while(rs.next()){
-                  motivopago = rs.getString("PG_PAGO");
+                  pagamentos.setMotivopago(rs.getString("PG_PAGO"));
+                  pagamentos.setEmpresa(rs.getString("EMPRESA"));
+                  selecionarmotivopagto.add(pagamentos);
             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao buscar o que foi pago!", "Bragança",
                     JOptionPane.ERROR_MESSAGE);
         }finally{
-            return motivopago;
+            return selecionarmotivopagto;
         }
     }
     
@@ -380,23 +391,26 @@ public class MovimentoDAO {
         }
     }
     
-    public String selecionaclientepagamento(int pgidmovimento){
+    public List<RecebimentoPrazo> selecionaclientepagamento(int pgidmovimento){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String clientepagamento = null;
+        List<RecebimentoPrazo>selecionarclientepagamento = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select CLIENTE_PAGANTE from RECEBIMENTOPRAZO where RP_ID_MOVIMENTO = ?");
+            stmt = con.prepareStatement("select CLIENTE_PAGANTE, COMPETENCIA from RECEBIMENTOPRAZO where RP_ID_MOVIMENTO = ?");
             stmt.setInt(1, pgidmovimento);
             rs = stmt.executeQuery();
+            RecebimentoPrazo recebimentoprazo = new RecebimentoPrazo();
             while(rs.next()){
-                  clientepagamento = rs.getString("CLIENTE_PAGANTE");
+                  recebimentoprazo.setClientepagante(rs.getString("CLIENTE_PAGANTE"));
+                  recebimentoprazo.setCompetencia(rs.getString("COMPETENCIA"));
+                  selecionarclientepagamento.add(recebimentoprazo);
             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao buscar o nome do cliente!", "Bragança",
                     JOptionPane.ERROR_MESSAGE);
         }finally{
-            return clientepagamento;
+            return selecionarclientepagamento;
         }
     }
     
@@ -728,7 +742,7 @@ public class MovimentoDAO {
         ResultSet rs = null;
         int idcontagem = 0;
         try{
-            stmt = con.prepareStatement("select CONTFREGUES_ID_DATA from CONTA_FREGUES\n" +
+            stmt = con.prepareStatement("select CONTFREGUES_ID_DATA from CONTA_FREGUES " +
                                         "where CONTFREGUES_ID_DATA = ?");
             stmt.setInt(1, iddata);
             rs = stmt.executeQuery();
@@ -828,6 +842,31 @@ public class MovimentoDAO {
         return selecionareservadecaixa;
     }
     
+    public List<CaixaInicialDia> caixainicialdia(int iddata){
+         Connection con = ConexaoFirebird.getConnection();
+         PreparedStatement stmt = null;
+         ResultSet rs = null;
+         List<CaixaInicialDia> caixainiciodia = new ArrayList<>();         
+         try{
+             stmt = con.prepareStatement("select CAIXA_ENTRADA_NOTAS, CAIXA_ENTRADA_MOEDAS from CARTAO_PONTO\n" +
+                                         "where ID_PONTO = (select min(ID_PONTO)from CARTAO_PONTO\n" +
+                                         "where PT_DATA = ?)");
+             stmt.setInt(1, iddata);
+             rs = stmt.executeQuery();
+             CaixaInicialDia caixainicialdia = new CaixaInicialDia();
+             while(rs.next()){
+                  caixainicialdia.setNotas(rs.getFloat("CAIXA_ENTRADA_NOTAS"));
+                  caixainicialdia.setMoedas(rs.getFloat("CAIXA_ENTRADA_MOEDAS"));
+                  caixainiciodia.add(caixainicialdia);
+             }
+         }catch(SQLException ex){
+             JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar o caixa inicial!");
+         }finally{
+             ConexaoFirebird.closeConnection(con, stmt, rs);
+         }
+         return caixainiciodia;
+    }
+    
     public void salvar_ponto(int iddata, int idusuario, float valorinicialnotas, float valorinicialmoedas){
     
         Connection con = ConexaoFirebird.getConnection();
@@ -861,7 +900,7 @@ public class MovimentoDAO {
               stmt.setInt(1, idmovimento);
               stmt.executeUpdate();
           }catch(SQLException ex){
-              JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao tentar deletar movimento!");
+              JOptionPane.showMessageDialog(null, "Erro: \n" + ex + "\n ao tentar deletar movimento!");
           }finally{
               ConexaoFirebird.closeConnection(con, stmt);
           }

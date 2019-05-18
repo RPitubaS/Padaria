@@ -446,11 +446,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         rfc.refazerconexao();
         idponto = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o id"));
         try{
-            Map parametros = new HashMap();
-            parametros.put(null,idponto);
+//            Map parametros = new HashMap();
+//            parametros.put(null,idponto);
             InputStream inputstream = getClass().getResourceAsStream("/RelatMovimento/RelatorioMovimento.jasper");
             JRResultSetDataSource resultset = new JRResultSetDataSource(controlemovimento.movimentousuario(idponto));
-            JasperPrint jpprint = JasperFillManager.fillReport(inputstream, parametros, resultset);
+            JasperPrint jpprint = JasperFillManager.fillReport(inputstream, new HashMap<>(), resultset);
             JInternalFrame frmrelatorios = new JInternalFrame();
             frmrelatorios.getContentPane().add(new JRViewer(jpprint));
             frmrelatorios.pack();

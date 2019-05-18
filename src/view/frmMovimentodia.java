@@ -23,8 +23,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import modelo.bean.CaixaInicialDia;
 import modelo.bean.Entradas;
 import modelo.bean.Movimento;
+import modelo.bean.Pagamentos;
+import modelo.bean.RecebimentoPrazo;
 import modelo.bean.Usuario;
 import modelo.dao.MovimentoDAO;
 import modelo.dao.UsuariosDAO;
@@ -33,6 +36,7 @@ import util.GerenciadordeJanelas;
 import util.SelecionandoReservaDeCaixa;
 import static view.frmEntrar.txtLognickentrar;
 import static view.frmMovimento.ftxtValor;
+import static view.frmMovimento.tblMovimento;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
@@ -51,7 +55,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
 
     String agora, horaagora;;
     Time horasaida;
-    int iddata;
+    int iddata, idponto;
     float encerrarmovimento;
     private static frmMovimentodia frmmovimentodia;
     frmMovimento frmmovimento = new frmMovimento();
@@ -114,6 +118,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     
     void lertabeladia() {       
         int contador = 0, movidponto = 0, iddata;
+        float caixanotasdia = 0, caixamoedasdia = 0;
         String diaformatado;
         DefaultTableModel modelo = (DefaultTableModel) tblMovimentodia.getModel();
         SimpleDateFormat formatbr = new SimpleDateFormat("HH:mm.ss");
@@ -163,20 +168,37 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
             }
             horasaida = m.getHora();
             movidponto = m.getMovidponto();
-        } 
+        }
         
-         Object[] dados = {"Total:", "", "", "", "", "", "", "", ""};
-//                  dados = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00"},
-//                  dados1 = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00",
-//                           "0,00"},
+        RefazerConexao refc13 = new RefazerConexao();
+        refc13.refazerconexao();
+        MovimentoDAO movdao32 = new MovimentoDAO();
+        iddata = movdao32.selecionariddata(movidponto);
+        
+        RefazerConexao rfcini = new RefazerConexao();
+        rfcini.refazerconexao();
+        List<CaixaInicialDia> caixadodia = new ArrayList<>();
+        MovimentoDAO movdaoini = new MovimentoDAO();
+        caixadodia = movdao.caixainicialdia(iddata);
+        for(CaixaInicialDia cid : caixadodia){
+            caixanotasdia = cid.getNotas();
+            caixamoedasdia = cid.getMoedas();
+        }
+        df.format(caixanotasdia + caixamoedasdia);
+        
+         Object[] dados = {"Subtotal:", "", "", "", "", "", "", "", ""},
+                  dados1 = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00",
+                           df.format(caixanotasdia + caixamoedasdia), "0,00"},
+                  dados2 = {"Total :", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "",
+                           "0,00"};
                   
-//        modelo.insertRow(modelo.getRowCount(), dados);
-//        modelo.insertRow(modelo.getRowCount(), dados1);
         modelo.insertRow(modelo.getRowCount(), dados);
+        modelo.insertRow(modelo.getRowCount(), dados1);
+        modelo.insertRow(modelo.getRowCount(), dados2);
 
-                            float subtotal = 0, vendaavista = 0, entrega = 0,recebimentoprazo = 0, cartao = 0,
-                                    vale = 0, saque = 0, pagamentos = 0, movimento = 0;
-                            for (int i = 0; i < modelo.getRowCount() - 1; i++) {
+                            float vendaavista = 0, entrega = 0,recebimentoprazo = 0, cartao = 0,
+                                    vale = 0, saque = 0, pagamentos = 0, movimento = 0, total = 0;
+                            for (int i = 0; i < modelo.getRowCount() - 3; i++) {
                                 vendaavista += Float.parseFloat(modelo.getValueAt(i, 1).toString()
                                     .replaceAll("\\.", "").replaceAll(",", "."));
                                 entrega += Float.parseFloat(modelo.getValueAt(i, 2).toString()
@@ -204,21 +226,26 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                 String ct = dfc.format(cartao);
 
                                 
-                                modelo.setValueAt(va, modelo.getRowCount() - 1, 1);
-                                modelo.setValueAt(et, modelo.getRowCount() - 1, 2);
-                                modelo.setValueAt(rp, modelo.getRowCount() - 1, 3);
-                                modelo.setValueAt(vl, modelo.getRowCount() - 1, 4);
-                                modelo.setValueAt(sq, modelo.getRowCount() - 1, 5);
-                                modelo.setValueAt(pg, modelo.getRowCount() - 1, 6);
-                                modelo.setValueAt(mv, modelo.getRowCount() - 1, 7); 
-                                modelo.setValueAt(ct, modelo.getRowCount() - 1, 8);
+                                modelo.setValueAt(va, modelo.getRowCount() - 3, 1);
+                                modelo.setValueAt(et, modelo.getRowCount() - 3, 2);
+                                modelo.setValueAt(rp, modelo.getRowCount() - 3, 3);
+                                modelo.setValueAt(vl, modelo.getRowCount() - 3, 4);
+                                modelo.setValueAt(sq, modelo.getRowCount() - 3, 5);
+                                modelo.setValueAt(pg, modelo.getRowCount() - 3, 6);
+                                modelo.setValueAt(mv, modelo.getRowCount() - 3, 7); 
+                                modelo.setValueAt(ct, modelo.getRowCount() - 3, 8);
 
                             }
                             
-                                  RefazerConexao refc13 = new RefazerConexao();
-                                  refc13.refazerconexao();
-                                  MovimentoDAO movdao32 = new MovimentoDAO();
-                                  iddata = movdao32.selecionariddata(movidponto);
+                            for (int i = modelo.getRowCount() - 3; i < modelo.getRowCount() - 1; i++) {
+                                total += Float.parseFloat(modelo.getValueAt(i, 7).toString()
+                                    .replaceAll("\\.", "").replaceAll(",", "."));
+                                
+                                String tt = df.format(total);
+                                
+                                modelo.setValueAt(tt, modelo.getRowCount() -1, 7);
+                            }
+                            
                            
                                   RefazerConexao refc11 = new RefazerConexao();
                                   refc11.refazerconexao();
@@ -472,7 +499,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblMovimentodiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovimentodiaMouseClicked
-        String motivopagamento = null, saquefuncionario = null, valefuncionario = null,
+        String motivopagamentos = "", empresas = "", competencias = "", saquefuncionario = null, valefuncionario = null,
                clientepagamento = null, clienteentrega = null;
 
         if(tblMovimentodia.getSelectedRow() != -1 && tblMovimentodia.getSelectedRow() != 
@@ -482,9 +509,14 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
                 MovimentoDAO movdao = new MovimentoDAO();
+                List<Pagamentos> motivopagamento = new ArrayList<>();
                 motivopagamento = movdao.selecionamotivopagto(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
-                JOptionPane.showMessageDialog(null, "Pagamento de: " + motivopagamento,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+                for(Pagamentos pg : motivopagamento){
+                    motivopagamentos = pg.getMotivopago();
+                    empresas = pg.getEmpresa();
+                }
+                JOptionPane.showMessageDialog(null, "Pagamento de: " + motivopagamentos + ",\n da empresa: " + empresas,"Bragança", JOptionPane.INFORMATION_MESSAGE);
 
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() < 0
@@ -511,9 +543,15 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
                 MovimentoDAO movdao = new MovimentoDAO();
-                clientepagamento = movdao.selecionaclientepagamento(selecionamovimentodia.get
+                List<RecebimentoPrazo> clientepagamentos = new ArrayList<>();
+                clientepagamentos = movdao.selecionaclientepagamento(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
-                JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clientepagamento,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+                for(RecebimentoPrazo rp : clientepagamentos){
+                    clientepagamento = rp.getClientepagante();
+                    competencias = rp.getCompetencia();
+                }
+                JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clientepagamento + ","
+                        + "\n referente a: " + competencias,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() > 0
                && selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getEntrega() > 0){
@@ -522,7 +560,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                MovimentoDAO movdao = new MovimentoDAO();
                clienteentrega = movdao.selecionaclienteentrega(selecionamovimentodia.get
                                                             (tblMovimentodia.getSelectedRow()).getIdmovimento());
-               JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+               JOptionPane.showMessageDialog(null, "Entrega feita por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_tblMovimentodiaMouseClicked
@@ -579,13 +617,15 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                            selecionandoreservadecaixa.SelecionandoReservaDeCaixa(agora, idpontoentrada, entradas.getIddata());
                            iddata = entradas.getIddata();
                            usuario = entradas.getUsuario();
-                           
+                           idponto = entradas.getIdponto();
             }
                              RefazerConexao refc13 = new RefazerConexao();
                              refc13.refazerconexao();
                              MovimentoDAO movdao31 = new MovimentoDAO();
                              txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
         }
+           SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+           selecionandoreservadecaixa.SelecionandoReservaDeCaixa(agora, idponto, iddata);
            
            RefazerConexao rfc = new RefazerConexao();
            rfc.refazerconexao();

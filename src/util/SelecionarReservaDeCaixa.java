@@ -8,6 +8,7 @@ package util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import modelo.bean.ReservaDeCaixa;
 import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
@@ -25,8 +26,9 @@ import static view.frmReservaDeCaixa.txtReservaemnotas;
 public class SelecionarReservaDeCaixa {
     
     SimpleDateFormat formatbr = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat formatbr2 = new SimpleDateFormat("dd.MM.yyyy");
     
-    public void SelecionarReservaDeCaixa(int iddata){
+    public void SelecionarReservaDeCaixa(int iddata, String hoje){
         List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
         RefazerConexao refc14 = new RefazerConexao();
         refc14.refazerconexao();
@@ -34,14 +36,16 @@ public class SelecionarReservaDeCaixa {
         selecionareservadecaixa = movdao33.selecionarreservadecaixa(iddata);
                if(!selecionareservadecaixa.isEmpty()){
                   for(ReservaDeCaixa reservadecaixa : selecionareservadecaixa){
-                      ftxtNotasreserva.setText(String.format("%,.2f",reservadecaixa.getNotas()));
-                      ftxtMoedasreserva.setText(String.format("%,.2f",reservadecaixa.getMoedas()));
-                      lblReservadoem.setText("Reservado em: " + formatbr.format(reservadecaixa.getData()));
+                      if(hoje.equals(formatbr2.format(reservadecaixa.getData()))){
+                         ftxtNotasreserva.setText(String.format("%,.2f",reservadecaixa.getNotas()));
+                         ftxtMoedasreserva.setText(String.format("%,.2f",reservadecaixa.getMoedas()));
+                         lblReservadoem.setText("Reservado em: " + formatbr.format(reservadecaixa.getData()));
+                      }
                   }
               }
     }
     
-    public void SelecionarUltimoReservaDeCaixa(){
+    public void SelecionarUltimoReservaDeCaixa(String hoje){
         List<ReservaDeCaixa> selecionareservadecaixa = new ArrayList<>();
         RefazerConexao refc14 = new RefazerConexao();
         refc14.refazerconexao();
@@ -49,9 +53,11 @@ public class SelecionarReservaDeCaixa {
         selecionareservadecaixa = movdao33.selecionarultimoreservadecaixa();
                if(!selecionareservadecaixa.isEmpty()){
                   for(ReservaDeCaixa reservadecaixa : selecionareservadecaixa){
-                      ftxtNotasreserva.setText(String.format("%,.2f",reservadecaixa.getNotas()));
-                      ftxtMoedasreserva.setText(String.format("%,.2f",reservadecaixa.getMoedas()));
-                      lblReservadoem.setText("Reservado em: " + formatbr.format(reservadecaixa.getData()));
+                      if(hoje.equals(formatbr2.format(reservadecaixa.getData()))){
+                         ftxtNotasreserva.setText(String.format("%,.2f",reservadecaixa.getNotas()));
+                         ftxtMoedasreserva.setText(String.format("%,.2f",reservadecaixa.getMoedas()));
+                         lblReservadoem.setText("Reservado em: " + formatbr.format(reservadecaixa.getData()));
+                      }
                   }
               }
     }

@@ -31,14 +31,14 @@ public class SelecionandoReservaDeCaixa {
                                selecionamovimentousua = movdao36.selecionarmovimentousua(idponto);
                                   if(selecionamovimentousua.isEmpty()){
                                      SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
-                                     selecionarreservadecaixa.SelecionarUltimoReservaDeCaixa();
+                                     selecionarreservadecaixa.SelecionarUltimoReservaDeCaixa(hoje);
                                   }else{
                                      SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
-                                     selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata);
+                                     selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata, hoje);
                                   }
                            }else{
                                 SelecionarReservaDeCaixa selecionarreservadecaixa = new SelecionarReservaDeCaixa();
-                                selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata);
+                                selecionarreservadecaixa.SelecionarReservaDeCaixa(iddata, hoje);
                            }
     }
 }

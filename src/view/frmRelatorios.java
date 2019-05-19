@@ -93,7 +93,7 @@ public class frmRelatorios extends javax.swing.JInternalFrame {
         jLabel1.setText("De: ");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setText(" á: ");
+        jLabel2.setText("à:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

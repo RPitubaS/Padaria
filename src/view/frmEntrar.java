@@ -322,7 +322,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
                            txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
                            txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
-                           frmmovimento.recebemovidponto(entradas.getIdponto());
+                           frmmovimento.recebemovidponto(entradas.getIdponto(), entradas.getIddata());
                            idpontoentrada = entradas.getIdusuario();
                            data = formatbr.format(entradas.getData());
                            String[] agoradiv = agora.split("\\.");
@@ -477,7 +477,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                                txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
                                txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
                                txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
-                               frmmovimento.recebemovidponto(entradas.getIdponto());
+                               frmmovimento.recebemovidponto(entradas.getIdponto(), entradas.getIddata());
                                
                                iddata = entradas.getIddata();
                                SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();

@@ -1189,12 +1189,13 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    public void recebemovidponto( int movidponto){
+    public void recebemovidponto( int movidponto, int iddata){
         this.movidponto = movidponto;
         RefazerConexao rfc = new RefazerConexao();
         rfc.refazerconexao();
         lertabela();
         alinhamentocelula();
+        this.iddata = iddata;
     }
     
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
@@ -1537,7 +1538,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         if(!ftxtNotasreserva.getText().equals("") || !ftxtMoedasreserva.getText().equals("")){
 //            RefazerConexao rfcid = new RefazerConexao();
 //            rfcid.refazerconexao();
-//            MovimentoDAO movdaoid = new MovimentoDAO();
+//            MovimentoDAO movdaoiddata = new MovimentoDAO();
+//            iddata = movdaoiddata.selecionariddata(idponto);
 //            idmovimento = movdaoid.selecionarmaxmovimento(movidponto);
             RefazerConexao rfc = new RefazerConexao();
             rfc.refazerconexao();

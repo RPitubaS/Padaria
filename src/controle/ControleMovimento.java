@@ -52,12 +52,40 @@ public class ControleMovimento {
          try{
              java.sql.Date inicio = new java.sql.Date(formatbr.parse(data).getTime());
              
-             stmt = con.prepareStatement("select DT.DATA, US.USUARIO,MV.HORA, MV.VENDA_AVISTA, ENTREGA, "
-                     + "RECEBIMENTO_PRAZO, CARTAO, VALE, SAQUE, PAGAMENTOS, MOVIMENTO\n" +
-                      "from MOVIMENTO MV join CARTAO_PONTO CP on MV.MOV_ID_PONTO = CP.ID_PONTO"
-                     + " join DATA DT on CP.PT_DATA = DT.ID_DATA join USUARIOS US on CP.PT_USUARIO = US.ID"
-                     + " where DT.DATA = ?");
+             stmt = con.prepareStatement("select DT.DATA, US.USUARIO, MV.HORA, TTV.VENDAS_A_VISTA," +
+                                         "TTV.VENDAS_MAIS_ENTR, " +
+                                         "TTV.SOMAMOVIMENTO, MV.VENDA_AVISTA, MV.ENTREGA,\n" +
+                                         "RP.CLIENTE_PAGANTE, RP.COMPETENCIA, MV.RECEBIMENTO_PRAZO," +
+                                         "MV.CARTAO, MV.VALE, \n" +
+                                         "VL.FUNCIONARIO, MV.SAQUE,\n" +
+                                         "PG.PG_PAGO, PG.EMPRESA, MV.PAGAMENTOS, MV.MOVIMENTO\n" +
+                                         "from MOVIMENTO MV join CARTAO_PONTO CP on \n" +
+                                         "MV.MOV_ID_PONTO = CP.ID_PONTO join DATA DT \n" +
+                                         "on CP.PT_DATA = DT.ID_DATA join TOTALVEM TTV on " +
+                                         "TTV.TTV_ID_DATA = DT.ID_DATA join USUARIOS US on \n" +
+                                         "CP.PT_USUARIO = US.ID left join RECEBIMENTOPRAZO RP \n" +
+                                         "on RP.RP_ID_MOVIMENTO = MV.ID_MOVIMENTO\n" +
+                                         "left join VALES VL on VL.VL_ID_MOVIMENTO = MV.ID_MOVIMENTO\n" +
+                                         "left join PAGAMENTOS PG on PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO\n" +
+                                         "where DT.DATA = ? and MV.ENTREGA > 0 OR DT.DATA = ? AND \n" +
+                                         "MV.RECEBIMENTO_PRAZO > 0 OR DT.DATA = ? AND \n" +
+                                         "MV.CARTAO > 0 OR \n" +
+                                         "DT.DATA = ? AND MV.VALE > 0 OR DT.DATA = ?" +
+                                         "AND MV.SAQUE > 0 OR DT.DATA = ? AND \n" +
+                                         "MV.PAGAMENTOS > 0 OR DT.DATA = ? AND " +
+                                         "RP.RP_ID_MOVIMENTO = MV.ID_MOVIMENTO\n" +
+                                         "OR DT.DATA = ? AND VL.VL_ID_MOVIMENTO = MV.ID_MOVIMENTO\n" +
+                                         "OR DT.DATA = ? AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO");
              stmt.setDate(1, inicio);
+             stmt.setDate(2, inicio);
+             stmt.setDate(3, inicio);
+             stmt.setDate(4, inicio);
+             stmt.setDate(5, inicio);
+             stmt.setDate(6, inicio);
+             stmt.setDate(7, inicio);
+             stmt.setDate(8, inicio);
+             stmt.setDate(9, inicio);
+             //stmt.setDate(10, inicio);
              rs = stmt.executeQuery();
          }catch(Exception e){
              JOptionPane.showMessageDialog(null, "Erro: " + e + " ao tentar selecionar o movimento do dia!");

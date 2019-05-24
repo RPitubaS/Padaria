@@ -23,6 +23,7 @@ import modelo.bean.Movimento;
 import modelo.bean.Pagamentos;
 import modelo.bean.RecebimentoPrazo;
 import modelo.bean.ReservaDeCaixa;
+import modelo.bean.TotalVendas;
 import produzconexao.ConexaoFirebird;
 
 /**
@@ -240,6 +241,24 @@ public class MovimentoDAO {
               ConexaoFirebird.closeConnection(con, stmt);
           }
       }
+      
+      public void salvar_totalvem(int ttviddata, float vendasavista, float vendasmaisentra, float somamovimento){
+            Connection con = ConexaoFirebird.getConnection();
+            PreparedStatement stmt = null;
+            try{
+                stmt = con.prepareStatement("insert into TOTALVEM(TTV_ID_DATA, VENDAS_A_VISTA, "
+                                          + "VENDAS_MAIS_ENTR, SOMAMOVIMENTO) values(?, ?, ?, ?)");
+                stmt.setInt(1, ttviddata);
+                stmt.setFloat(2, vendasavista);
+                stmt.setFloat(3, vendasmaisentra);
+                stmt.setFloat(4, somamovimento);
+                stmt.executeUpdate();
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "Erro: \n" + ex + "\n ao salvar totais!");
+            }finally{
+                ConexaoFirebird.closeConnection(con, stmt);
+            }
+      }
      
       public void atualizar_contagem(int iddata, int quantidadedefregues){
       
@@ -297,6 +316,26 @@ public class MovimentoDAO {
         }finally{
             ConexaoFirebird.closeConnection(con, stmt);
         }
+    }
+    
+    public void atualizar_totalvem(int ttviddata, float vendasavista, float vendasmaisentra, float somamovimento){
+       Connection con = ConexaoFirebird.getConnection();
+       PreparedStatement stmt = null;
+       try{
+           stmt = con.prepareStatement("update TOTALVEM ttv SET ttv.VENDAS_A_VISTA = ?, "
+                                     + "ttv.VENDAS_MAIS_ENTR = ?, "
+                                     + "ttv.SOMAMOVIMENTO = ? where ttv.TTV_ID_DATA = ?");
+           
+           stmt.setFloat(1, vendasavista);
+           stmt.setFloat(2, vendasmaisentra);
+           stmt.setFloat(3, somamovimento);
+           stmt.setInt(4, ttviddata);
+           stmt.executeUpdate();
+       }catch(SQLException ex){
+           JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao atualizar totais!");
+       }finally{
+           ConexaoFirebird.closeConnection(con, stmt);
+       }
     }
     
     public List<Datas> selecionardata(String agora){
@@ -865,6 +904,34 @@ public class MovimentoDAO {
              ConexaoFirebird.closeConnection(con, stmt, rs);
          }
          return caixainiciodia;
+    }
+    
+    public List<TotalVendas> selecinatotalvem(int iddata){
+         
+        Connection con = ConexaoFirebird.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<TotalVendas> selecionartotalvem  = new ArrayList<>();
+        try{
+            stmt = con.prepareStatement("select TTV_ID_DATA, VENDAS_A_VISTA, VENDAS_MAIS_ENTR, "
+                                      + "SOMAMOVIMENTO from TOTALVEM\n"
+                                      + "where TTV_ID_DATA = ?");
+            stmt.setInt(1, iddata);
+            rs = stmt.executeQuery();
+            TotalVendas totalvendas = new TotalVendas();
+            while(rs.next()){
+                 totalvendas.setIddata(rs.getInt("TTV_ID_DATA"));
+                 totalvendas.setVendasavista(rs.getFloat("VENDAS_A_VISTA"));
+                 totalvendas.setVendasmaisentregas(rs.getFloat("VENDAS_MAIS_ENTR"));
+                 totalvendas.setSomamovimento(rs.getFloat("SOMAMOVIMENTO"));
+                 selecionartotalvem.add(totalvendas);
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar o total de vendas!");
+        }finally{
+            ConexaoFirebird.closeConnection(con, stmt, rs);
+        }
+        return selecionartotalvem;
     }
     
     public void salvar_ponto(int iddata, int idusuario, float valorinicialnotas, float valorinicialmoedas){

@@ -28,6 +28,7 @@ import modelo.bean.Entradas;
 import modelo.bean.Movimento;
 import modelo.bean.Pagamentos;
 import modelo.bean.RecebimentoPrazo;
+import modelo.bean.TotalVendas;
 import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import util.FecharCaixa;
@@ -57,10 +58,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     GerenciadordeJanelas gerenciadordejanelas;
     private static frmMovimento frmmovimento; 
     int idponto, iddata;
-    int movidponto = 0, idmovimento = 0, contafregues = 0, iddatacontafregues;
+    int movidponto = 0, idmovimento = 0, contafregues = 0, iddatacontafregues, iddatatotalvem = 0;
     String horaagora, datahoje, motivopagamento, clienteparaentrega, clienterecebprazo, funcionariovale,
            motivosaque, competencia, empresa;
-    float vendaavista, entrega, recebimentoprazo, cartao, vale, saque, pagamentos, movimento, encerrarmovimento;
+    float vendaavista, entrega, recebimentoprazo, cartao, vale, saque, pagamentos, movimento, 
+            totalvendasavista, vendasmaisentregas, somamovimento, encerrarmovimento;
     Time horasaida;
     
     DecimalFormat df = new DecimalFormat();
@@ -293,6 +295,43 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                    movdao.excluir_entrada(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getIdmovimento());
                    RefazerConexao rfc1 = new RefazerConexao();
                    
+                   
+                   List<TotalVendas> selecionatotalvendas = new ArrayList<>();
+                            RefazerConexao rfctotalvem = new RefazerConexao();
+                            rfctotalvem.refazerconexao();
+                            MovimentoDAO movdaottv = new MovimentoDAO();
+                            selecionatotalvendas = movdaottv.selecinatotalvem(iddata);
+  
+                            for(TotalVendas totalvendas : selecionatotalvendas){
+                                totalvendasavista = totalvendas.getVendasavista();
+                                vendasmaisentregas = totalvendas.getVendasmaisentregas();
+                                somamovimento = totalvendas.getSomamovimento();
+                            }
+                            
+                   if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getVendaavista() > 0){
+                      totalvendasavista -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getVendaavista();
+                   }
+                   
+                   if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getVendaavista() > 0){
+                      vendasmaisentregas -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getVendaavista();
+                   }
+                   
+                   if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getEntrega() > 0){
+                      vendasmaisentregas -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getEntrega();
+                   }
+                   if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getCartao() == 0){
+                      somamovimento -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento(); 
+                   }else{
+                      somamovimento -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getCartao();
+                   }
+                   
+                   RefazerConexao rfctotal = new RefazerConexao();
+                   rfctotal.refazerconexao();
+                   MovimentoDAO movdaototal = new MovimentoDAO();
+                   movdaototal.atualizar_totalvem(iddata, totalvendasavista, vendasmaisentregas, somamovimento);
+                  
+                   if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getVendaavista() != 0 ||
+                           selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getEntrega() > 0){
                    RefazerConexao refc13 = new RefazerConexao();
                    refc13.refazerconexao();
                    MovimentoDAO movdao33 = new MovimentoDAO();
@@ -302,7 +341,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                    refc14.refazerconexao();
                    MovimentoDAO movdao34 = new MovimentoDAO();
                    txtVendas.setText("Vendas:  " + movdao34.selecionacontagem(iddata));
-
+                   }
                    rfc1.refazerconexao();
                    lertabela();
                    
@@ -1875,6 +1914,26 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                            MovimentoDAO movdao31 = new MovimentoDAO();
                            contafregues = movdao31.selecionacontagem(iddatacontafregues);
                            
+                           
+                            List<TotalVendas> selecionatotalvendas = new ArrayList<>();
+                            RefazerConexao rfctotalvem = new RefazerConexao();
+                            rfctotalvem.refazerconexao();
+                            MovimentoDAO movdaottv = new MovimentoDAO();
+                            selecionatotalvendas = movdaottv.selecinatotalvem(iddatacontafregues);
+  
+                            for(TotalVendas totalvendas : selecionatotalvendas){
+                               iddatatotalvem = totalvendas.getIddata();
+                               if(iddatatotalvem == 0){
+                                totalvendasavista = 0;
+                                vendasmaisentregas = 0;
+                                somamovimento = 0;
+                            }else{
+                                totalvendasavista = totalvendas.getVendasavista();
+                                vendasmaisentregas = totalvendas.getVendasmaisentregas();
+                                somamovimento = totalvendas.getSomamovimento();
+                            }
+                            }
+                           
                     switch(Integer.parseInt(buttonGroup2.getSelection().getActionCommand())){
                         case 1:
                         vendaavista = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
@@ -1885,6 +1944,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        totalvendasavista += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",", "."));
+                        somamovimento += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        vendasmaisentregas += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         contafregues += 1;
                         break;
                         case 2:
@@ -1896,6 +1958,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        vendasmaisentregas += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         contafregues += 1;
                         do{
                             clienteparaentrega = JOptionPane.showInputDialog(null, "Por favor digite aqui, o nome\n"
@@ -1911,6 +1975,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         do{
                             clienterecebprazo = JOptionPane.showInputDialog(null, "Por favor digite aqui o nome cliente.");
                         }while("".equals(clienterecebprazo));
@@ -1925,6 +1990,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = 0;
+                        somamovimento += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         break;
                         case 5:
                         vendaavista = 0;
@@ -1935,6 +2001,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         do{
                             funcionariovale = JOptionPane.showInputDialog(null, "Por favor digite aqui para quem é o vale.");
                         }while("".equals(funcionariovale));
@@ -1948,6 +2015,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         pagamentos = 0;
                         movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         do{
                             motivosaque = JOptionPane.showInputDialog(null, "Por favor digite aqui o motivo do saque.");
                         }while("".equals(motivosaque));
@@ -1961,6 +2029,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         do{
                             motivopagamento = JOptionPane.showInputDialog(null, "Por favor digite aqui o que foi pago com este valor.");
                         }while("".equals(motivopagamento));
@@ -1975,6 +2044,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        vendasmaisentregas += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         break;
                         case 9:
                         vendaavista =  Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
@@ -1985,6 +2056,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        vendasmaisentregas += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         break;
                     }
                     if((recebimentoprazo != 0 && clienterecebprazo == null) || (vale != 0 && funcionariovale == null)
@@ -2003,6 +2076,16 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                             MovimentoDAO movdao = new MovimentoDAO();
                             movdao.salvar_entrada_movimento(movidponto, horaagora, vendaavista,
                                 entrega, recebimentoprazo, cartao, vale, saque, pagamentos, movimento);
+                            
+                            RefazerConexao rfctotal = new RefazerConexao();
+                            rfctotal.refazerconexao();
+                            if(iddatatotalvem == 0){                                   
+                                            MovimentoDAO movdaototal = new MovimentoDAO();
+                                            movdaototal.salvar_totalvem(iddatacontafregues, totalvendasavista, vendasmaisentregas, somamovimento);
+                            }else{
+                                            MovimentoDAO movdaototal = new MovimentoDAO();
+                                            movdaototal.atualizar_totalvem(iddatacontafregues, totalvendasavista, vendasmaisentregas, somamovimento);
+                            }
                             
                             RefazerConexao refidcont = new RefazerConexao();
                             refidcont.refazerconexao();

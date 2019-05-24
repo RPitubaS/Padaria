@@ -339,7 +339,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                              MovimentoDAO movdao31 = new MovimentoDAO();
                              txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                            if(!data.equals(dataagora)){
-                              JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + "\n, por favor efetue"
+                              JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ".\n Por favor efetue"
                                       + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
                               frmmovimento.ftxtValor.requestFocus();
                            }

@@ -1975,7 +1975,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
-                        somamovimento += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        //somamovimento += Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         do{
                             clienterecebprazo = JOptionPane.showInputDialog(null, "Por favor digite aqui o nome cliente.");
                         }while("".equals(clienterecebprazo));
@@ -2001,7 +2001,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
-                        somamovimento += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento -= Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         do{
                             funcionariovale = JOptionPane.showInputDialog(null, "Por favor digite aqui para quem é o vale.");
                         }while("".equals(funcionariovale));
@@ -2015,7 +2015,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         pagamentos = 0;
                         movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
-                        somamovimento += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento -= Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         do{
                             motivosaque = JOptionPane.showInputDialog(null, "Por favor digite aqui o motivo do saque.");
                         }while("".equals(motivosaque));
@@ -2029,7 +2029,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
-                        somamovimento += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento -= Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         do{
                             motivopagamento = JOptionPane.showInputDialog(null, "Por favor digite aqui o que foi pago com este valor.");
                         }while("".equals(motivopagamento));
@@ -2044,7 +2044,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         saque = 0;
                         pagamentos = 0;
                         movimento = - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
-                        somamovimento += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
+                        somamovimento -= Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         vendasmaisentregas += - Float.parseFloat(ftxtValor.getText().replaceAll("\\.", "").replaceAll(",","."));
                         break;
                         case 9:

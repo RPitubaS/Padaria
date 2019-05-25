@@ -4,28 +4,29 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[select DT.DATA, US.USUARIO,MV.HORA, TTV.VENDAS_A_VISTA, TTV.VENDAS_MAIS_ENTR, TTV.SOMAMOVIMENTO, MV.VENDA_AVISTA, MV.ENTREGA,
+		<![CDATA[select DT.DATA, CF.CONTAGEM, US.USUARIO,MV.HORA, TTV.VENDAS_A_VISTA, TTV.VENDAS_MAIS_ENTR, TTV.SOMAMOVIMENTO, MV.VENDA_AVISTA, MV.ENTREGA,
 RP.CLIENTE_PAGANTE, RP.COMPETENCIA, MV.RECEBIMENTO_PRAZO, MV.CARTAO, MV.VALE, 
 VL.FUNCIONARIO, MV.SAQUE,
 PG.PG_PAGO, PG.EMPRESA, MV.PAGAMENTOS, MV.MOVIMENTO
 from MOVIMENTO MV join CARTAO_PONTO CP on 
 MV.MOV_ID_PONTO = CP.ID_PONTO join DATA DT 
-on CP.PT_DATA = DT.ID_DATA join TOTALVEM TTV on TTV.TTV_ID_DATA = DT.ID_DATA join USUARIOS US on 
-CP.PT_USUARIO = US.ID left join RECEBIMENTOPRAZO RP 
+on CP.PT_DATA = DT.ID_DATA join TOTALVEM TTV on TTV.TTV_ID_DATA = DT.ID_DATA 
+join CONTA_FREGUES CF on CF.CONTFREGUES_ID_DATA = DT.ID_DATA
+join USUARIOS US on CP.PT_USUARIO = US.ID left join RECEBIMENTOPRAZO RP 
 on RP.RP_ID_MOVIMENTO = MV.ID_MOVIMENTO
 left join VALES VL on VL.VL_ID_MOVIMENTO = MV.ID_MOVIMENTO
 left join PAGAMENTOS PG on PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO
-where DT.DATA = '24.05.2019'and MV.ENTREGA > 0 OR DT.DATA = '24.05.2019' AND 
-MV.RECEBIMENTO_PRAZO > 0 OR DT.DATA = '24.05.2019' AND 
+where DT.DATA = '25.05.2019' and MV.ENTREGA > 0 OR DT.DATA = '25.05.2019' AND 
+MV.RECEBIMENTO_PRAZO > 0 OR DT.DATA = '25.05.2019' AND 
 MV.CARTAO > 0 OR 
-DT.DATA = '24.05.2019' AND MV.VALE > 0 OR DT.DATA = '24.05.2019'
-AND MV.SAQUE > 0 OR DT.DATA = '24.05.2019' AND 
-MV.PAGAMENTOS > 0 OR DT.DATA = '24.05.2019' AND RP.RP_ID_MOVIMENTO = MV.ID_MOVIMENTO
-OR DT.DATA = '24.05.2019' AND VL.VL_ID_MOVIMENTO = MV.ID_MOVIMENTO
-OR DT.DATA = '24.05.2019' AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO 
-]]>
+DT.DATA = '25.05.2019' AND MV.VALE > 0 OR DT.DATA = '25.05.2019'
+AND MV.SAQUE > 0 OR DT.DATA = '25.05.2019' AND 
+MV.PAGAMENTOS > 0 OR DT.DATA = '25.05.2019' AND RP.RP_ID_MOVIMENTO = MV.ID_MOVIMENTO
+OR DT.DATA = '25.05.2019' AND VL.VL_ID_MOVIMENTO = MV.ID_MOVIMENTO
+OR DT.DATA = '25.05.2019' AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO]]>
 	</queryString>
 	<field name="DATA" class="java.sql.Date"/>
+	<field name="CONTAGEM" class="java.lang.Integer"/>
 	<field name="USUARIO" class="java.lang.String"/>
 	<field name="HORA" class="java.sql.Time"/>
 	<field name="VENDAS_A_VISTA" class="java.lang.Double"/>
@@ -65,8 +66,14 @@ OR DT.DATA = '24.05.2019' AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO
 	<variable name="SOMAPGTS" class="java.lang.Float" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{PAGAMENTOS}]]></variableExpression>
 	</variable>
-	<variable name="VENDAS_A_VISTA_1" class="java.lang.Double" calculation="System">
+	<variable name="VENDAS_A_VISTA" class="java.lang.Double" calculation="System">
 		<variableExpression><![CDATA[$F{VENDAS_A_VISTA}]]></variableExpression>
+	</variable>
+	<variable name="SOMAPAGAMENTOS" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[($F{VALE})+($F{SAQUE})+($F{PAGAMENTOS})]]></variableExpression>
+	</variable>
+	<variable name="SOMATOTAL" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[($V{VENDAS_A_VISTA})+($F{CARTAO})]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -97,6 +104,23 @@ OR DT.DATA = '24.05.2019' AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO
 					<font size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DATA}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="413" y="21" width="142" height="14" uuid="1ee60394-8069-4002-9fbb-2da27a3efde5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="413" y="21" width="100" height="14" uuid="d1d32b2f-f456-43f5-9735-aa65a4c90a03"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL FREGUES:]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="513" y="21" width="42" height="14" uuid="32f051a9-c2bd-4660-a3e3-bd07df774d68"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTAGEM}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -139,84 +163,84 @@ OR DT.DATA = '24.05.2019' AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO
 				<reportElement x="0" y="1" width="46" height="20" uuid="f3b818de-2342-48f1-aa51-724e47850d45"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="1" width="46" height="20" uuid="2f602efe-63f5-4e0d-95cd-e4a4ea93d8f1"/>
+				<reportElement mode="Opaque" x="0" y="1" width="46" height="20" backcolor="#FF9900" uuid="2f602efe-63f5-4e0d-95cd-e4a4ea93d8f1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[VENDAS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="46" y="1" width="44" height="20" uuid="ebac9c52-5a9a-41a1-a1c3-d6aa0ae39748"/>
+				<reportElement mode="Opaque" x="46" y="1" width="44" height="20" backcolor="#FF9900" uuid="ebac9c52-5a9a-41a1-a1c3-d6aa0ae39748"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[ENTRG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="244" y="1" width="40" height="20" uuid="224d26bd-e409-48ac-8a6a-2524d5934423"/>
+				<reportElement mode="Opaque" x="244" y="1" width="40" height="20" backcolor="#FF9900" uuid="224d26bd-e409-48ac-8a6a-2524d5934423"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[VALOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="0" width="50" height="21" uuid="09a13a72-e763-4c7d-ba63-8bf5006bad10"/>
+				<reportElement mode="Opaque" x="90" y="1" width="50" height="20" backcolor="#FF9900" uuid="09a13a72-e763-4c7d-ba63-8bf5006bad10"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[CARTAO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="284" y="1" width="38" height="20" uuid="90bbdd49-a36a-4a89-bc98-aa34cb310da4"/>
+				<reportElement mode="Opaque" x="284" y="1" width="38" height="20" backcolor="#FF9900" uuid="90bbdd49-a36a-4a89-bc98-aa34cb310da4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[VALE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="372" y="1" width="40" height="20" uuid="09b1b93d-1edd-4bec-a70d-25db3f34d161"/>
+				<reportElement mode="Opaque" x="372" y="1" width="40" height="20" backcolor="#FF9900" uuid="09b1b93d-1edd-4bec-a70d-25db3f34d161"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[SAQUE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="412" y="1" width="50" height="20" uuid="1bbcca53-8199-4f5f-a42a-8410215b39b9"/>
+				<reportElement mode="Opaque" x="412" y="1" width="50" height="20" backcolor="#FF9900" uuid="1bbcca53-8199-4f5f-a42a-8410215b39b9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[PAGTOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="140" y="1" width="56" height="20" uuid="2acfa3a6-bd53-4fb5-b205-1d4e5c5e560a"/>
+				<reportElement mode="Opaque" x="140" y="1" width="56" height="20" backcolor="#FF9900" uuid="2acfa3a6-bd53-4fb5-b205-1d4e5c5e560a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[RECBTOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="196" y="1" width="48" height="20" uuid="1850ccf5-13b2-43ec-be68-1e8298c20ab6"/>
+				<reportElement mode="Opaque" x="196" y="1" width="48" height="20" backcolor="#FF9900" uuid="1850ccf5-13b2-43ec-be68-1e8298c20ab6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[COMPT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="322" y="1" width="50" height="20" uuid="e0154c77-af6d-46bf-91db-0f6cb044e6ad"/>
+				<reportElement mode="Opaque" x="322" y="1" width="50" height="20" backcolor="#FF9900" uuid="e0154c77-af6d-46bf-91db-0f6cb044e6ad"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[FUNC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="513" y="1" width="42" height="20" uuid="16de0188-6db6-4ef2-88e2-c5de2028c422"/>
+				<reportElement mode="Opaque" x="513" y="1" width="42" height="20" backcolor="#FF9900" uuid="16de0188-6db6-4ef2-88e2-c5de2028c422"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[VALOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="462" y="1" width="51" height="20" uuid="d5c642de-5093-48ce-8779-bcfc32b722a2"/>
+				<reportElement mode="Opaque" x="462" y="1" width="51" height="20" backcolor="#FF9900" uuid="d5c642de-5093-48ce-8779-bcfc32b722a2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -357,10 +381,10 @@ OR DT.DATA = '24.05.2019' AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO
 	<summary>
 		<band height="177" splitType="Stretch">
 			<rectangle>
-				<reportElement x="513" y="1" width="42" height="19" uuid="b60be7cb-8518-4dd7-ade9-ae26d40fa3b4"/>
+				<reportElement x="372" y="1" width="41" height="19" uuid="a3682b8e-d021-4144-a012-8c23c3483571"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="372" y="1" width="40" height="19" uuid="a3682b8e-d021-4144-a012-8c23c3483571"/>
+				<reportElement x="513" y="1" width="42" height="19" uuid="b60be7cb-8518-4dd7-ade9-ae26d40fa3b4"/>
 			</rectangle>
 			<rectangle>
 				<reportElement x="284" y="1" width="38" height="19" uuid="24f5f93d-f987-4796-8a81-23cce8b22323"/>
@@ -378,57 +402,57 @@ OR DT.DATA = '24.05.2019' AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO
 				<reportElement x="0" y="1" width="46" height="19" uuid="aae66f8b-bb28-48a7-8ac8-58bc5408ad7c"/>
 			</rectangle>
 			<textField pattern="#,##0.00">
-				<reportElement x="46" y="1" width="44" height="20" uuid="cdf8ed17-1b96-41ff-8a37-d142683f1c8f"/>
+				<reportElement mode="Opaque" x="46" y="1" width="44" height="19" backcolor="#FFFF00" uuid="cdf8ed17-1b96-41ff-8a37-d142683f1c8f"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{SOMAENTR}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="90" y="1" width="50" height="20" uuid="f8f32639-fb56-4331-9edc-0ebb7695d296"/>
+				<reportElement mode="Opaque" x="90" y="1" width="50" height="19" backcolor="#FFFF00" uuid="f8f32639-fb56-4331-9edc-0ebb7695d296"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{SOMACART}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="244" y="1" width="40" height="20" uuid="e567b0a1-d5c5-4ee6-a430-7af51bb8a4fa"/>
+				<reportElement mode="Opaque" x="244" y="1" width="40" height="19" backcolor="#FFFF00" uuid="e567b0a1-d5c5-4ee6-a430-7af51bb8a4fa"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{SOMARECEB}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="373" y="1" width="40" height="20" uuid="dd23c6eb-7b1f-4e2f-845d-b67832c1f148"/>
+				<reportElement mode="Opaque" x="373" y="1" width="40" height="19" backcolor="#FFFF00" uuid="dd23c6eb-7b1f-4e2f-845d-b67832c1f148"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{SOMASAQUE}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="513" y="1" width="42" height="20" uuid="03378086-bce2-4c0b-a4f3-06a1a38419ba"/>
+				<reportElement mode="Opaque" x="513" y="1" width="42" height="19" backcolor="#FFFF00" uuid="03378086-bce2-4c0b-a4f3-06a1a38419ba"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{SOMAPGTS}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="140" y="1" width="56" height="19" uuid="eb18eaf0-565b-4303-9622-91dad82c63e0"/>
+				<reportElement x="140" y="1" width="56" height="19" backcolor="#FFFF00" uuid="eb18eaf0-565b-4303-9622-91dad82c63e0"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="196" y="1" width="48" height="19" uuid="f081d731-760c-43c6-a46a-f1b2e5c5ce6f"/>
+				<reportElement x="196" y="1" width="48" height="19" backcolor="#FFFF00" uuid="f081d731-760c-43c6-a46a-f1b2e5c5ce6f"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="322" y="1" width="50" height="19" uuid="61e9317f-7fbe-4e71-b0ab-305d748bfc9b"/>
+				<reportElement x="322" y="1" width="50" height="19" backcolor="#FFFF00" uuid="61e9317f-7fbe-4e71-b0ab-305d748bfc9b"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="413" y="1" width="49" height="19" uuid="2af8566c-6a0b-4436-9b04-ed6cf551a8d5"/>
+				<reportElement x="413" y="1" width="49" height="19" backcolor="#FFFF00" uuid="2af8566c-6a0b-4436-9b04-ed6cf551a8d5"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="462" y="1" width="51" height="19" uuid="adda2433-8b89-484e-b930-6ff0c4092fd6"/>
+				<reportElement x="462" y="1" width="51" height="19" backcolor="#FFFF00" uuid="adda2433-8b89-484e-b930-6ff0c4092fd6"/>
 			</rectangle>
 			<textField pattern="#,##0.00">
-				<reportElement x="284" y="1" width="38" height="20" uuid="f4e8bf21-8e48-46c2-a73d-a49d6d632bf0"/>
+				<reportElement mode="Opaque" x="284" y="1" width="38" height="19" backcolor="#FFFF00" uuid="f4e8bf21-8e48-46c2-a73d-a49d6d632bf0"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -527,11 +551,25 @@ OR DT.DATA = '24.05.2019' AND PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO
 				<textFieldExpression><![CDATA[$F{VENDAS_MAIS_ENTR}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="0" y="1" width="46" height="20" uuid="6dc911d9-9c5a-4b4e-aa46-4a2e03f1efbc"/>
+				<reportElement mode="Opaque" x="2" y="1" width="44" height="19" backcolor="#FFFF00" uuid="6dc911d9-9c5a-4b4e-aa46-4a2e03f1efbc"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VENDAS_A_VISTA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="102" y="84" width="94" height="18" uuid="0155e345-d08c-48a3-8674-c5719221bb0e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SOMAPAGAMENTOS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="102" y="140" width="94" height="19" backcolor="#99FF99" uuid="0297085f-8b32-4cb2-b8b5-4a72eb56459d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOMAMOVIMENTO}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

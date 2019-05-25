@@ -52,7 +52,7 @@ public class ControleMovimento {
          try{
              java.sql.Date inicio = new java.sql.Date(formatbr.parse(data).getTime());
              
-             stmt = con.prepareStatement("select DT.DATA, US.USUARIO, MV.HORA, TTV.VENDAS_A_VISTA," +
+             stmt = con.prepareStatement("select DT.DATA, CF.CONTAGEM, US.USUARIO, MV.HORA, TTV.VENDAS_A_VISTA," +
                                          "TTV.VENDAS_MAIS_ENTR, " +
                                          "TTV.SOMAMOVIMENTO, MV.VENDA_AVISTA, MV.ENTREGA,\n" +
                                          "RP.CLIENTE_PAGANTE, RP.COMPETENCIA, MV.RECEBIMENTO_PRAZO," +
@@ -62,7 +62,8 @@ public class ControleMovimento {
                                          "from MOVIMENTO MV join CARTAO_PONTO CP on \n" +
                                          "MV.MOV_ID_PONTO = CP.ID_PONTO join DATA DT \n" +
                                          "on CP.PT_DATA = DT.ID_DATA join TOTALVEM TTV on " +
-                                         "TTV.TTV_ID_DATA = DT.ID_DATA join USUARIOS US on \n" +
+                                         "TTV.TTV_ID_DATA = DT.ID_DATA join CONTA_FREGUES CF on " +
+                                         "CF.CONTFREGUES_ID_DATA = DT.ID_DATA join USUARIOS US on \n" +
                                          "CP.PT_USUARIO = US.ID left join RECEBIMENTOPRAZO RP \n" +
                                          "on RP.RP_ID_MOVIMENTO = MV.ID_MOVIMENTO\n" +
                                          "left join VALES VL on VL.VL_ID_MOVIMENTO = MV.ID_MOVIMENTO\n" +

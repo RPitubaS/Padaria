@@ -259,6 +259,28 @@ public class MovimentoDAO {
                 ConexaoFirebird.closeConnection(con, stmt);
             }
       }
+      
+      public void salvar_caixainiciodia(int iddata, int idponto, float caixainicialnotas, float caixainicialmoedas, 
+              float caixainicialtotal){
+            Connection con = ConexaoFirebird.getConnection();
+            PreparedStatement stmt = null;
+            try{
+                stmt = con.prepareStatement("insert into CAIXA_INICIO_DIA(CAIXAINI_ID_DATA, CAIXAINI_ID_PONTO, "
+                                          + "CAIXA_INICIAL_NOTAS, CAIXA_INICIAL_MOEDAS, CAIXA_INICIAL_TOTAL)"
+                                          + "values(?, ?, ?, ?, ?)");
+                stmt.setInt(1, iddata);
+                stmt.setInt(2, idponto);
+                stmt.setFloat(3, caixainicialnotas);
+                stmt.setFloat(4, caixainicialmoedas);
+                stmt.setFloat(5, caixainicialtotal);
+                stmt.executeUpdate();
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "Erro: \n" + ex + "\n ao salvar totais!");
+            }finally{
+                ConexaoFirebird.closeConnection(con, stmt);
+            }
+      
+      }
      
       public void atualizar_contagem(int iddata, int quantidadedefregues){
       
@@ -932,6 +954,35 @@ public class MovimentoDAO {
             ConexaoFirebird.closeConnection(con, stmt, rs);
         }
         return selecionartotalvem;
+    }
+    
+    public List<CaixaInicialDia> caixainiciodia(int iddata){
+         Connection con = ConexaoFirebird.getConnection();
+         PreparedStatement stmt = null;
+         ResultSet rs = null;
+         List<CaixaInicialDia> caixainiciodia = new ArrayList<>();         
+         try{
+             stmt = con.prepareStatement("select CAIXAINI_ID_DATA, CAIXAINI_ID_PONTO, CAIXA_INICIAL_NOTAS,\n"
+                                       + "CAIXA_INICIAL_MOEDAS, CAIXA_INICIAL_TOTAL from CAIXA_INICIO_DIA\n" 
+                                       + "where CAIXAINI_ID_DATA = ?)");
+                                         
+             stmt.setInt(1, iddata);
+             rs = stmt.executeQuery();
+             CaixaInicialDia caixainicialdia = new CaixaInicialDia();
+             while(rs.next()){
+                  caixainicialdia.setIddata(rs.getInt("CAIXAINI_ID_DATA"));
+                  caixainicialdia.setIdponto(rs.getInt("CAIXAINI_ID_PONTO"));
+                  caixainicialdia.setNotas(rs.getFloat("CAIXA_ENTRADA_NOTAS"));
+                  caixainicialdia.setMoedas(rs.getFloat("CAIXA_ENTRADA_MOEDAS"));
+                  caixainicialdia.setTotal(rs.getFloat("CAIXA_INICIAL_TOTAL"));
+                  caixainiciodia.add(caixainicialdia);
+             }
+         }catch(SQLException ex){
+             JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao selecionar o caixa inicial do dia!");
+         }finally{
+             ConexaoFirebird.closeConnection(con, stmt, rs);
+         }
+         return caixainiciodia;
     }
     
     public void salvar_ponto(int iddata, int idusuario, float valorinicialnotas, float valorinicialmoedas){

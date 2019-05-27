@@ -42,6 +42,7 @@ public class ConfirmarReservaDeCaixa {
     
     frmMovimento frmmovimento;
     Date datahoje;
+    int idponto;
     
     public void ConfirmarReservaDeCaixa(String agora, String horaagora, int iddata, int idusuario){
               MovimentoDAO movdao = new MovimentoDAO();
@@ -84,6 +85,7 @@ public class ConfirmarReservaDeCaixa {
                      MovimentoDAO movdao3 = new MovimentoDAO();
                      selecionaentradahoje = movdao3.selecionarentrada(agora, idusuario);
                         for(Entradas entradas : selecionaentradahoje){
+                            idponto = entradas.getIdponto();
                             txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
                             txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
                             txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
@@ -94,6 +96,22 @@ public class ConfirmarReservaDeCaixa {
                      refc11.refazerconexao();
                      MovimentoDAO movdao31 = new MovimentoDAO();
                      txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
+                     
+                            RefazerConexao rfctotal = new RefazerConexao();
+                            rfctotal.refazerconexao();
+                            MovimentoDAO movdaototal = new MovimentoDAO();
+                            movdaototal.salvar_totalvem(iddata, 0, 0, Float.parseFloat(valorinicialcedula.replaceAll
+                                     ("\\.", "").replaceAll(",",".")) + Float.parseFloat(valorinicialmoedas.replaceAll
+                                     ("\\.", "").replaceAll(",",".")));
+                     
+                     RefazerConexao refcini = new RefazerConexao();
+                     refcini.refazerconexao();
+                     MovimentoDAO movdaocini = new MovimentoDAO();
+                     movdaocini.salvar_caixainiciodia(iddata, idponto, Float.parseFloat(valorinicialcedula.replaceAll
+                                     ("\\.", "").replaceAll(",",".")), Float.parseFloat(valorinicialmoedas.replaceAll
+                                     ("\\.", "").replaceAll(",",".")), Float.parseFloat(valorinicialcedula.replaceAll
+                                     ("\\.", "").replaceAll(",",".")) + Float.parseFloat(valorinicialmoedas.replaceAll
+                                     ("\\.", "").replaceAll(",",".")));
                  }catch(Exception ex){
                      JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula \n no formato '00.000,00' são aceitos!");                    
                      frmmovimento.dispose();

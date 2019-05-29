@@ -97,6 +97,14 @@ public class ConfirmarReservaDeCaixa {
                      MovimentoDAO movdao31 = new MovimentoDAO();
                      txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                      
+                            RefazerConexao rfc = new RefazerConexao();
+                            rfc.refazerconexao();
+                            MovimentoDAO movdaoinic = new MovimentoDAO();
+                            movdaoinic.salvar_entrada_movimento(idponto, horaagora, 0,
+                                0, 0, 0, 0, 0, 0, 0, Float.parseFloat(valorinicialcedula.replaceAll
+                                     ("\\.", "").replaceAll(",",".")) + Float.parseFloat(valorinicialmoedas.replaceAll
+                                     ("\\.", "").replaceAll(",",".")));
+                     
                             RefazerConexao rfctotal = new RefazerConexao();
                             rfctotal.refazerconexao();
                             MovimentoDAO movdaototal = new MovimentoDAO();

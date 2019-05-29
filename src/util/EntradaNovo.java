@@ -33,8 +33,11 @@ import static view.frmPrincipal.mnCaixa;
 import static view.frmPrincipal.mnEntrar;
 import static view.frmPrincipal.mnFecharEntrar;
 import static view.frmPrincipal.mnFecharNovousuario;
+import static view.frmPrincipal.mnFecharRelatorios;
 import static view.frmPrincipal.mnFecharcaixa;
 import static view.frmPrincipal.mnNovousuario;
+import static view.frmPrincipal.mnRelatorios;
+import static view.frmPrincipal.btnRelatorio;
 
 /**
  *
@@ -113,7 +116,10 @@ public class EntradaNovo {
                      JOptionPane.showMessageDialog(null, "Somente números, ponto e vírgula no\n formato '00.000,00' são aceitos!");
                      mnCaixa.setEnabled(false);
                      mnFecharcaixa.setEnabled(false);
-                     btnCaixa.setEnabled(false);
+                     btnCaixa.setEnabled(false);            
+                     btnRelatorio.setEnabled(false);
+                     mnRelatorios.setEnabled(false);
+                     mnFecharRelatorios.setEnabled(false);                 
                      mnEntrar.setEnabled(true);
                      mnFecharEntrar.setEnabled(false);
                      mnNovousuario.setEnabled(true);

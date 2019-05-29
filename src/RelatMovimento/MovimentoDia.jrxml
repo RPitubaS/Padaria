@@ -16,12 +16,12 @@ join USUARIOS US on CP.PT_USUARIO = US.ID left join RECEBIMENTOPRAZO RP
 on RP.RP_ID_MOVIMENTO = MV.ID_MOVIMENTO
 left join VALES VL on VL.VL_ID_MOVIMENTO = MV.ID_MOVIMENTO
 left join PAGAMENTOS PG on PG.PG_ID_MOVIMENTO = MV.ID_MOVIMENTO
-where DT.DATA = '26.05.2019' and MV.ENTREGA > 0 OR DT.DATA = '26.05.2019' AND 
-MV.RECEBIMENTO_PRAZO > 0 OR DT.DATA = '26.05.2019' AND 
+where DT.DATA = '29.05.2019' and MV.CAIXAINICIALTOTAL > 0 OR DT.DATA = '29.05.2019' AND 
+MV.RECEBIMENTO_PRAZO > 0 OR DT.DATA = '29.05.2019' AND 
 MV.CARTAO > 0 OR 
-DT.DATA = '26.05.2019' AND MV.VALE > 0 OR DT.DATA = '26.05.2019'
-AND MV.SAQUE > 0 OR DT.DATA = '26.05.2019' AND 
-MV.PAGAMENTOS > 0 ]]>
+DT.DATA = '29.05.2019' AND MV.VALE > 0 OR DT.DATA = '29.05.2019'
+AND MV.SAQUE > 0 OR DT.DATA = '29.05.2019' AND 
+MV.PAGAMENTOS > 0]]>
 	</queryString>
 	<field name="DATA" class="java.sql.Date"/>
 	<field name="CONTAGEM" class="java.lang.Integer"/>
@@ -258,47 +258,26 @@ MV.PAGAMENTOS > 0 ]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="423" y="0" width="53" height="20" backcolor="#CCCCFF" uuid="7096133c-dc9b-456f-890c-85996529a733"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{EMPRESA}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="476" y="0" width="41" height="20" backcolor="#CCCCFF" uuid="bfdd4984-b06f-457d-9c01-e6a3e7c52523"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{PAGAMENTOS}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="373" y="0" width="51" height="20" backcolor="#CCCCFF" uuid="d806da15-e556-4ae3-8abe-3eb569849f6f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{PG_PAGO}]]></textFieldExpression>
-			</textField>
+		<band height="16" splitType="Stretch">
 			<rectangle>
-				<reportElement mode="Transparent" x="372" y="0" width="50" height="20" uuid="762bc1b5-3eb2-4718-a887-330018d77c7e"/>
+				<reportElement x="0" y="0" width="46" height="15" uuid="0fa1f73a-1068-4b11-94a4-a2005d557f84"/>
 			</rectangle>
-			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="322" y="0" width="51" height="20" backcolor="#FFCCFF" uuid="b0100733-08bb-4820-8f42-6c7bbd631b7f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{FUNCIONARIO}]]></textFieldExpression>
-			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="285" y="0" width="37" height="20" backcolor="#FFCCFF" uuid="1885d6c7-e58f-4fc9-aefb-840d2a325422"/>
+				<reportElement x="46" y="0" width="44" height="15" uuid="d3c0a085-7125-40b4-90bb-4909f847ab62"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{VALE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ENTREGA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="90" y="0" width="50" height="15" uuid="272ed0fb-fd90-4a1d-bf2e-ed3f1d3a8e6d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CARTAO}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="140" y="0" width="56" height="20" backcolor="#CCFFCC" uuid="b1087e4f-d574-4d16-92be-a8a32f56756a"/>
+				<reportElement mode="Opaque" x="140" y="0" width="56" height="15" backcolor="#CCFFCC" uuid="b1087e4f-d574-4d16-92be-a8a32f56756a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 					<font isBold="true" isStrikeThrough="false"/>
 					<paragraph lineSpacing="Single" tabStopWidth="40"/>
@@ -306,73 +285,94 @@ MV.PAGAMENTOS > 0 ]]>
 				<textFieldExpression><![CDATA[$F{CLIENTE_PAGANTE}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="196" y="0" width="48" height="20" backcolor="#CCFFCC" uuid="7ad6ec9d-4cb3-45e5-ab0e-3336ab54eb45"/>
+				<reportElement mode="Opaque" x="196" y="0" width="48" height="15" backcolor="#CCFFCC" uuid="7ad6ec9d-4cb3-45e5-ab0e-3336ab54eb45"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COMPETENCIA}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="244" y="0" width="40" height="20" backcolor="#CCFFCC" uuid="b2d0bc46-7022-48de-a411-a427d20c60ed"/>
+				<reportElement mode="Opaque" x="244" y="0" width="40" height="15" backcolor="#CCFFCC" uuid="b2d0bc46-7022-48de-a411-a427d20c60ed"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RECEBIMENTO_PRAZO}]]></textFieldExpression>
 			</textField>
-			<rectangle>
-				<reportElement mode="Transparent" x="140" y="0" width="56" height="20" uuid="6f202ed9-9ef8-4cc3-82e7-6820cbe7d55a"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="244" y="0" width="41" height="20" uuid="453adb60-6c18-4fc1-9e13-b994630b0657"/>
-			</rectangle>
-			<rectangle>
-				<reportElement x="46" y="0" width="44" height="20" uuid="567fef43-c571-4a5c-92f4-5b432c1a595c"/>
-			</rectangle>
-			<rectangle>
-				<reportElement x="0" y="0" width="46" height="20" uuid="0fa1f73a-1068-4b11-94a4-a2005d557f84"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="475" y="0" width="43" height="20" uuid="936d4d98-9e5c-44be-b18b-aeefba8d6b5d"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="285" y="0" width="37" height="20" uuid="e4143d74-58e5-49e1-b0e1-6da352af6548"/>
-			</rectangle>
-			<rectangle>
-				<reportElement x="90" y="0" width="50" height="20" uuid="789e0ded-82ad-424a-874a-db255d5d80a8"/>
-			</rectangle>
 			<textField pattern="#,##0.00">
-				<reportElement x="90" y="0" width="50" height="20" uuid="272ed0fb-fd90-4a1d-bf2e-ed3f1d3a8e6d"/>
+				<reportElement mode="Opaque" x="285" y="0" width="37" height="15" backcolor="#FFCCFF" uuid="1885d6c7-e58f-4fc9-aefb-840d2a325422"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{CARTAO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{VALE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="322" y="0" width="51" height="15" backcolor="#FFCCFF" uuid="b0100733-08bb-4820-8f42-6c7bbd631b7f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FUNCIONARIO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="373" y="0" width="51" height="15" backcolor="#CCCCFF" uuid="d806da15-e556-4ae3-8abe-3eb569849f6f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PG_PAGO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="423" y="0" width="53" height="15" backcolor="#CCCCFF" uuid="7096133c-dc9b-456f-890c-85996529a733"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMPRESA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="476" y="0" width="41" height="15" backcolor="#CCCCFF" uuid="bfdd4984-b06f-457d-9c01-e6a3e7c52523"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAGAMENTOS}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement mode="Transparent" x="196" y="0" width="48" height="20" uuid="ef3f04c8-4f1e-4b59-b145-fd7340bfc1a3"/>
+				<reportElement mode="Transparent" x="475" y="0" width="43" height="15" uuid="936d4d98-9e5c-44be-b18b-aeefba8d6b5d"/>
 			</rectangle>
 			<rectangle>
-				<reportElement mode="Transparent" x="322" y="0" width="50" height="20" uuid="0993c884-9b10-4e0c-8a1d-83f05f52df76"/>
+				<reportElement mode="Transparent" x="422" y="0" width="53" height="15" backcolor="#FFFFFF" uuid="dde7eb71-cc14-4528-a4de-fad81438a943"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="518" y="0" width="38" height="20" uuid="5a1dd7d0-82b7-4cb5-9ded-0fa02c9d9a03"/>
+				<reportElement mode="Transparent" x="372" y="0" width="50" height="15" uuid="762bc1b5-3eb2-4718-a887-330018d77c7e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="322" y="0" width="50" height="15" uuid="0993c884-9b10-4e0c-8a1d-83f05f52df76"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="285" y="0" width="37" height="15" uuid="e4143d74-58e5-49e1-b0e1-6da352af6548"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="244" y="0" width="41" height="15" uuid="453adb60-6c18-4fc1-9e13-b994630b0657"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="196" y="0" width="48" height="15" uuid="ef3f04c8-4f1e-4b59-b145-fd7340bfc1a3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="140" y="0" width="56" height="15" uuid="6f202ed9-9ef8-4cc3-82e7-6820cbe7d55a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="46" y="0" width="44" height="15" uuid="567fef43-c571-4a5c-92f4-5b432c1a595c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="90" y="0" width="50" height="15" uuid="789e0ded-82ad-424a-874a-db255d5d80a8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="518" y="0" width="38" height="15" uuid="5a1dd7d0-82b7-4cb5-9ded-0fa02c9d9a03"/>
 			</rectangle>
 			<textField pattern="#,##0.00">
-				<reportElement x="519" y="0" width="37" height="20" uuid="cd4fb7fc-bd92-463d-909b-abce95decbb0"/>
+				<reportElement x="519" y="0" width="37" height="15" uuid="cd4fb7fc-bd92-463d-909b-abce95decbb0"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SAQUE}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement x="46" y="0" width="44" height="20" uuid="d3c0a085-7125-40b4-90bb-4909f847ab62"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ENTREGA}]]></textFieldExpression>
-			</textField>
-			<rectangle>
-				<reportElement mode="Transparent" x="422" y="0" width="53" height="20" backcolor="#FFFFFF" uuid="dde7eb71-cc14-4528-a4de-fad81438a943"/>
-			</rectangle>
 		</band>
 	</detail>
 	<columnFooter>

@@ -35,6 +35,10 @@ import produzconexao.RefazerConexao;
 import util.GerenciadordeJanelas;
 import util.SelecionandoReservaDeCaixa;
 import static view.frmEntrar.txtLognickentrar;
+import static view.frmMovimento.btnCancelarreserva;
+import static view.frmMovimento.btnExcluir;
+import static view.frmMovimento.btnFecharcaixa;
+import static view.frmMovimento.btnReservarcaixa;
 import static view.frmMovimento.ftxtValor;
 import static view.frmMovimento.tblMovimento;
 import static view.frmMovimento.txtAtendentecaixa;
@@ -43,9 +47,13 @@ import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
 import static view.frmMovimento.txtVendas;
 import static view.frmPrincipal.btnCaixa;
+import static view.frmPrincipal.btnFecharAdmin;
 import static view.frmPrincipal.dtpDescktop;
 import static view.frmPrincipal.mnCaixa;
+import static view.frmPrincipal.mnFecharRelatorios;
 import static view.frmPrincipal.mnFecharcaixa;
+import static view.frmPrincipal.mnRelatorios;
+import static view.frmPrincipal.btnRelatorio;
 
 /**
  *
@@ -640,10 +648,26 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
               mnCaixa.setEnabled(true);
               btnCaixa.setEnabled(true);
               mnFecharcaixa.setEnabled(false);
+              mnRelatorios.setEnabled(true);
+              btnRelatorio.setEnabled(true);
+              mnFecharRelatorios.setEnabled(false);
+              //btnExcluir.setEnabled(true);
+              //btnFecharcaixa.setEnabled(true);
+              //ftxtValor.setEnabled(true);
+              //btnReservarcaixa.setEnabled(true);
+              //btnCancelarreserva.setEnabled(true);
            }else{
-             mnCaixa.setEnabled(false);
-              btnCaixa.setEnabled(false);
+              mnCaixa.setEnabled(true);
+              btnCaixa.setEnabled(true);
               mnFecharcaixa.setEnabled(false);
+              mnRelatorios.setEnabled(true);
+              btnRelatorio.setEnabled(true);
+              mnFecharRelatorios.setEnabled(false);
+                if(btnFecharAdmin.isEnabled()){
+                     tblMovimento.setEnabled(false);
+                     ftxtValor.setEnabled(false);
+                     btnReservarcaixa.setEnabled(false);
+                }
            }   
               
               

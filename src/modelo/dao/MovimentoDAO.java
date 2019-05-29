@@ -86,13 +86,14 @@ public class MovimentoDAO {
     }
     
     public void salvar_entrada_movimento(int movidponto, String horaagora, float vendaavista, float entrega, 
-            float recebimentoprazo, float cartao, float vale, float saque, float pagamentos, float movimento){
+            float recebimentoprazo, float cartao, float vale, float saque, float pagamentos, float movimento,
+            float caixainicialtotal){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         try{
             java.sql.Time sdf = new java.sql.Time(formatbrh.parse(horaagora).getTime());
             stmt = con.prepareStatement("insert into MOVIMENTO(MOV_ID_PONTO, HORA, VENDA_AVISTA, ENTREGA, RECEBIMENTO_PRAZO,"
-                                        + " CARTAO, VALE, SAQUE, PAGAMENTOS, MOVIMENTO) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                        + " CARTAO, VALE, SAQUE, PAGAMENTOS, MOVIMENTO, CAIXAINICIALTOTAL) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             stmt.setInt(1, movidponto);
             stmt.setTime(2, sdf);
@@ -104,6 +105,7 @@ public class MovimentoDAO {
             stmt.setFloat(8, saque);
             stmt.setFloat(9, pagamentos);
             stmt.setFloat(10, movimento);
+            stmt.setFloat(11, caixainicialtotal);
             stmt.executeUpdate();
         }catch(SQLException ex){
                JOptionPane.showMessageDialog(null, "Erro ao tentar salvar entrada de movimento! " + ex,

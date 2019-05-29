@@ -28,24 +28,31 @@ import util.GerenciadordeJanelas;
 import util.GuardarUrl;
 import util.SelecionandoReservaDeCaixa;
 import static view.frmMovimento.btnExcluir;
+import static view.frmMovimento.btnReservarcaixa;
 import static view.frmMovimento.ftxtValor;
+import static view.frmMovimento.tblMovimento;
 import static view.frmMovimento.txtAtendentecaixa;
 import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
 import static view.frmMovimento.txtVendas;
+import static view.frmPrincipal.btnAdministrador;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
+import static view.frmPrincipal.btnFecharAdmin;
 import static view.frmPrincipal.btnLogin;
 import static view.frmPrincipal.dtpDescktop;
 import static view.frmPrincipal.mnCaixa;
 import static view.frmPrincipal.mnEntrar;
 import static view.frmPrincipal.mnFecharEntrar;
 import static view.frmPrincipal.mnFecharNovousuario;
+import static view.frmPrincipal.mnFecharRelatorios;
 import static view.frmPrincipal.mnFecharcaixa;
 import static view.frmPrincipal.mnMovimento;
 import static view.frmPrincipal.mnNovousuario;
+import static view.frmPrincipal.mnRelatorios;
 import static view.frmReservaDeCaixa.ftxtConfirmanotasreservadas;
+import static view.frmPrincipal.btnRelatorio;
 
 
 /**
@@ -291,9 +298,25 @@ public class frmAdministrador extends javax.swing.JInternalFrame {
            btnAdmLogEntrar.setEnabled(true);
            btnExcluir.setEnabled(false);
            if(tipousuario.equals("sim")){
+              if(!btnEntrar.isEnabled() && !btnLogin.isEnabled()){
+                   tblMovimento.setEnabled(false);
+                   ftxtValor.setEnabled(false);
+                   btnReservarcaixa.setEnabled(false);
+              }
+              btnFecharAdmin.setEnabled(true);
               btnCaixa.setEnabled(true);
               mnCaixa.setEnabled(true);
-              mnFecharcaixa.setEnabled(false);
+              mnFecharcaixa.setEnabled(false);              
+              mnNovousuario.setEnabled(false);       
+              mnFecharNovousuario.setEnabled(false);
+              mnEntrar.setEnabled(false);
+              mnFecharEntrar.setEnabled(false);
+              btnLogin.setEnabled(false);
+              btnEntrar.setEnabled(false);             
+              btnRelatorio.setEnabled(true);
+              mnRelatorios.setEnabled(true);
+              mnFecharRelatorios.setEnabled(false);
+              btnAdministrador.setEnabled(false);
               mnMovimento.setEnabled(true);
            }
                    this.dispose();

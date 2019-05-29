@@ -6,13 +6,21 @@
 package view;
 
 import controle.ControleMovimento;
+import java.awt.Dimension;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
+import javax.swing.table.DefaultTableModel;
+import modelo.bean.Entradas;
+import modelo.bean.Usuario;
+import modelo.dao.MovimentoDAO;
+import modelo.dao.UsuariosDAO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -20,7 +28,24 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JRViewer;
 import produzconexao.RefazerConexao;
 import util.GerenciadordeJanelas;
+import util.SelecionandoReservaDeCaixa;
+import static view.frmMovimento.btnReservarcaixa;
+import static view.frmMovimento.ftxtValor;
+import static view.frmMovimento.tblMovimento;
+import static view.frmMovimento.txtAtendentecaixa;
+import static view.frmMovimento.txtCaixainicial;
+import static view.frmMovimento.txtMoedasinicio;
+import static view.frmMovimento.txtNotasinicio;
+import static view.frmMovimento.txtVendas;
+import static view.frmMovimentodia.tblMovimentodia;
+import static view.frmPrincipal.btnCaixa;
+import static view.frmPrincipal.btnFecharAdmin;
+import static view.frmPrincipal.btnRelatorio;
 import static view.frmPrincipal.dtpDescktop;
+import static view.frmPrincipal.mnCaixa;
+import static view.frmPrincipal.mnFecharRelatorios;
+import static view.frmPrincipal.mnFecharcaixa;
+import static view.frmPrincipal.mnRelatorios;
 
 /**
  *
@@ -30,13 +55,25 @@ public class frmRelatorios extends javax.swing.JInternalFrame {
     GerenciadordeJanelas gerenciadordejanelas;
     private static frmRelatorios frmrelatorios;
     ControleMovimento controlemovimento = new ControleMovimento();
-   
+    frmMovimento frmmovimento = new frmMovimento();
+    int iddata, idponto;
+    String agora;
     public static frmRelatorios getInstancia(){
           if(frmrelatorios == null){
              frmrelatorios = new frmRelatorios();
           }
         return frmrelatorios;
     }
+    
+    public void setPosicaodia(){
+    
+         Dimension dimensao = dtpDescktop.getSize();
+         
+           this.setSize(dimensao);
+               this.toFront();
+               
+    }
+    
     public frmRelatorios() {
         initComponents();
     }
@@ -157,7 +194,7 @@ public class frmRelatorios extends javax.swing.JInternalFrame {
 
     private void btnRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatoriosActionPerformed
         
-        SimpleDateFormat formatbr = new SimpleDateFormat("dd/MM/yyyy");
+        //SimpleDateFormat formatbr = new SimpleDateFormat("dd/MM/yyyy");
         String inicio;
         RefazerConexao rfc = new RefazerConexao();
         rfc.refazerconexao();
@@ -182,7 +219,78 @@ public class frmRelatorios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnRelatoriosActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        String tipousuario = "", usuario = "";
+        SimpleDateFormat formatbr = new SimpleDateFormat("dd.MM.yyyy");
+       //DefaultTableModel modelo = (DefaultTableModel) tblMovimentodia.getModel();
+       //modelo.setNumRows(0);
+              
+           RefazerConexao refc10 = new RefazerConexao();
+           refc10.refazerconexao();
+           List<Entradas> selecionasaidanula1 = new ArrayList<>();
+           MovimentoDAO movdao30 = new MovimentoDAO();
+           selecionasaidanula1 = movdao30.selecionarsaidanull();
+           if(!selecionasaidanula1.isEmpty()){
+               java.sql.Date sdf;
+               
+                   int idpontoentrada = 0;
+                   
+                     frmmovimento = new frmMovimento();
+                     dtpDescktop.add(frmmovimento);
+                     frmmovimento.setVisible(true);
+                     frmmovimento.setPosicao();
+                     ftxtValor.requestFocus();
+                   for(Entradas entradas : selecionasaidanula1){
+                           txtAtendentecaixa.setText("Caixa: " + entradas.getUsuario());
+                           txtNotasinicio.setText("Notas: " + String.format("%,.2f", entradas.getValorinicialcedula()));
+                           txtMoedasinicio.setText("Moedas: " + String.format("%,.2f", entradas.getValorinicialmoedas()));
+                           txtCaixainicial.setText("Início: " + String.format("%,.2f", entradas.getValorinicialcedula() + entradas.getValorinicialmoedas()));
+                           frmmovimento.recebemovidponto(entradas.getIdponto(), entradas.getIddata());
+                           idpontoentrada = entradas.getIdusuario();
+                           agora = formatbr.format(entradas.getData());
+                           SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+                           selecionandoreservadecaixa.SelecionandoReservaDeCaixa(agora, idpontoentrada, entradas.getIddata());
+                           iddata = entradas.getIddata();
+                           usuario = entradas.getUsuario();
+                           idponto = entradas.getIdponto();
+            }
+                             RefazerConexao refc13 = new RefazerConexao();
+                             refc13.refazerconexao();
+                             MovimentoDAO movdao31 = new MovimentoDAO();
+                             txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
         
+           SelecionandoReservaDeCaixa selecionandoreservadecaixa = new SelecionandoReservaDeCaixa();
+           selecionandoreservadecaixa.SelecionandoReservaDeCaixa(agora, idponto, iddata);
+           }
+           //RefazerConexao rfc = new RefazerConexao();
+           //rfc.refazerconexao();
+           //List<Usuario> selecionandousuario = new ArrayList<>();
+           //UsuariosDAO usdao = new UsuariosDAO();
+           //selecionandousuario = usdao.selecionarusuario(usuario);
+
+        //for(Usuario usuarios : selecionandousuario){
+                       //tipousuario = usuarios.getAdmin();
+                      //}
+           //if(tipousuario.equals("sim")){
+                //mnCaixa.setEnabled(true);
+                //btnCaixa.setEnabled(true);
+                //mnFecharcaixa.setEnabled(false);
+           //}else{
+           
+              mnCaixa.setEnabled(true);
+              btnCaixa.setEnabled(true);
+              mnFecharcaixa.setEnabled(false);
+              //btnCaixa.setEnabled(false);
+              
+              mnRelatorios.setEnabled(true);
+              btnRelatorio.setEnabled(true);
+              mnFecharRelatorios.setEnabled(false);
+              if(btnFecharAdmin.isEnabled()){
+                  tblMovimento.setEnabled(false);
+                  ftxtValor.setEnabled(false);
+                  btnReservarcaixa.setEnabled(false);
+               }
+           //}   
+             
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed

@@ -39,7 +39,13 @@ import static view.frmLogin.txtLognick;
 import static view.frmLogin.txtNome;
 import static view.frmLogin.txtSenha;
 import static view.frmLogin.txtLogsenha;
+import static view.frmMovimento.btnCancelarreserva;
+import static view.frmMovimento.btnExcluir;
 import static view.frmMovimento.btnFecharMovimento;
+import static view.frmMovimento.btnFecharcaixa;
+import static view.frmMovimento.btnReservarcaixa;
+import static view.frmMovimento.ftxtValor;
+import static view.frmMovimento.tblMovimento;
 import static view.frmMovimentodia.btnMovimentododiaSair;
 
 
@@ -53,6 +59,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     frmLogin frmlogin = new frmLogin();
     frmMovimento frmusuario = new frmMovimento();
     frmMovimentodia frmmovimentodia;
+    frmRelatorios frmrelatorios;
     frmEntrar frmentrar = new frmEntrar();
     ControleMovimento controlemovimento = new ControleMovimento();
     frmAdministrador administrador = new frmAdministrador();
@@ -161,12 +168,17 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnCaixa = new javax.swing.JButton();
         btnEntrar = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
+        btnRelatorio = new javax.swing.JButton();
         btnAdministrador = new javax.swing.JButton();
+        btnFecharAdmin = new javax.swing.JButton();
         mnBarraMenu = new javax.swing.JMenuBar();
         mnMovimento = new javax.swing.JMenu();
         mnCaixa = new javax.swing.JMenuItem();
         mnFecharcaixa = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        mnRelatorios = new javax.swing.JMenuItem();
+        mnFecharRelatorios = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         mnSair = new javax.swing.JMenuItem();
         mnUsuarios = new javax.swing.JMenu();
         mnNovousuario = new javax.swing.JMenuItem();
@@ -174,9 +186,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mnEntrar = new javax.swing.JMenuItem();
         mnFecharEntrar = new javax.swing.JMenuItem();
-        mnRelatorios = new javax.swing.JMenu();
-        mnRelatorioMovimento = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -195,8 +204,9 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         tbrBarraFerramentas.setFloatable(false);
         tbrBarraFerramentas.setRollover(true);
+        tbrBarraFerramentas.setEnabled(false);
 
-        btnCaixa.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnCaixa.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
         btnCaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cash_icon-icons.com_51028.png"))); // NOI18N
         btnCaixa.setText("caixa");
         btnCaixa.setEnabled(false);
@@ -213,7 +223,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         tbrBarraFerramentas.add(btnCaixa);
 
-        btnEntrar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnEntrar.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
         btnEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/App-login-manager1-icon.png"))); // NOI18N
         btnEntrar.setText("Login");
         btnEntrar.setFocusable(false);
@@ -229,7 +239,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         tbrBarraFerramentas.add(btnEntrar);
 
-        btnLogin.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
+        btnLogin.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/person_user_customer_man_male_man_boy_people_1687.png"))); // NOI18N
         btnLogin.setText("novo usu");
         btnLogin.setFocusable(false);
@@ -245,8 +255,25 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         tbrBarraFerramentas.add(btnLogin);
 
-        btnAdministrador.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
-        btnAdministrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconfinder_Downloads-Folder-Icon_70751 (2).png"))); // NOI18N
+        btnRelatorio.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
+        btnRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/trade_report_reports_documents_2351.png"))); // NOI18N
+        btnRelatorio.setText("relatório");
+        btnRelatorio.setEnabled(false);
+        btnRelatorio.setFocusable(false);
+        btnRelatorio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRelatorio.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnRelatorio.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnRelatorio.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnRelatorio.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRelatorioActionPerformed(evt);
+            }
+        });
+        tbrBarraFerramentas.add(btnRelatorio);
+
+        btnAdministrador.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
+        btnAdministrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/drop_box_folder_graphite_13844.png"))); // NOI18N
         btnAdministrador.setText("admin.");
         btnAdministrador.setFocusable(false);
         btnAdministrador.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -260,6 +287,25 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
         tbrBarraFerramentas.add(btnAdministrador);
+
+        btnFecharAdmin.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
+        btnFecharAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/private_folder_13766.png"))); // NOI18N
+        btnFecharAdmin.setText("fechar ad.");
+        btnFecharAdmin.setToolTipText("");
+        btnFecharAdmin.setEnabled(false);
+        btnFecharAdmin.setFocusable(false);
+        btnFecharAdmin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnFecharAdmin.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnFecharAdmin.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnFecharAdmin.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnFecharAdmin.setRequestFocusEnabled(false);
+        btnFecharAdmin.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnFecharAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharAdminActionPerformed(evt);
+            }
+        });
+        tbrBarraFerramentas.add(btnFecharAdmin);
 
         mnMovimento.setText("Arquivo");
         mnMovimento.addActionListener(new java.awt.event.ActionListener() {
@@ -286,6 +332,20 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnMovimento.add(mnFecharcaixa);
         mnMovimento.add(jSeparator1);
+
+        mnRelatorios.setText("Relatórios");
+        mnRelatorios.setEnabled(false);
+        mnRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnRelatoriosActionPerformed(evt);
+            }
+        });
+        mnMovimento.add(mnRelatorios);
+
+        mnFecharRelatorios.setText("Fechar Relatórios");
+        mnFecharRelatorios.setEnabled(false);
+        mnMovimento.add(mnFecharRelatorios);
+        mnMovimento.add(jSeparator3);
 
         mnSair.setText("Sair");
         mnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -340,26 +400,6 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mnBarraMenu.add(mnUsuarios);
 
-        mnRelatorios.setText("Relatórios");
-
-        mnRelatorioMovimento.setText("Movimento");
-        mnRelatorioMovimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnRelatorioMovimentoActionPerformed(evt);
-            }
-        });
-        mnRelatorios.add(mnRelatorioMovimento);
-
-        jMenuItem2.setText("jMenuItem2");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        mnRelatorios.add(jMenuItem2);
-
-        mnBarraMenu.add(mnRelatorios);
-
         setJMenuBar(mnBarraMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -400,7 +440,17 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnMovimentoActionPerformed
 
     private void btnCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaixaActionPerformed
-
+        if(btnFecharAdmin.isEnabled() && btnEntrar.isEnabled() 
+              || btnFecharAdmin.isEnabled() && btnLogin.isEnabled()){
+           btnFecharAdmin.setEnabled(false);
+        }else{
+            if(!ftxtValor.isEnabled()){
+              tblMovimento.setEnabled(false);
+              ftxtValor.setEnabled(false);
+              btnReservarcaixa.setEnabled(false);
+              btnFecharAdmin.setEnabled(true);
+            }
+        }
         btnFecharMovimento.doClick();
         frmmovimentodia = new frmMovimentodia();
         dtpDescktop.add(frmmovimentodia);
@@ -410,6 +460,9 @@ public class frmPrincipal extends javax.swing.JFrame {
         mnFecharcaixa.setEnabled(true);
         mnFecharcaixa.setEnabled(true);
         btnCaixa.setEnabled(false);
+        btnRelatorio.setEnabled(false);
+        mnRelatorios.setEnabled(false);
+        mnFecharRelatorios.setEnabled(false);
     }//GEN-LAST:event_btnCaixaActionPerformed
 
     private void mnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnUsuariosActionPerformed
@@ -439,38 +492,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnEntrar.setEnabled(true);
         btnLogin.setEnabled(true);
     }//GEN-LAST:event_mnFecharNovousuarioActionPerformed
-
-    private void mnRelatorioMovimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnRelatorioMovimentoActionPerformed
-        int idponto = 0;
-        RefazerConexao rfc = new RefazerConexao();
-        rfc.refazerconexao();
-        idponto = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o id"));
-        try{
-//            Map parametros = new HashMap();
-//            parametros.put(null,idponto);
-            InputStream inputstream = getClass().getResourceAsStream("/RelatMovimento/RelatorioMovimento.jasper");
-            JRResultSetDataSource resultset = new JRResultSetDataSource(controlemovimento.movimentousuario(idponto));
-            JasperPrint jpprint = JasperFillManager.fillReport(inputstream, new HashMap<>(), resultset);
-            JInternalFrame frmrelatorios = new JInternalFrame();
-            frmrelatorios.getContentPane().add(new JRViewer(jpprint));
-            frmrelatorios.pack();
-            dtpDescktop.add(frmrelatorios);
-            frmrelatorios.setBounds(0, 0, 1280, 910);
-            frmrelatorios.setClosable(true);
-            frmrelatorios.setVisible(true);
-            frmrelatorios.toFront();
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage() + " ao gerar o relatório!");
-        }
-    }//GEN-LAST:event_mnRelatorioMovimentoActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        try {
-            gerenciadordejanelas.abrirjanelas(frmRelatorios.getInstancia());
-        } catch (PropertyVetoException ex) {
-            JOptionPane.showMessageDialog( null,"Erro: " + ex + " ao abrir a janela de relatórios.");
-        }
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         try {
@@ -550,6 +571,62 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
+    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
+        try{
+        btnMovimentododiaSair.doClick();
+        }catch(Exception ex){
+        }
+        try{
+          btnFecharMovimento.doClick();
+        }catch(Exception ex){
+        }
+        //btnMovimentododiaSair.doClick();
+        //btnFecharMovimento.doClick();
+        frmrelatorios = new frmRelatorios();
+        dtpDescktop.add(frmrelatorios);
+        frmrelatorios.setVisible(true);
+        frmrelatorios.setPosicaodia();
+        mnRelatorios.setEnabled(false);
+        mnFecharRelatorios.setEnabled(false);
+        btnCaixa.setEnabled(false);
+        btnRelatorio.setEnabled(false);
+        
+    }//GEN-LAST:event_btnRelatorioActionPerformed
+
+    private void mnRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnRelatoriosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnRelatoriosActionPerformed
+
+    private void btnFecharAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharAdminActionPerformed
+        if(btnCaixa.isEnabled()){
+               btnEntrar.setEnabled(true);
+               mnEntrar.setEnabled(true);
+               mnFecharEntrar.setEnabled(false);
+               btnLogin.setEnabled(true);
+               mnNovousuario.setEnabled(true);
+               mnFecharNovousuario.setEnabled(false);
+               mnCaixa.setEnabled(false);
+               mnFecharcaixa.setEnabled(false);
+               btnCaixa.setEnabled(false);
+               btnRelatorio.setEnabled(false);
+               mnRelatorios.setEnabled(false);
+               mnFecharRelatorios.setEnabled(false);
+               btnAdministrador.setEnabled(true);
+               btnFecharAdmin.setEnabled(false);
+           if(!tblMovimento.isEnabled()){
+               tblMovimento.setEnabled(true);
+               ftxtValor.setEnabled(true);
+               btnReservarcaixa.setEnabled(true);
+               btnEntrar.setEnabled(false);
+               mnEntrar.setEnabled(false);
+               mnFecharEntrar.setEnabled(false);
+               btnLogin.setEnabled(false);
+               mnNovousuario.setEnabled(false);
+               mnFecharNovousuario.setEnabled(false);
+           }               
+        }
+    }//GEN-LAST:event_btnFecharAdminActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -589,22 +666,24 @@ public class frmPrincipal extends javax.swing.JFrame {
     public static javax.swing.JButton btnAdministrador;
     public static javax.swing.JButton btnCaixa;
     public static javax.swing.JButton btnEntrar;
+    public static javax.swing.JButton btnFecharAdmin;
     public static javax.swing.JButton btnLogin;
+    public static javax.swing.JButton btnRelatorio;
     public static javax.swing.JDesktopPane dtpDescktop;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenuBar mnBarraMenu;
     public static javax.swing.JMenuItem mnCaixa;
     public static javax.swing.JMenuItem mnEntrar;
     public static javax.swing.JMenuItem mnFecharEntrar;
     public static javax.swing.JMenuItem mnFecharNovousuario;
+    public static javax.swing.JMenuItem mnFecharRelatorios;
     public static javax.swing.JMenuItem mnFecharcaixa;
     public static javax.swing.JMenu mnMovimento;
     public static javax.swing.JMenuItem mnNovousuario;
-    private javax.swing.JMenuItem mnRelatorioMovimento;
-    private javax.swing.JMenu mnRelatorios;
+    public static javax.swing.JMenuItem mnRelatorios;
     private javax.swing.JMenuItem mnSair;
     private javax.swing.JMenu mnUsuarios;
     private javax.swing.JToolBar tbrBarraFerramentas;

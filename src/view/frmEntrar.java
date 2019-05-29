@@ -37,16 +37,20 @@ import static view.frmMovimento.txtVendas;
 import static view.frmPrincipal.btnAdministrador;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
+import static view.frmPrincipal.btnFecharAdmin;
 import static view.frmPrincipal.btnLogin;
 import static view.frmPrincipal.dtpDescktop;
 import static view.frmPrincipal.mnCaixa;
 import static view.frmPrincipal.mnEntrar;
 import static view.frmPrincipal.mnFecharEntrar;
 import static view.frmPrincipal.mnFecharNovousuario;
+import static view.frmPrincipal.mnFecharRelatorios;
 import static view.frmPrincipal.mnFecharcaixa;
 import static view.frmPrincipal.mnMovimento;
 import static view.frmPrincipal.mnNovousuario;
+import static view.frmPrincipal.mnRelatorios;
 import static view.frmReservaDeCaixa.ftxtConfirmanotasreservadas;
+import static view.frmPrincipal.btnRelatorio;
 
 
 /**
@@ -296,8 +300,19 @@ public class frmEntrar extends javax.swing.JInternalFrame {
               mnFecharcaixa.setEnabled(false);
               mnMovimento.setEnabled(true);
               btnAdministrador.setEnabled(false);
+              btnRelatorio.setEnabled(true);
+              mnRelatorios.setEnabled(true);
+              mnFecharRelatorios.setEnabled(false);
            }else{
+              btnCaixa.setEnabled(false);
+              mnCaixa.setEnabled(false);
+              mnFecharcaixa.setEnabled(false);
+              mnMovimento.setEnabled(false);
+              btnRelatorio.setEnabled(false);
+              mnRelatorios.setEnabled(false);
+              mnFecharRelatorios.setEnabled(false);
               btnAdministrador.setEnabled(true);
+              btnFecharAdmin.setEnabled(false);
            }
           
            RefazerConexao refc10 = new RefazerConexao();
@@ -329,16 +344,19 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            dataagora = String.format("%02d/%02d/%02d", Integer.parseInt(agoradiv[0])
                                                                  , Integer.parseInt(agoradiv[1])
                                                                  , Integer.parseInt(agoradiv[2]));
-//                           RefazerConexao refc13 = new RefazerConexao();
-//                           refc13.refazerconexao();
-//                           MovimentoDAO movdao32 = new MovimentoDAO();
-//                           iddata = movdao32.selecionariddata(entradas.getIdponto());
+
                              iddata = entradas.getIddata();
                              RefazerConexao refc13 = new RefazerConexao();
                              refc13.refazerconexao();
                              MovimentoDAO movdao31 = new MovimentoDAO();
                              txtVendas.setText("Vendas:  " + movdao31.selecionacontagem(iddata));
                            if(!data.equals(dataagora)){
+                               mnEntrar.setEnabled(false);
+                               mnFecharEntrar.setEnabled(false);
+                               mnNovousuario.setEnabled(false);
+                               mnFecharNovousuario.setEnabled(false);
+                               btnEntrar.setEnabled(false);
+                               btnLogin.setEnabled(false);   
                               JOptionPane.showMessageDialog(null, "Caixa com data de: " + data + ".\n Por favor efetue"
                                       + " o fechamento deste caixa.","Bragança",JOptionPane.WARNING_MESSAGE);
                               frmmovimento.ftxtValor.requestFocus();
@@ -384,7 +402,12 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                    btnEntrar.setEnabled(true);
                    btnLogin.setEnabled(true);
                    btnCaixa.setEnabled(false);
+                   mnCaixa.setEnabled(false);
+                   mnFecharcaixa.setEnabled(false);
                    btnAdministrador.setEnabled(true);
+                   btnRelatorio.setEnabled(false);
+                   mnRelatorios.setEnabled(false);
+                   //mnFecharRelatorios.setEnabled(false);
                    dtpDescktop.remove(frmMovimento.getInstancia());
                    frmmovimento.dispose();
                    } 
@@ -405,6 +428,9 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                btnCaixa.setEnabled(false);
                mnCaixa.setEnabled(false);
                mnFecharcaixa.setEnabled(false);
+               btnRelatorio.setEnabled(false);
+               mnRelatorios.setEnabled(false);
+               mnFecharRelatorios.setEnabled(false);
                mnMovimento.setEnabled(false);
                frmReservaDeCaixa frmreservadecaixa = new frmReservaDeCaixa();
                Dimension dimensao = Toolkit.getDefaultToolkit().getScreenSize();
@@ -517,6 +543,11 @@ public class frmEntrar extends javax.swing.JInternalFrame {
                            mnCaixa.setEnabled(false);
                            mnFecharcaixa.setEnabled(false);
                            btnCaixa.setEnabled(false);
+                           btnRelatorio.setEnabled(false);
+                           mnRelatorios.setEnabled(false);
+                           mnFecharRelatorios.setEnabled(false);
+                           btnAdministrador.setEnabled(true);
+                           btnFecharAdmin.setEnabled(false);
                            mnEntrar.setEnabled(true);
                            mnFecharEntrar.setEnabled(false);
                            mnNovousuario.setEnabled(true);

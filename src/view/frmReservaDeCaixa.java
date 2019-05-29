@@ -17,10 +17,19 @@ import util.SelecionarReservaDeCaixa;
 import util.SoNumeros;
 import static view.frmPrincipal.btnAdministrador;
 import static view.frmPrincipal.btnCaixa;
+import static view.frmPrincipal.btnEntrar;
+import static view.frmPrincipal.btnLogin;
 import static view.frmPrincipal.dtpDescktop;
 import static view.frmPrincipal.mnCaixa;
+import static view.frmPrincipal.mnEntrar;
+import static view.frmPrincipal.mnFecharEntrar;
+import static view.frmPrincipal.mnFecharNovousuario;
+import static view.frmPrincipal.mnFecharRelatorios;
 import static view.frmPrincipal.mnFecharcaixa;
 import static view.frmPrincipal.mnMovimento;
+import static view.frmPrincipal.mnNovousuario;
+import static view.frmPrincipal.mnRelatorios;
+import static view.frmPrincipal.btnRelatorio;
 
 /**
  *
@@ -298,12 +307,20 @@ public class frmReservaDeCaixa extends javax.swing.JInternalFrame {
               btnCaixa.setEnabled(true);
               mnCaixa.setEnabled(true);
               mnFecharcaixa.setEnabled(false);
+              btnRelatorio.setEnabled(true);
+              mnRelatorios.setEnabled(true);
+              mnFecharRelatorios.setEnabled(false);
               mnMovimento.setEnabled(true);
               btnAdministrador.setEnabled(false);
            }else{
               btnAdministrador.setEnabled(true);
            }
-           
+           btnEntrar.setEnabled(false);
+           mnEntrar.setEnabled(false);
+           mnFecharEntrar.setEnabled(false);
+           btnLogin.setEnabled(false);
+           mnNovousuario.setEnabled(false);
+           mnFecharNovousuario.setEnabled(false);
           this.dispose();
      }else{
         JOptionPane.showMessageDialog(null, "É necessário confirmar o caixa reservado!\n"

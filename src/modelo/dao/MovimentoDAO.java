@@ -24,6 +24,7 @@ import modelo.bean.Pagamentos;
 import modelo.bean.RecebimentoPrazo;
 import modelo.bean.ReservaDeCaixa;
 import modelo.bean.TotalVendas;
+import modelo.bean.Vales;
 import produzconexao.ConexaoFirebird;
 
 /**
@@ -397,34 +398,46 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<Pagamentos> selecionarmotivopagto = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select PG_PAGO, EMPRESA from PAGAMENTOS where PG_ID_MOVIMENTO = ?");
+            stmt = con.prepareStatement("select PG.PG_PAGO, PG.EMPRESA, US.USUARIO from PAGAMENTOS PG \n" +
+                                        "join MOVIMENTO MV on MV.ID_MOVIMENTO = PG.PG_ID_MOVIMENTO \n" +
+                                        "join CARTAO_PONTO CP on CP.ID_PONTO = MV.MOV_ID_PONTO \n" +
+                                        "join USUARIOS US on US.ID = CP.PT_USUARIO\n" +
+                                        "where PG.PG_ID_MOVIMENTO = ?");
             stmt.setInt(1, pgidmovimento);
             rs = stmt.executeQuery();
             Pagamentos pagamentos = new Pagamentos();
             while(rs.next()){
                   pagamentos.setMotivopago(rs.getString("PG_PAGO"));
                   pagamentos.setEmpresa(rs.getString("EMPRESA"));
+                  pagamentos.setUsuario(rs.getString("USUARIO"));
                   selecionarmotivopagto.add(pagamentos);
             }
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, "Erro: " + ex + " ao buscar o que foi pago!", "Bragança",
+            JOptionPane.showMessageDialog(null, "Erro: " + ex + "/n ao buscar o que foi pago!", "Bragança",
                     JOptionPane.ERROR_MESSAGE);
         }finally{
             return selecionarmotivopagto;
         }
     }
     
-    public String selecionafunvionariovale(int pgidmovimento){
+    public List<Vales> selecionafunvionariovale(int pgidmovimento){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String funcionariovale = null;
+        List<Vales>funcionariovale = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select FUNCIONARIO from VALES where VL_ID_MOVIMENTO = ?");
+            stmt = con.prepareStatement("select VL.FUNCIONARIO, US.USUARIO from VALES VL\n" +
+                                        "join MOVIMENTO MV on MV.ID_MOVIMENTO = VL.VL_ID_MOVIMENTO \n" +
+                                        "join CARTAO_PONTO CP on CP.ID_PONTO = MV.MOV_ID_PONTO\n" +
+                                        "join USUARIOS US on US.ID = CP.PT_USUARIO\n" +
+                                        "where VL.VL_ID_MOVIMENTO = ?");
             stmt.setInt(1, pgidmovimento);
             rs = stmt.executeQuery();
+            Vales vales = new Vales();
             while(rs.next()){
-                  funcionariovale = rs.getString("FUNCIONARIO");
+                  vales.setFuncionario(rs.getString("FUNCIONARIO"));
+                  vales.setUsuario(rs.getString("USUARIO"));
+                  funcionariovale.add(vales);
             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao buscar o nome do funcionário!", "Bragança",
@@ -434,17 +447,24 @@ public class MovimentoDAO {
         }
     }
     
-    public String selecionafuncionariosaque(int pgidmovimento){
+    public List<Vales>selecionafuncionariosaque(int pgidmovimento){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String funcionariosaque = null;
+        List<Vales>funcionariosaque = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select FUNCIONARIOSAQUE from SAQUES where SQ_ID_MOVIMENTO = ?");
+            stmt = con.prepareStatement("select SQ.FUNCIONARIOSAQUE, US.USUARIO from SAQUES SQ " +
+                                        "join MOVIMENTO MV on MV.ID_MOVIMENTO = SQ.SQ_ID_MOVIMENTO \n" +
+                                        "join CARTAO_PONTO CP on CP.ID_PONTO = MV.MOV_ID_PONTO\n" +
+                                        "join USUARIOS US on US.ID = CP.PT_USUARIO\n" +
+                                        "where SQ.SQ_ID_MOVIMENTO = ?");
             stmt.setInt(1, pgidmovimento);
             rs = stmt.executeQuery();
+            Vales vales = new Vales();
             while(rs.next()){
-                  funcionariosaque = rs.getString("FUNCIONARIOSAQUE");
+                  vales.setFuncionario(rs.getString("FUNCIONARIOSAQUE"));
+                  vales.setUsuario(rs.getString("USUARIO"));
+                  funcionariosaque.add(vales);
             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao buscar o nome do funcionário!", "Bragança",
@@ -460,13 +480,19 @@ public class MovimentoDAO {
         ResultSet rs = null;
         List<RecebimentoPrazo>selecionarclientepagamento = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select CLIENTE_PAGANTE, COMPETENCIA from RECEBIMENTOPRAZO where RP_ID_MOVIMENTO = ?");
+            stmt = con.prepareStatement("select RP.CLIENTE_PAGANTE, RP.COMPETENCIA, US.USUARIO " +
+                                        "from RECEBIMENTOPRAZO RP\n" +
+                                        "join MOVIMENTO MV on MV.ID_MOVIMENTO = RP.RP_ID_MOVIMENTO\n" +
+                                        "join CARTAO_PONTO CP on CP.ID_PONTO = MV.MOV_ID_PONTO\n" +
+                                        "join USUARIOS US on US.ID = CP.PT_USUARIO\n" +
+                                        "where RP.RP_ID_MOVIMENTO = ?");
             stmt.setInt(1, pgidmovimento);
             rs = stmt.executeQuery();
             RecebimentoPrazo recebimentoprazo = new RecebimentoPrazo();
             while(rs.next()){
                   recebimentoprazo.setClientepagante(rs.getString("CLIENTE_PAGANTE"));
                   recebimentoprazo.setCompetencia(rs.getString("COMPETENCIA"));
+                  recebimentoprazo.setUsuario(rs.getString("USUARIO"));
                   selecionarclientepagamento.add(recebimentoprazo);
             }
         }catch(SQLException ex){
@@ -477,17 +503,24 @@ public class MovimentoDAO {
         }
     }
     
-    public String selecionaclienteentrega(int pgidmovimento){
+    public List<Vales> selecionaclienteentrega(int pgidmovimento){
         Connection con = ConexaoFirebird.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String clienteentrega = null;
+        List<Vales> clienteentrega = new ArrayList<>();
         try{
-            stmt = con.prepareStatement("select FREGUES from ENTREGA where ET_ID_MOVIMENTO = ?");
+            stmt = con.prepareStatement("select ET.FREGUES, US.USUARIO from ENTREGA ET\n" +
+                                        "join MOVIMENTO MV on MV.ID_MOVIMENTO = ET.ET_ID_MOVIMENTO\n" +
+                                        "join CARTAO_PONTO CP on CP.ID_PONTO = MV.MOV_ID_PONTO\n" +
+                                        "join USUARIOS US on US.ID = CP.PT_USUARIO\n" +
+                                        "where ET.ET_ID_MOVIMENTO = ?");
             stmt.setInt(1, pgidmovimento);
             rs = stmt.executeQuery();
+            Vales vales = new Vales();
             while(rs.next()){
-                  clienteentrega = rs.getString("FREGUES");
+                  vales.setFuncionario(rs.getString("FREGUES")); 
+                  vales.setUsuario(rs.getString("USUARIO"));
+                  clienteentrega.add(vales);
             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: " + ex + "\n ao buscar o nome do cliente!", "Bragança",

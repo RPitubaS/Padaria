@@ -56,13 +56,13 @@ import static view.frmMovimentodia.btnMovimentododiaSair;
 public class frmPrincipal extends javax.swing.JFrame {
     GuardarUrl guardarurl = new GuardarUrl();
     GerenciadordeJanelas gerenciadordejanelas;
-    frmLogin frmlogin = new frmLogin();
-    frmMovimento frmusuario = new frmMovimento();
+    //frmLogin frmlogin = new frmLogin();
+    //frmMovimento frmusuario = new frmMovimento();
     frmMovimentodia frmmovimentodia;
     frmRelatorios frmrelatorios;
-    frmEntrar frmentrar = new frmEntrar();
+    //frmEntrar frmentrar = new frmEntrar();
     ControleMovimento controlemovimento = new ControleMovimento();
-    frmAdministrador administrador = new frmAdministrador();
+    //frmAdministrador administrador = new frmAdministrador();
     public frmPrincipal() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -101,6 +101,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
         if(selecionandousuario.isEmpty()){
             abrirlogin();
+            //frmLogin frmlogin = new frmLogin();
             txtLognick.requestFocus();
             cbxAdministrador.setSelected(false);
             txtNome.setEnabled(true);
@@ -111,7 +112,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             btnCadastro.setEnabled(true);
             txtLognick.setText("");
             txtLogsenha.setText("");
-            frmlogin.setClosable(true);
+            //frmlogin.setClosable(true);
             mnNovousuario.setEnabled(false);
             mnFecharNovousuario.setEnabled(true);
             mnEntrar.setEnabled(true);
@@ -139,6 +140,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         try {
              gerenciadordejanelas.abrirlogin(frmLogin.getInstancia());
              frmLogin.getInstancia().setSelected(true);
+             btnAdministrador.setEnabled(false);
         } catch (PropertyVetoException ex) {
              Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -535,8 +537,8 @@ public class frmPrincipal extends javax.swing.JFrame {
             cbxAdministrador.setEnabled(false);
             btnCadastro.setEnabled(false);
             gerenciadordejanelas.abrirlogin(frmLogin.getInstancia());
-            frmlogin.toFront();
-            frmlogin.setSelected(true);
+            //frmlogin.toFront();
+            //frmlogin.setSelected(true);
             mnNovousuario.setEnabled(false);
             mnFecharNovousuario.setEnabled(true);
             btnLogin.setEnabled(false);
@@ -623,7 +625,14 @@ public class frmPrincipal extends javax.swing.JFrame {
                btnLogin.setEnabled(false);
                mnNovousuario.setEnabled(false);
                mnFecharNovousuario.setEnabled(false);
-           }               
+           }else{
+               btnEntrar.setEnabled(true);
+               mnEntrar.setEnabled(true);
+               mnFecharEntrar.setEnabled(false);
+               btnLogin.setEnabled(true);
+               mnNovousuario.setEnabled(true);
+               mnFecharNovousuario.setEnabled(false);
+           }              
         }
     }//GEN-LAST:event_btnFecharAdminActionPerformed
 

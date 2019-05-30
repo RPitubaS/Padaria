@@ -29,6 +29,7 @@ import modelo.bean.Movimento;
 import modelo.bean.Pagamentos;
 import modelo.bean.RecebimentoPrazo;
 import modelo.bean.TotalVendas;
+import modelo.bean.Vales;
 import modelo.dao.MovimentoDAO;
 import produzconexao.RefazerConexao;
 import util.FecharCaixa;
@@ -36,6 +37,7 @@ import util.GerenciadordeJanelas;
 import util.SelecionandoReservaDeCaixa;
 import util.SelecionarReservaDeCaixa;
 import util.SoNumeros;
+import static view.frmMovimentodia.tblMovimentodia;
 import static view.frmPrincipal.btnAdministrador;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
@@ -117,6 +119,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         MovimentoDAO movdao = new MovimentoDAO();
         selecionamovimentousuario = movdao.selecionarmovimentousua(movidponto);
         for (Movimento m : selecionamovimentousuario) {
+           //if(m.getMovimento() != 0 || m.getEntrega() != 0 || m.getRecebapraso() != 0 || m.getVale() != 0
+                   //|| m.getSaque() != 0 || m.getPagamentos() != 0 || m.getMovimento() != 0){
             if(m.getMovimento() < 0){
                 float absoluto;
                 absoluto = - m.getMovimento();
@@ -147,10 +151,11 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             });  
                
                    cornalinha(); 
-            }
+                }
+           
             horasaida = m.getHora();
             movidponto = m.getMovidponto();
-            
+          //}
         } 
      
         Object[] dados1 = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00",
@@ -181,7 +186,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                     .replaceAll("\\.", "").replaceAll(",", "."));
                                 cartao += Float.parseFloat(modelo.getValueAt(i, 8).toString()
                                     .replaceAll("\\.", "").replaceAll(",", "."));
-
+                                
                                 String va = df.format(vendaavista);
                                 String et = df.format(entrega);
                                 String rp = df.format(recebimentoprazo);
@@ -190,7 +195,6 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                 String pg = df.format(pagamentos);
                                 String mv = df.format(movimento);
                                 String ct = dfc.format(cartao);
-
                                 
                                 modelo.setValueAt(va, modelo.getRowCount() - 1, 1);
                                 modelo.setValueAt(et, modelo.getRowCount() - 1, 2);
@@ -201,7 +205,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                                 modelo.setValueAt(mv, modelo.getRowCount() - 1, 7); 
                                 modelo.setValueAt(ct, modelo.getRowCount() - 1, 8);
                                 encerrarmovimento = movimento;
-                              
+                                
                             }
                         
                            RefazerConexao refc11 = new RefazerConexao();
@@ -323,8 +327,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                    if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getEntrega() > 0){
                       vendasmaisentregas -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getEntrega();
                    }
-                   if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getCartao() == 0){
-                      somamovimento -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento(); 
+                   if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getCartao() == 0 &&
+                       selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getRecebapraso() == 0){
+                          somamovimento -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento();
                    }else{
                       somamovimento -= selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getCartao();
                    }
@@ -1254,6 +1259,9 @@ public class frmMovimento extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
 
+        tblMovimento.setEnabled(true);
+        ftxtValor.setEnabled(true);
+        btnReservarcaixa.setEnabled(true);
         mnNovousuario.setEnabled(true);       
         mnFecharNovousuario.setEnabled(false);
         mnEntrar.setEnabled(true);
@@ -1268,6 +1276,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         mnFecharRelatorios.setEnabled(false);
         btnAdministrador.setEnabled(true);
         btnFecharAdmin.setEnabled(false);
+        
         
     }//GEN-LAST:event_formInternalFrameClosing
 
@@ -1304,7 +1313,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblMovimentoComponentShown
 
     private void tblMovimentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovimentoMouseClicked
-        String motivopagamentos = "", empresas = "", competencias = "", saquefuncionario = null, valefuncionario = null,
+        String motivopagamentos = "", empresas = "", competencias = "", usuario = "",
+                saquefuncionario = null, valefuncionario = null,
         clientepagamento = null, clienteentrega = null;
         if(tblMovimento.getSelectedRow()!= -1 && tblMovimento.getSelectedRow()!= tblMovimento.getRowCount() - 2){
            if(tblMovimento.getSelectedRow()!= -1 && tblMovimento.getSelectedRow()!= (tblMovimento.getRowCount() - 1)){
@@ -1329,11 +1339,16 @@ public class frmMovimento extends javax.swing.JInternalFrame {
             }
             if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento() < 0
                 && selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getVale() > 0){
-                RefazerConexao rfc = new RefazerConexao();
+               RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
                 MovimentoDAO movdao = new MovimentoDAO();
-                valefuncionario = movdao.selecionafunvionariovale(selecionamovimentousuario.get
+                List<Vales>valesfuncionario = new ArrayList<>();
+                valesfuncionario = movdao.selecionafunvionariovale(selecionamovimentousuario.get
                     (tblMovimento.getSelectedRow()).getIdmovimento());
+                for(Vales vs : valesfuncionario){
+                    valefuncionario = vs.getFuncionario();
+                    usuario = vs.getUsuario();
+                }
                 JOptionPane.showMessageDialog(null, "Vale feito por: " + valefuncionario,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento() < 0
@@ -1341,8 +1356,13 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
                 MovimentoDAO movdao = new MovimentoDAO();
-                saquefuncionario = movdao.selecionafuncionariosaque(selecionamovimentousuario.get
+                List<Vales> saquesfuncionario = new ArrayList<>();
+                saquesfuncionario = movdao.selecionafuncionariosaque(selecionamovimentousuario.get
                     (tblMovimento.getSelectedRow()).getIdmovimento());
+                for(Vales vs : saquesfuncionario){
+                    saquefuncionario = vs.getFuncionario();
+                    usuario = vs.getUsuario();
+                }
                 JOptionPane.showMessageDialog(null, "Saque feito por: " + saquefuncionario,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             if(selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getMovimento() > 0
@@ -1364,9 +1384,14 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 && selecionamovimentousuario.get(tblMovimento.getSelectedRow()).getEntrega() > 0){
                 RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
-                MovimentoDAO movdao = new MovimentoDAO();
-                clienteentrega = movdao.selecionaclienteentrega(selecionamovimentousuario.get
-                    (tblMovimento.getSelectedRow()).getIdmovimento());
+               MovimentoDAO movdao = new MovimentoDAO();
+               List<Vales> clientesentrega = new ArrayList<>();
+               clientesentrega = movdao.selecionaclienteentrega(selecionamovimentousuario.get
+                                                            (tblMovimento.getSelectedRow()).getIdmovimento());
+               for(Vales vl : clientesentrega){
+                  clienteentrega = vl.getFuncionario();
+                  usuario = vl.getUsuario();
+               }
                 JOptionPane.showMessageDialog(null, "Entrega feita por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             

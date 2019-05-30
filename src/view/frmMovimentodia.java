@@ -29,6 +29,7 @@ import modelo.bean.Movimento;
 import modelo.bean.Pagamentos;
 import modelo.bean.RecebimentoPrazo;
 import modelo.bean.Usuario;
+import modelo.bean.Vales;
 import modelo.dao.MovimentoDAO;
 import modelo.dao.UsuariosDAO;
 import produzconexao.RefazerConexao;
@@ -143,6 +144,8 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         diaformatado = formatdia.format(dtcMovimentodia.getDate());
         selecionamovimentodia = movdao.selecionarmovimentodia(diaformatado);
         for (Movimento m : selecionamovimentodia) {
+          //if(m.getMovimento() != 0 || m.getEntrega() != 0 || m.getRecebapraso() != 0 || m.getVale() != 0
+                   //|| m.getSaque() != 0 || m.getPagamentos() != 0 || m.getMovimento() != 0){
             if(m.getMovimento() < 0){
                 float absoluto;
                 absoluto = - m.getMovimento();
@@ -176,8 +179,8 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
             }
             horasaida = m.getHora();
             movidponto = m.getMovidponto();
+          //}
         }
-        
         RefazerConexao refc13 = new RefazerConexao();
         refc13.refazerconexao();
         MovimentoDAO movdao32 = new MovimentoDAO();
@@ -507,7 +510,8 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblMovimentodiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovimentodiaMouseClicked
-        String motivopagamentos = "", empresas = "", competencias = "", saquefuncionario = null, valefuncionario = null,
+        String motivopagamentos = "", empresas = "", competencias = "", usuario = "", 
+                saquefuncionario = null, valefuncionario = null,
                clientepagamento = null, clienteentrega = null;
 
         if(tblMovimentodia.getSelectedRow() != -1 && tblMovimentodia.getSelectedRow() != 
@@ -523,8 +527,11 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 for(Pagamentos pg : motivopagamento){
                     motivopagamentos = pg.getMotivopago();
                     empresas = pg.getEmpresa();
+                    usuario = pg.getUsuario();
+                    
                 }
-                JOptionPane.showMessageDialog(null, "Pagamento de: " + motivopagamentos + ",\n da empresa: " + empresas,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Atendente: " + usuario + ".\nPagamento de: " + motivopagamentos +
+                        "\nda empresa: " + empresas,"Bragança", JOptionPane.INFORMATION_MESSAGE);
 
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() < 0
@@ -532,9 +539,14 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
                 MovimentoDAO movdao = new MovimentoDAO();
-                valefuncionario = movdao.selecionafunvionariovale(selecionamovimentodia.get
+                List<Vales> valesfuncionario = new ArrayList<>();
+                valesfuncionario = movdao.selecionafunvionariovale(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
-                JOptionPane.showMessageDialog(null, "Vale feito por: " + valefuncionario,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+                for(Vales vs : valesfuncionario){
+                    valefuncionario = vs.getFuncionario();
+                    usuario = vs.getUsuario();
+                }
+                JOptionPane.showMessageDialog(null, "Atendente: " + usuario + ".\nVale feito por: " + valefuncionario,"Bragança", JOptionPane.INFORMATION_MESSAGE);
 
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() < 0
@@ -542,9 +554,14 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 RefazerConexao rfc = new RefazerConexao();
                 rfc.refazerconexao();
                 MovimentoDAO movdao = new MovimentoDAO();
-                saquefuncionario = movdao.selecionafuncionariosaque(selecionamovimentodia.get
+                List<Vales> saquesfuncionario = new ArrayList<>();
+                saquesfuncionario = movdao.selecionafuncionariosaque(selecionamovimentodia.get
                     (tblMovimentodia.getSelectedRow()).getIdmovimento());
-                JOptionPane.showMessageDialog(null, "Saque feito por: " + saquefuncionario,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+                for(Vales vs : saquesfuncionario){
+                    saquefuncionario = vs.getFuncionario();
+                    usuario = vs.getUsuario();
+                }
+                JOptionPane.showMessageDialog(null, "Atendente: " + usuario + ".\nSaque feito por: " + saquefuncionario,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() > 0
                 && selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getRecebapraso() > 0){
@@ -557,8 +574,9 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                 for(RecebimentoPrazo rp : clientepagamentos){
                     clientepagamento = rp.getClientepagante();
                     competencias = rp.getCompetencia();
+                    usuario = rp.getUsuario();
                 }
-                JOptionPane.showMessageDialog(null, "Pagamento feito por: " + clientepagamento + ","
+                JOptionPane.showMessageDialog(null, "Atendente: " + usuario + ".\nPagamento feito por: " + clientepagamento + ","
                         + "\n referente a: " + competencias,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
             if(selecionamovimentodia.get(tblMovimentodia.getSelectedRow()).getMovimento() > 0
@@ -566,9 +584,14 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                RefazerConexao rfc = new RefazerConexao();
                rfc.refazerconexao();
                MovimentoDAO movdao = new MovimentoDAO();
-               clienteentrega = movdao.selecionaclienteentrega(selecionamovimentodia.get
+               List<Vales> clientesentrega = new ArrayList<>();
+               clientesentrega = movdao.selecionaclienteentrega(selecionamovimentodia.get
                                                             (tblMovimentodia.getSelectedRow()).getIdmovimento());
-               JOptionPane.showMessageDialog(null, "Entrega feita por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
+               for(Vales vl : clientesentrega){
+                  clienteentrega = vl.getFuncionario();
+                  usuario = vl.getUsuario();
+               }
+               JOptionPane.showMessageDialog(null, "Atendente: " + usuario + ".\nEntrega feita por: " + clienteentrega,"Bragança", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_tblMovimentodiaMouseClicked

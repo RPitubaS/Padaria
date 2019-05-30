@@ -61,7 +61,8 @@ import static view.frmPrincipal.btnRelatorio;
 public class frmAdministrador extends javax.swing.JInternalFrame {
 
    GerenciadordeJanelas gerenciadordejanelas = new GerenciadordeJanelas(dtpDescktop);
-   frmMovimento frmmovimento = new frmMovimento();
+   //frmMovimento frmmovimento; //= new frmMovimento();
+   //frmMovimentodia frmmovimentodia;
    GuardarUrl guardarurl = new GuardarUrl();
     private static frmAdministrador frmadministrador;
     private static JDesktopPane jdesktoppane;
@@ -297,6 +298,8 @@ public class frmAdministrador extends javax.swing.JInternalFrame {
            txtAdmLogsenhaentrar.setText("");
            btnAdmLogEntrar.setEnabled(true);
            btnExcluir.setEnabled(false);
+           
+           //JOptionPane.showMessageDialog(null, dtpDescktop.getComponentListeners());
            if(tipousuario.equals("sim")){
               if(!btnEntrar.isEnabled() && !btnLogin.isEnabled()){
                    tblMovimento.setEnabled(false);
@@ -319,9 +322,10 @@ public class frmAdministrador extends javax.swing.JInternalFrame {
               btnAdministrador.setEnabled(false);
               mnMovimento.setEnabled(true);
            }
-                   this.dispose();
-                dtpDescktop.remove(this);
-                this.dispose();                         
+                   //this.dispose();
+                   
+                   
+                   this.dispose();                         
         }else{
                     JOptionPane.showMessageDialog(null, "Usuário e/ou senha não conferem!");
                     txtAdmLognickentrar.setText("");

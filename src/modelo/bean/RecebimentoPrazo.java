@@ -10,7 +10,7 @@ package modelo.bean;
  * @author Pituba
  */
 public class RecebimentoPrazo {
-    String clientepagante, competencia;
+    String clientepagante, competencia, usuario;
 
     public String getClientepagante() {
         return clientepagante;
@@ -28,5 +28,13 @@ public class RecebimentoPrazo {
         this.competencia = competencia;
     }
     
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
     
 }

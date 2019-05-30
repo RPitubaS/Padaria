@@ -10,7 +10,7 @@ package modelo.bean;
  * @author Pituba
  */
 public class Pagamentos {
-    private String motivopago, empresa;
+    private String motivopago, empresa, usuario;
 
     public String getMotivopago() {
         return motivopago;
@@ -28,5 +28,12 @@ public class Pagamentos {
         this.empresa = empresa;
     }
     
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
     
 }

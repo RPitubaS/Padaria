@@ -118,14 +118,14 @@ MV.PAGAMENTOS > 0]]>
 				<textFieldExpression><![CDATA[$F{CONTAGEM}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="21" width="38" height="14" uuid="3efe6715-8a39-4eb1-82fb-48551780b65f"/>
+				<reportElement x="2" y="21" width="33" height="14" uuid="3efe6715-8a39-4eb1-82fb-48551780b65f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[DATA:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="40" y="21" width="50" height="14" uuid="e364621f-9677-4c7e-8479-faedf0970370"/>
+				<reportElement x="33" y="21" width="57" height="14" uuid="e364621f-9677-4c7e-8479-faedf0970370"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -390,6 +390,16 @@ MV.PAGAMENTOS > 0]]>
 	<summary>
 		<band height="177" splitType="Stretch">
 			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="102" y="140" width="94" height="19" backcolor="#99FF00" uuid="7fec0694-a7fb-43c2-9319-33a56f965863"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOMAMOVIMENTO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="102" y="140" width="94" height="19" uuid="bc37d26c-128c-4624-a3eb-2e1625ab1d72"/>
+			</rectangle>
+			<textField pattern="#,##0.00">
 				<reportElement mode="Opaque" x="475" y="1" width="42" height="19" backcolor="#CCCCFF" uuid="03378086-bce2-4c0b-a4f3-06a1a38419ba"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -457,13 +467,6 @@ MV.PAGAMENTOS > 0]]>
 				</textElement>
 				<text><![CDATA[TOTAL GERAL]]></text>
 			</staticText>
-			<textField pattern="#,##0.00">
-				<reportElement mode="Opaque" x="102" y="140" width="94" height="19" backcolor="#99FF00" uuid="7fec0694-a7fb-43c2-9319-33a56f965863"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SOMAMOVIMENTO}]]></textFieldExpression>
-			</textField>
 			<rectangle>
 				<reportElement mode="Transparent" x="518" y="0" width="38" height="20" uuid="a3682b8e-d021-4144-a012-8c23c3483571"/>
 			</rectangle>
@@ -540,9 +543,6 @@ MV.PAGAMENTOS > 0]]>
 			</rectangle>
 			<rectangle>
 				<reportElement x="102" y="121" width="94" height="19" uuid="2582ce51-d0aa-4142-925e-5e92745e0f66"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="102" y="140" width="94" height="19" uuid="bc37d26c-128c-4624-a3eb-2e1625ab1d72"/>
 			</rectangle>
 			<textField pattern="#,##0.00">
 				<reportElement x="102" y="64" width="94" height="20" uuid="fe498679-a08d-4f07-91f1-4d5ea02e0465"/>

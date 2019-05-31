@@ -47,6 +47,7 @@ public class UrlDao {
                      guardarurl.setContador(1);
                   if(caminhofinal != guardarurl.GetProp("conectar")){
                        guardarurl.SaveProp("conectar", caminhofinal + "?encoding=WIN1252");
+                       guardarurl.SaveProp("conectarbkp", caminhofinal);
                        String arq = "";
                        enviandocaminho = caminhofinal + "?encoding=WIN1252";
 

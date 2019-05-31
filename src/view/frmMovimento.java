@@ -9,8 +9,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import static java.lang.Float.parseFloat;
 import static java.lang.Thread.sleep;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -18,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -31,9 +38,12 @@ import modelo.bean.RecebimentoPrazo;
 import modelo.bean.TotalVendas;
 import modelo.bean.Vales;
 import modelo.dao.MovimentoDAO;
+import org.firebirdsql.management.FBBackupManager;
 import produzconexao.RefazerConexao;
+import util.ConfigDB;
 import util.FecharCaixa;
 import util.GerenciadordeJanelas;
+import util.GuardarUrl;
 import util.SelecionandoReservaDeCaixa;
 import util.SelecionarReservaDeCaixa;
 import util.SoNumeros;
@@ -1258,7 +1268,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-
+        ConfigDB configdb = new ConfigDB();
         tblMovimento.setEnabled(true);
         ftxtValor.setEnabled(true);
         btnReservarcaixa.setEnabled(true);
@@ -1276,7 +1286,39 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         mnFecharRelatorios.setEnabled(false);
         btnAdministrador.setEnabled(true);
         btnFecharAdmin.setEnabled(false);
-        
+        //String resultadoreduz = resultado.replaceAll("MOVIMENTO.FDB", "");
+    new Thread(){
+        OutputStream respostaBKP;
+        @Override
+        public void run(){
+try {
+     respostaBKP = new FileOutputStream(configdb.porta_bd() + "Backu&Log/log.rtf");
+        try {
+            //String porta = configBD.getCbd_porta();
+             FBBackupManager backup = new FBBackupManager();
+             backup.setUser("SYSDBA");
+             backup.setPassword("masterkey");
+             backup.setDatabase(configdb.getResultado());
+             backup.setPort(3050);
+             backup.setHost("localhost");
+             backup.setBackupPath(configdb.porta_bd() + "Backu&Log/arquivo.bkp");
+             backup.setVerbose(true);
+             backup.setLogger(respostaBKP);
+             backup.backupDatabase();
+        }catch (SQLException ex) {
+             JOptionPane.showMessageDialog(null,"ERRO:\n" + ex, "Bragança",JOptionPane.ERROR_MESSAGE);
+        } finally {
+                    try {
+                         respostaBKP.close();
+                    } catch (IOException ex) {
+                         JOptionPane.showMessageDialog(null,"ERRO:\n" + ex, "Bragança",JOptionPane.ERROR_MESSAGE);
+                    }
+        }
+}catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null,"ERRO:\n" + ex, "Bragança",JOptionPane.ERROR_MESSAGE);
+}
+        }
+    }.start();  
         
     }//GEN-LAST:event_formInternalFrameClosing
 
@@ -1999,7 +2041,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                         contafregues += 1;
                         do{
                             clienteparaentrega = JOptionPane.showInputDialog(null, "Por favor digite aqui, o nome\n"
-                                + "do cliente para entrega.");
+                                + "do entregador.");
                         }while("".equals(clienterecebprazo));
                         break;
                         case 3:

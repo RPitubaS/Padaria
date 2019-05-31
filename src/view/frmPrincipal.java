@@ -9,6 +9,8 @@ package view;
 import controle.ControleMovimento;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.beans.PropertyVetoException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,8 +28,10 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JRViewer;
+import org.firebirdsql.management.FBBackupManager;
 import produzconexao.ConexaoFirebird;
 import produzconexao.RefazerConexao;
+import util.ConfigDB;
 import util.GerenciadordeJanelas;
 import util.GuardarUrl;
 import static view.frmEntrar.txtLognickentrar;
@@ -171,8 +175,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnEntrar = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
         btnRelatorio = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JToolBar.Separator();
         btnAdministrador = new javax.swing.JButton();
         btnFecharAdmin = new javax.swing.JButton();
+        jSeparator5 = new javax.swing.JToolBar.Separator();
+        jSeparator6 = new javax.swing.JToolBar.Separator();
+        btnBackup = new javax.swing.JButton();
         mnBarraMenu = new javax.swing.JMenuBar();
         mnMovimento = new javax.swing.JMenu();
         mnCaixa = new javax.swing.JMenuItem();
@@ -273,6 +281,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
         tbrBarraFerramentas.add(btnRelatorio);
+        tbrBarraFerramentas.add(jSeparator4);
 
         btnAdministrador.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
         btnAdministrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/drop_box_folder_graphite_13844.png"))); // NOI18N
@@ -308,6 +317,25 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
         tbrBarraFerramentas.add(btnFecharAdmin);
+        tbrBarraFerramentas.add(jSeparator5);
+        tbrBarraFerramentas.add(jSeparator6);
+
+        btnBackup.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
+        btnBackup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/blue_external_drive_backup(1).png"))); // NOI18N
+        btnBackup.setText("Backup");
+        btnBackup.setEnabled(false);
+        btnBackup.setFocusable(false);
+        btnBackup.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBackup.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnBackup.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnBackup.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnBackup.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackupActionPerformed(evt);
+            }
+        });
+        tbrBarraFerramentas.add(btnBackup);
 
         mnMovimento.setText("Arquivo");
         mnMovimento.addActionListener(new java.awt.event.ActionListener() {
@@ -615,6 +643,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                mnFecharRelatorios.setEnabled(false);
                btnAdministrador.setEnabled(true);
                btnFecharAdmin.setEnabled(false);
+               btnBackup.setEnabled(false);
            if(!tblMovimento.isEnabled()){
                tblMovimento.setEnabled(true);
                ftxtValor.setEnabled(true);
@@ -635,6 +664,31 @@ public class frmPrincipal extends javax.swing.JFrame {
            }              
         }
     }//GEN-LAST:event_btnFecharAdminActionPerformed
+
+    private void btnBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupActionPerformed
+       ConfigDB configdb = new ConfigDB();
+    new Thread(){
+        public void run(){
+            try {
+	         FBBackupManager restore = new FBBackupManager();
+	         restore.setUser("SYSDBA");
+	         restore.setPassword("masterkey"); 
+	         restore.setDatabase(configdb.porta_bd() + "dbBackup/MOVIMENTO.FDB");
+	         restore.setHost("localhost");
+	         restore.setBackupPath(configdb.porta_bd() + "Backu&Log/arquivo.bkp"); // caminho arquivo backup
+	         restore.setVerbose(true);
+	         restore.setLogger(new FileOutputStream(configdb.porta_bd() + "Backu&Log/log.rtf")); // caminho log
+	         restore.setRestoreReplace(true);
+	         restore.restoreDatabase();
+                 JOptionPane.showMessageDialog(null,"Restaurado com sucesso!","Restaurado com sucesso!",JOptionPane.CANCEL_OPTION);
+            }catch (FileNotFoundException ex) {
+                 JOptionPane.showMessageDialog(null, "ERRO:\n" + ex, "Bragança.", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                 JOptionPane.showMessageDialog(null, "ERRO:\n" + ex, "Bragança.", JOptionPane.ERROR_MESSAGE);
+            } 
+        }
+    }.start();
+    }//GEN-LAST:event_btnBackupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -673,6 +727,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnAdministrador;
+    public static javax.swing.JButton btnBackup;
     public static javax.swing.JButton btnCaixa;
     public static javax.swing.JButton btnEntrar;
     public static javax.swing.JButton btnFecharAdmin;
@@ -683,6 +738,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator4;
+    private javax.swing.JToolBar.Separator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JMenuBar mnBarraMenu;
     public static javax.swing.JMenuItem mnCaixa;
     public static javax.swing.JMenuItem mnEntrar;

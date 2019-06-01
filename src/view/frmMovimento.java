@@ -49,6 +49,7 @@ import util.SelecionarReservaDeCaixa;
 import util.SoNumeros;
 import static view.frmMovimentodia.tblMovimentodia;
 import static view.frmPrincipal.btnAdministrador;
+import static view.frmPrincipal.btnBackup;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
 import static view.frmPrincipal.btnFecharAdmin;
@@ -1286,6 +1287,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         mnFecharRelatorios.setEnabled(false);
         btnAdministrador.setEnabled(true);
         btnFecharAdmin.setEnabled(false);
+        btnBackup.setEnabled(false);
         //String resultadoreduz = resultado.replaceAll("MOVIMENTO.FDB", "");
     new Thread(){
         OutputStream respostaBKP;

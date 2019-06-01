@@ -87,6 +87,11 @@ public class frmPrincipal extends javax.swing.JFrame {
             System.exit(0);
         }  
         
+        String resultsec = guardarurl.GetPropsecr("internalizar");
+           if(!resultsec.equals("dentro")){
+              System.exit(0);
+           }
+        
         List<Usuario> selecionandousuario = new ArrayList<>();
         UsuariosDAO usdao = new UsuariosDAO();
         selecionandousuario = usdao.selecionaradmin();
@@ -493,6 +498,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnRelatorio.setEnabled(false);
         mnRelatorios.setEnabled(false);
         mnFecharRelatorios.setEnabled(false);
+        btnBackup.setEnabled(false);
     }//GEN-LAST:event_btnCaixaActionPerformed
 
     private void mnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnUsuariosActionPerformed
@@ -620,6 +626,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         mnFecharRelatorios.setEnabled(false);
         btnCaixa.setEnabled(false);
         btnRelatorio.setEnabled(false);
+        btnBackup.setEnabled(false);
         
     }//GEN-LAST:event_btnRelatorioActionPerformed
 
@@ -666,28 +673,38 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharAdminActionPerformed
 
     private void btnBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupActionPerformed
-       ConfigDB configdb = new ConfigDB();
-    new Thread(){
-        public void run(){
-            try {
-	         FBBackupManager restore = new FBBackupManager();
-	         restore.setUser("SYSDBA");
-	         restore.setPassword("masterkey"); 
-	         restore.setDatabase(configdb.porta_bd() + "dbBackup/MOVIMENTO.FDB");
-	         restore.setHost("localhost");
-	         restore.setBackupPath(configdb.porta_bd() + "Backu&Log/arquivo.bkp"); // caminho arquivo backup
-	         restore.setVerbose(true);
-	         restore.setLogger(new FileOutputStream(configdb.porta_bd() + "Backu&Log/log.rtf")); // caminho log
-	         restore.setRestoreReplace(true);
-	         restore.restoreDatabase();
-                 JOptionPane.showMessageDialog(null,"Restaurado com sucesso!","Restaurado com sucesso!",JOptionPane.CANCEL_OPTION);
-            }catch (FileNotFoundException ex) {
-                 JOptionPane.showMessageDialog(null, "ERRO:\n" + ex, "Bragança.", JOptionPane.ERROR_MESSAGE);
-            } catch (SQLException ex) {
-                 JOptionPane.showMessageDialog(null, "ERRO:\n" + ex, "Bragança.", JOptionPane.ERROR_MESSAGE);
-            } 
-        }
-    }.start();
+       int respostaconfirma = JOptionPane.showConfirmDialog(null, "Confirma a restauração do banco de dados?",
+                "Bragança", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+     if(respostaconfirma == 0){
+          ConfigDB configdb = new ConfigDB();
+          new Thread(){
+               public void run(){
+                   try {
+	                FBBackupManager restore = new FBBackupManager();
+	                restore.setUser("SYSDBA");
+	                restore.setPassword("masterkey"); 
+	                restore.setDatabase(configdb.porta_bd() + "dbBackup/MOVIMENTO.FDB");
+	                restore.setHost("localhost");
+	                restore.setBackupPath(configdb.porta_bd() + "Backu&Log/arquivo.bkp"); // caminho arquivo backup
+	                restore.setVerbose(true);
+	                restore.setLogger(new FileOutputStream(configdb.porta_bd() + "Backu&Log/log.rtf")); // caminho log
+	                restore.setRestoreReplace(true);
+	                restore.restoreDatabase();
+                        JOptionPane.showMessageDialog(null,"Restaurado com sucesso!",
+                                "Restaurado com sucesso!",JOptionPane.CANCEL_OPTION);
+                   }catch (FileNotFoundException ex) {
+                       JOptionPane.showMessageDialog(null, "ERRO:\n" + ex, "Bragança.",
+                               JOptionPane.ERROR_MESSAGE);
+                   } catch (SQLException ex) {
+                       JOptionPane.showMessageDialog(null, "ERRO:\n" + ex, "Bragança.",
+                               JOptionPane.ERROR_MESSAGE);
+                   } 
+               }
+          }.start();
+     }else{
+           JOptionPane.showMessageDialog(null, "Nenhum banco de dados será restaurado!", "Bragança", 
+                   JOptionPane.INFORMATION_MESSAGE);
+     }
     }//GEN-LAST:event_btnBackupActionPerformed
 
     /**

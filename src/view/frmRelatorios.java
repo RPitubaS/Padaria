@@ -38,6 +38,7 @@ import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
 import static view.frmMovimento.txtVendas;
 import static view.frmMovimentodia.tblMovimentodia;
+import static view.frmPrincipal.btnBackup;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnFecharAdmin;
 import static view.frmPrincipal.btnRelatorio;
@@ -284,6 +285,7 @@ public class frmRelatorios extends javax.swing.JInternalFrame {
               mnRelatorios.setEnabled(true);
               btnRelatorio.setEnabled(true);
               mnFecharRelatorios.setEnabled(false);
+              btnBackup.setEnabled(true);
               if(btnFecharAdmin.isEnabled()){
                   tblMovimento.setEnabled(false);
                   ftxtValor.setEnabled(false);

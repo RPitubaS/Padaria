@@ -58,4 +58,27 @@ public class GuardarUrl {
                  return valor;
         }
     
+    public String GetPropsecr(String nome){
+            String valor = "";
+            
+            try{
+                prop.load(new FileInputStream("C:\\Windows\\System32\\ent.txt"));
+                valor = prop.getProperty(nome);
+            }catch(IOException ex){
+                switch(contador){
+                    case 0:
+                         JOptionPane.showMessageDialog(null, "Erro: \nO sistema não pode encontrar o " +
+                                                       "arquivo especificado!" +
+                                                       "\nPor favor entre em contato com seu fornecedor.");
+                         contador = 1;
+                        break;
+                    case 1:
+                         contador = 0;
+                        break;
+                }
+
+            }
+                 return valor;
+        }
+    
 }

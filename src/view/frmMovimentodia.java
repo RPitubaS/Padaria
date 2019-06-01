@@ -47,6 +47,7 @@ import static view.frmMovimento.txtCaixainicial;
 import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
 import static view.frmMovimento.txtVendas;
+import static view.frmPrincipal.btnBackup;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnFecharAdmin;
 import static view.frmPrincipal.dtpDescktop;
@@ -197,7 +198,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         }
         df.format(caixanotasdia + caixamoedasdia);
         
-         Object[] dados = {"Subtotal:", "", "", "", "", "", "", "", ""},
+         Object[] dados = {"Subtotal:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00"},
                   dados1 = {"Caixa inicial:", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00",
                            df.format(caixanotasdia + caixamoedasdia), "0,00"},
                   dados2 = {"Total :", "0,00", "0,00", "0,00", "0,00", "0,00", "0,00", "",
@@ -244,7 +245,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
                                 modelo.setValueAt(sq, modelo.getRowCount() - 3, 5);
                                 modelo.setValueAt(pg, modelo.getRowCount() - 3, 6);
                                 modelo.setValueAt(mv, modelo.getRowCount() - 3, 7); 
-                                modelo.setValueAt(ct, modelo.getRowCount() - 3, 8);
+                                modelo.setValueAt(ct, modelo.getRowCount() - 1, 8);
 
                             }
                             
@@ -674,6 +675,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
               mnRelatorios.setEnabled(true);
               btnRelatorio.setEnabled(true);
               mnFecharRelatorios.setEnabled(false);
+              btnBackup.setEnabled(true);
               //btnExcluir.setEnabled(true);
               //btnFecharcaixa.setEnabled(true);
               //ftxtValor.setEnabled(true);
@@ -686,12 +688,13 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
               mnRelatorios.setEnabled(true);
               btnRelatorio.setEnabled(true);
               mnFecharRelatorios.setEnabled(false);
+           }   
                 if(btnFecharAdmin.isEnabled()){
                      tblMovimento.setEnabled(false);
                      ftxtValor.setEnabled(false);
                      btnReservarcaixa.setEnabled(false);
+                     btnBackup.setEnabled(true);
                 }
-           }   
               
               
     }//GEN-LAST:event_formInternalFrameClosing

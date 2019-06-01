@@ -35,6 +35,7 @@ import static view.frmMovimento.txtMoedasinicio;
 import static view.frmMovimento.txtNotasinicio;
 import static view.frmMovimento.txtVendas;
 import static view.frmPrincipal.btnAdministrador;
+import static view.frmPrincipal.btnBackup;
 import static view.frmPrincipal.btnCaixa;
 import static view.frmPrincipal.btnEntrar;
 import static view.frmPrincipal.btnFecharAdmin;
@@ -303,6 +304,7 @@ public class frmEntrar extends javax.swing.JInternalFrame {
               btnRelatorio.setEnabled(true);
               mnRelatorios.setEnabled(true);
               mnFecharRelatorios.setEnabled(false);
+              btnBackup.setEnabled(true);
            }else{
               btnCaixa.setEnabled(false);
               mnCaixa.setEnabled(false);

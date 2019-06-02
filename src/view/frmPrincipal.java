@@ -685,9 +685,9 @@ public class frmPrincipal extends javax.swing.JFrame {
 	                restore.setPassword("masterkey"); 
 	                restore.setDatabase(configdb.porta_bd() + "dbBackup/MOVIMENTO.FDB");
 	                restore.setHost("localhost");
-	                restore.setBackupPath(configdb.porta_bd() + "Backu&Log/arquivo.bkp"); // caminho arquivo backup
+	                restore.setBackupPath(configdb.porta_bd() + "Backup&Log/arquivo.bkp"); // caminho arquivo backup
 	                restore.setVerbose(true);
-	                restore.setLogger(new FileOutputStream(configdb.porta_bd() + "Backu&Log/log.rtf")); // caminho log
+	                restore.setLogger(new FileOutputStream(configdb.porta_bd() + "Backup&Log/log.rtf")); // caminho log
 	                restore.setRestoreReplace(true);
 	                restore.restoreDatabase();
                         JOptionPane.showMessageDialog(null,"Restaurado com sucesso!",

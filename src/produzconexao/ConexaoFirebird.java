@@ -19,10 +19,10 @@ import javax.swing.JOptionPane;
 public class ConexaoFirebird {
     private static Connection conexao;
            
-           public ConexaoFirebird(String conectar) throws ClassNotFoundException, SQLException {
+           public ConexaoFirebird(String conectar, String ip) throws ClassNotFoundException, SQLException {
                
            Class.forName("org.firebirdsql.jdbc.FBDriver");
-           String url = "jdbc:firebirdsql:localhost/3050:" + conectar;
+           String url = "jdbc:firebirdsql:" + ip + "/3050:" + conectar;
 
         conexao = DriverManager.getConnection(url, "SYSDBA", "masterkey");
     }

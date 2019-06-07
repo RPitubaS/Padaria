@@ -72,17 +72,32 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         this.gerenciadordejanelas = new GerenciadordeJanelas(dtpDescktop);
         guardarurl.setContador(0);
-        String resultado = guardarurl.GetProp("conectar");       
+        String resultado = guardarurl.GetProp("conectar"); 
+        String ip = guardarurl.GetProp("IP");
         try {
             if (!resultado.equals("")) {
-                ConexaoFirebird conect = new ConexaoFirebird(resultado);
+                ConexaoFirebird conect = new ConexaoFirebird(resultado, ip);
             } else {
+                String servidor = JOptionPane.showInputDialog(null,"Digite aqui o IP do servidor, caso exista um!");
                 UrlDao url = new UrlDao();
-                url.pegaurl();
+                //url.pegaurl();
+                if(!"".equals(servidor)){
+                url.pegaurl(servidor);
+                }else{
+                url.pegaurl("localhost");
+                }
             }
         } catch (ClassNotFoundException ex) {
-            UrlDao url = new UrlDao();
-            url.pegaurl();
+            //UrlDao url = new UrlDao();
+            //url.pegaurl();
+            String servidor = JOptionPane.showInputDialog(null,"Digite aqui o IP do servidor, caso exista um!");
+                UrlDao url = new UrlDao();
+                if(servidor != ""){
+                url.pegaurl(servidor);
+                }else{
+                url.pegaurl("localhost");
+                }
+            
         } catch (SQLException ex) {
             System.exit(0);
         }  

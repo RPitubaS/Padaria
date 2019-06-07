@@ -33,7 +33,7 @@ public class ConexaoFirebird {
           return conexao;
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Erro na conexão! "+ ex, "TechScan", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro na conexão! "+ ex, "Bragança", JOptionPane.ERROR_MESSAGE);
         }
         return conexao;
 }
@@ -45,7 +45,7 @@ public class ConexaoFirebird {
                     con.close();
                     }
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro ao fechar conexão! " + ex, "TechScan", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro ao fechar conexão! " + ex, "Bragança", JOptionPane.ERROR_MESSAGE);
             }
         }
         
@@ -57,7 +57,7 @@ public class ConexaoFirebird {
                     stmt.close();
                   }
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro ao fechar conexão e/ou Statement! " + ex, "TechScan", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro ao fechar conexão e/ou Statement! " + ex, "Bragança", JOptionPane.ERROR_MESSAGE);
             }
         }
         
@@ -69,7 +69,7 @@ public class ConexaoFirebird {
                     rs.close();
                   }
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro ao fechar conexão e/ou Statement e/ou Resultset! " + ex, "TechScan", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro ao fechar conexão e/ou Statement e/ou Resultset! " + ex, "Bragança", JOptionPane.ERROR_MESSAGE);
             }
         }
 }

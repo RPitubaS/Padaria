@@ -1203,9 +1203,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1234,8 +1233,8 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1294,7 +1293,7 @@ public class frmMovimento extends javax.swing.JInternalFrame {
         @Override
         public void run(){
 try {
-     respostaBKP = new FileOutputStream(configdb.porta_bd() + "Backu&Log/log.rtf");
+     respostaBKP = new FileOutputStream(configdb.porta_bd() + "Backup&Log/log.rtf");
         try {
             //String porta = configBD.getCbd_porta();
              FBBackupManager backup = new FBBackupManager();
@@ -1303,7 +1302,7 @@ try {
              backup.setDatabase(configdb.getResultado());
              backup.setPort(3050);
              backup.setHost("localhost");
-             backup.setBackupPath(configdb.porta_bd() + "Backu&Log/arquivo.bkp");
+             backup.setBackupPath(configdb.porta_bd() + "Backup&Log/arquivo.bkp");
              backup.setVerbose(true);
              backup.setLogger(respostaBKP);
              backup.backupDatabase();

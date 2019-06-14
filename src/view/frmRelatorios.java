@@ -77,6 +77,8 @@ public class frmRelatorios extends javax.swing.JInternalFrame {
     
     public frmRelatorios() {
         initComponents();
+        jLabel2.setVisible(false);
+        dtcDatafinal.setVisible(false);
     }
 
     /**

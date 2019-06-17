@@ -357,6 +357,7 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1267, 764));
 
         txtRelogiodia.setEditable(false);
         txtRelogiodia.setBackground(new java.awt.Color(255, 153, 0));
@@ -500,11 +501,11 @@ public class frmMovimentodia extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1091, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
         );
 
         pack();
